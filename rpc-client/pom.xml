@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.dyaoming.outman</groupId>
+		<artifactId>outman-boot</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>rpc-client</artifactId>
+	<packaging>jar</packaging>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>cn.dyaoming.common</groupId>
+			<artifactId>common-util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+			<version>3.2.4</version>
+		</dependency><!-- <dependency> <groupId>org.apache.axis2</groupId> <artifactId>axis2</artifactId> 
+			<version>1.7.9</version> <type>pom</type> </dependency> -->
+	</dependencies>
+
+	<build>
+		<finalName>rpc-client</finalName>
+
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<srouce>1.8</srouce>
+							<target>1.8</target>
+							<encoed>UTF-8</encoed>
+						</configuration>
+					</execution>
+				</executions>
+
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
