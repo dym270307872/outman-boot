@@ -1,0 +1,14 @@
+#公共配置
+server:
+  port: 28080
+
+spring:
+# 配置路由设置
+#  profiles:
+#    active: test
+  messages:
+    basename: i18n/Messages,i18n/Pages
+#接口地址
+config:
+  systemcontant:
+    url: http://localhost:7001/services/WsService?wsdl

@@ -1,0 +1,7 @@
+cn\dyaoming\outman\rpc\Bootstrap.class
+cn\dyaoming\outman\rpc\servers\BaseWebServiceClient.class
+cn\dyaoming\outman\rpc\controllers\DemoController.class
+cn\dyaoming\outman\rpc\servers\WebserviceClient4Ws.class
+cn\dyaoming\outman\config\PortalTomcatWebServerCustomizer$1.class
+cn\dyaoming\outman\config\PortalTomcatWebServerCustomizer.class
+cn\dyaoming\outman\rpc\filters\LoginInterceptor.class

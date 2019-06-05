@@ -13,9 +13,8 @@
 		<module>web-jpa</module>
 		<module>web-mybatis</module>
 		<module>boot-thymeleaf</module>
-		<module>rpc-client</module>
-		<module>rpc-server</module>
-		<module>rpc-api</module>
+
+		<module>rpc-demo</module>
 	</modules>
 
 	<parent>
