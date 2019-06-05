@@ -3,6 +3,7 @@ package cn.dyaoming.outman.rpc.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,9 +19,14 @@ public class DemoController {
 
 
 
-	@RequestMapping("/wsService")
-	public String visit(String args0, @Value("${config.systemcontant.url}") String url) {
-		return ws.visit(args0, url);
+	@RequestMapping("/{serviceName}")
+	public String visit(@PathVariable("serviceName") String serviceName, String args0) {
+		if ("myWs".equals(serviceName)) {
+
+			return ws.ws001(args0);
+		} else {
+			return "无此服务";
+		}
 	}
 
 }
