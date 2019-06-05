@@ -7,13 +7,15 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
-		<module>boot-redis</module>
-		<module>cas-server</module>
-		<module>boot-web</module>
-		<module>web-jpa</module>
-		<module>web-mybatis</module>
-		<module>boot-thymeleaf</module>
+		<!--<module>boot-redis</module>-->
+		<!--<module>cas-server</module>-->
+		<!--<module>boot-web</module>-->
+		<!--<module>web-jpa</module>-->
+		<!--<module>web-mybatis</module>-->
+		<!--<module>boot-thymeleaf</module>-->
 		<module>rpc-client</module>
+		<module>rpc-server</module>
+		<module>rpc-api</module>
 	</modules>
 
 	<parent>
