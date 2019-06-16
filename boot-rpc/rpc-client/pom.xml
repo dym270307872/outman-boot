@@ -4,12 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>cn.dyaoming.outman</groupId>
-		<artifactId>rpc-webservice</artifactId>
+		<artifactId>boot-rpc</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>rpc-server</artifactId>
+	<artifactId>rpc-client</artifactId>
+	<packaging>jar</packaging>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>cn.dyaoming.common</groupId>
+			<artifactId>common-util</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>cn.dyaoming.outman</groupId>
 			<artifactId>rpc-api</artifactId>
@@ -19,37 +25,25 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-spring-boot-starter-jaxws</artifactId>
-			<version>3.3.2</version>
-		</dependency>
-		<!--WerbService CXF依赖 -->
-		<!-- <dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>3.1.12</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>3.1.12</version>
-		</dependency> -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+			<version>3.3.2</version>
+		</dependency><!-- <dependency> <groupId>org.apache.axis2</groupId> <artifactId>axis2</artifactId> 
+			<version>1.7.9</version> <type>pom</type> </dependency> -->
+
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.5</version>
-		</dependency>
 	</dependencies>
+
 </project>

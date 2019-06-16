@@ -14,7 +14,7 @@
 		<module>web-mybatis</module>
 		<module>boot-thymeleaf</module>
 
-		<module>rpc-webservice</module>
+		<module>boot-rpc</module>
 	</modules>
 
 	<parent>

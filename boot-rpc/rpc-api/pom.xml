@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>cn.dyaoming.outman</groupId>
-    <artifactId>rpc-webservice</artifactId>
+    <artifactId>boot-rpc</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>rpc-api</artifactId>
