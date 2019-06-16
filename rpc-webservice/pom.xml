@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>rpc-demo</artifactId>
+    <artifactId>rpc-webservice</artifactId>
     <packaging>pom</packaging>
 <modules>
     <module>rpc-client</module>
