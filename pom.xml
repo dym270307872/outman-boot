@@ -15,6 +15,7 @@
 		<module>boot-thymeleaf</module>
 
 		<module>boot-rpc</module>
+		<module>boot-mq</module>
 	</modules>
 
 	<parent>
