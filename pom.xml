@@ -16,6 +16,7 @@
 
 		<module>boot-rpc</module>
 		<module>boot-mq</module>
+		<module>boot-dubbo</module>
 	</modules>
 
 	<parent>
