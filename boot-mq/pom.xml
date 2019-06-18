@@ -10,5 +10,7 @@
   <modules>
   	<module>kafka-consumer</module>
   	<module>kafka-producer</module>
+      <module>activemq-producer</module>
+    <module>activemq-consumer</module>
   </modules>
 </project>
