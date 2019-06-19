@@ -2,14 +2,14 @@ package cn.dyaoming.outman.dubbo.services.impl;
 
 import cn.dyaoming.outman.dubbo.beans.UserInfo;
 import cn.dyaoming.outman.dubbo.services.UserService;
-import org.apache.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Service;
 
-@Service(interfaceName = "userService")
-public class UserServiceImpl implements UserService {
+@Service("hessianService")
+public class HessianServiceImpl implements UserService {
 
 
     public String sayHello(String name) {
-        return "hi :"+name;
+        return "hi :" + name;
     }
 
     public UserInfo whoAreYou() {
