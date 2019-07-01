@@ -1,0 +1,9 @@
+#公共配置
+server:
+  port: 7091
+
+spring:
+  application:
+    name: wechatmall
+  messages:
+    basename: i18n/Messages,i18n/Pages
