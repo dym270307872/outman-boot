@@ -5,10 +5,10 @@ import org.springframework.cache.annotation.Cacheable;
 
 public class DemoService {
 
-//    @Cacheable
-    public String min(){
+    //    @Cacheable
+    public String min() {
 
 
-return "";
+        return "";
     }
 }
