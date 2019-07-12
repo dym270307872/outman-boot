@@ -38,6 +38,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <version>${spring-boot.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -79,28 +90,18 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>${pagehelper.boot.version}</version>
         </dependency>
-        <!--pagehelp end -->
-        <!-- mybatis plugins begin -->
-        <!--<dependency>-->
-            <!--<groupId>tk.mybatis</groupId>-->
-            <!--<artifactId>mapper</artifactId>-->
-            <!--<version>${mybatis.mapper.version}</version>-->
-        <!--</dependency>-->
-        <!--&lt;!&ndash; mybatis plugins end &ndash;&gt;-->
-
-        <!--&lt;!&ndash;pagehelep start &ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>com.github.pagehelper</groupId>-->
-            <!--<artifactId>pagehelper</artifactId>-->
-            <!--<version>${mybatis.paginator.version}</version>-->
-        <!--</dependency>-->
-        <!--&lt;!&ndash;pagehelp end &ndash;&gt;-->
 
         <!-- jdbc driver -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.42</version>
+            <version>8.0.15</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <dependency>
