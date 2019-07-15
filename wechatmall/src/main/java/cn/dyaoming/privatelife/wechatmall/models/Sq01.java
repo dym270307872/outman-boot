@@ -4,10 +4,11 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-public class Sq01 {
+public class Sq01  implements Serializable {
     private String sqa001;
     private String sqa002;
     private String sqa005;

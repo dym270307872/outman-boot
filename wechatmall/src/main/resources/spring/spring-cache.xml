@@ -14,14 +14,19 @@
     <bean id="cacheManager" class="cn.dyaoming.cache.CacheManager">
         <property name="timeout" value="60" />
         <property name="caches">
-            <set>                
+            <set>
+                <bean class="cn.dyaoming.cache.SystemCache">
+                    <property name="name" value="systemInfo" />
+                    <property name="timeout" value="-1" />
+                    <property name="secret" value="true" />
+                </bean>
                 <bean class="cn.dyaoming.cache.SystemCache">
                     <property name="name" value="publicInfo" />
                     <property name="timeout" value="6000" />
                 </bean>
                 <bean class="cn.dyaoming.cache.SystemCache">
                     <property name="name" value="userInfo" />
-                    <property name="timeout" value="6000" />
+                    <property name="timeout" value="60" />
                     <property name="secret" value="true" />
                 </bean>
                 <bean class="cn.dyaoming.cache.SystemCache">

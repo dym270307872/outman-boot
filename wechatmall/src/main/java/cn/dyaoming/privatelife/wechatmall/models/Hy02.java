@@ -4,12 +4,13 @@ package cn.dyaoming.privatelife.wechatmall.models;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 
 @Entity
-public class Hy02 {
+public class Hy02  implements Serializable {
 	private String hyb001;
 	private String hyb002;
 	private String hyb003;

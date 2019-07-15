@@ -5,12 +5,13 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 
 @Entity
-public class Hy01 {
+public class Hy01  implements Serializable {
 	private String hya001;
 	private String hya002;
 	private String hya003;
