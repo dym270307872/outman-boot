@@ -3,6 +3,7 @@ package cn.dyaoming.privatelife.wechatmall.controllers;
 
 import cn.dyaoming.models.ApiResult;
 import cn.dyaoming.privatelife.wechatmall.services.AccessService;
+import cn.dyaoming.privatelife.wechatmall.services.SystemService;
 import cn.dyaoming.privatelife.wechatmall.services.UserService;
 import cn.dyaoming.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ public class ApiController {
 	private AccessService accessService;
 	@Autowired
 	private UserService   userService;
-
+	@Autowired
+	private SystemService systemService;
 
 
 	@RequestMapping(value = "/access", method = RequestMethod.POST)
@@ -32,6 +34,16 @@ public class ApiController {
 		}
 
 		return accessService.access(appId);
+	}
+
+
+	@RequestMapping(value = "/getParam", method = RequestMethod.GET)
+	public ApiResult getParam(String accessToken) {
+
+		if (isNull(accessToken)) {
+			return new ApiResult(false, "9015");
+		}
+		return systemService.getParam(accessToken);
 	}
 
 
@@ -57,10 +69,28 @@ public class ApiController {
 	@RequestMapping(value = "/binding", method = RequestMethod.POST)
 	public ApiResult binding(String accessToken, String openId, String phoneNumber,
 			String password) {
-		if (isNull(accessToken) || isNull(openId)) {
+		if (isNull(accessToken) || isNull(openId) || isNull(phoneNumber) || isNull(password)) {
 			return new ApiResult(false, "9015");
 		}
 		return userService.binding(accessToken, openId, phoneNumber, password);
+	}
+
+
+	@RequestMapping(value = "/unbind", method = RequestMethod.POST)
+	public ApiResult unbind(String accessToken, String openId,String password) {
+		if (isNull(accessToken) || isNull(openId) || isNull(password)) {
+			return new ApiResult(false, "9015");
+		}
+		return userService.unbind(accessToken, openId, password);
+	}
+
+
+	@RequestMapping(value = "/changeUserInfo", method = RequestMethod.POST)
+	public ApiResult changeUserInfo(String accessToken, String openId,String changeType,String changeInfo) {
+		if (isNull(accessToken) || isNull(openId) || isNull(changeType)|| isNull(changeInfo)) {
+			return new ApiResult(false, "9015");
+		}
+		return userService.changeUserInfo(accessToken, openId, changeType,changeInfo);
 	}
 
 }

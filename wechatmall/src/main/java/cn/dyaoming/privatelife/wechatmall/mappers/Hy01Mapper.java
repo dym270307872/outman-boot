@@ -3,6 +3,7 @@ package cn.dyaoming.privatelife.wechatmall.mappers;
 
 import cn.dyaoming.privatelife.wechatmall.models.Hy01;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import tk.mybatis.mapper.common.Mapper;
 
 public interface Hy01Mapper extends Mapper<Hy01> {
@@ -15,4 +16,7 @@ public interface Hy01Mapper extends Mapper<Hy01> {
 
 	@Select("select * from hy01 where hya011=#{hya011}")
 	Hy01 getHyInfoByNum(String hya011);
+
+	@Update("update hy01 set hya007=#{hya007} where hya001=#{hya001}")
+	int updateName(Hy01 hy01);
 }
