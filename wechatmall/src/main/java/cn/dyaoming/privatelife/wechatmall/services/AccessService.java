@@ -85,7 +85,10 @@ public class AccessService extends BaseService {
 	public String decrypt(String accessToken, String param) throws AppServiceException {
 		try {
 //			return new String(AesUtil.decrypt(Base64Util.decryptBASE64(param), getKey(accessToken)),"utf-8");
-			return param;
+			if(param == null){
+				return "";
+			}else{
+			return param;}
 		}catch(Exception e){
 			throw new AppServiceException("9013");
 		}
