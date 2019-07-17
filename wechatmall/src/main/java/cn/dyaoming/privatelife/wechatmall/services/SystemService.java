@@ -63,12 +63,43 @@ public class SystemService {
             for (int i = 0; i < 4; i++) {
                 Map button_map = new HashMap();
                 button_map.put("image", "/images/" + i + ".jpg");
-                button_map.put("goods_id", "123123" + i);
+                button_map.put("type", "123123" + i);
+                button_map.put("id", "123123" + i);
                 l_button.add(button_map);
             }
-            map.put("banners",l_banner);
+            map.put("buttons",l_button);
+//推荐列表
+            List<Map> l_recommend = new ArrayList<Map>();
 
+            Map tj1 = new HashMap();
+            tj1.put("title","本月新品");
+            tj1.put("image","/abcd.png");
+            tj1.put("type","01");
+            List<Map> l_m_1 = new ArrayList<Map>();
+            for (int i = 0; i < 6; i++) {
+                Map button_map = new HashMap();
+                button_map.put("image", "/images/" + i + ".jpg");
+                button_map.put("goods_id", "123123" + i);
+                l_m_1.add(button_map);
+            }
+            tj1.put("children",l_m_1);
+            l_recommend.add(tj1);
 
+            Map tj2 = new HashMap();
+            tj2.put("title","会员权益");
+            tj2.put("image","/abcd.png");
+            tj2.put("type","01");
+            List<Map> l_m_2 = new ArrayList<Map>();
+            for (int i = 0; i < 4; i++) {
+                Map button_map = new HashMap();
+                button_map.put("image", "/images/" + i + ".jpg");
+                button_map.put("goods_id", "123123" + i);
+                l_m_2.add(button_map);
+            }
+            tj2.put("children",l_m_2);
+            l_recommend.add(tj2);
+            map.put("recommends",l_recommend);
+            dataResult.setData(map);
 
         } catch (Exception e) {
             e.printStackTrace();
