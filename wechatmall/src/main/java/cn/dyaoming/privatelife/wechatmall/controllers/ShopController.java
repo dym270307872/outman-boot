@@ -50,13 +50,16 @@ public class ShopController extends BaseController {
 
 
     @RequestMapping(value = "/getOrderList", method = RequestMethod.GET)
-    public ApiResult getOrderList(String accessToken, String openId,String type) {
+    public ApiResult getOrderList(String accessToken, String openId,String type,int pageNum) {
         ApiResult apiResult = new ApiResult();
         try{
             if (isNull(accessToken) || isNull(openId)) {
                 return new ApiResult(false, "9015");
             }
-            return shopService.getOrderList(accessToken,openId,type);
+			if(isNull(pageNum)||pageNum<1){
+				pageNum = 1;
+			}
+            return shopService.getOrderList(accessToken,openId,type,pageNum);
         }catch (Exception e){
             e.printStackTrace();
             apiResult = new ApiResult(false,"9999");
