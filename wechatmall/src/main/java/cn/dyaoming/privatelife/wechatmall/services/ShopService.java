@@ -2,16 +2,18 @@ package cn.dyaoming.privatelife.wechatmall.services;
 
 
 import cn.dyaoming.models.DataResult;
+import cn.dyaoming.privatelife.wechatmall.mappers.Dd01Mapper;
+import cn.dyaoming.privatelife.wechatmall.mappers.Dd02Mapper;
 import cn.dyaoming.privatelife.wechatmall.mappers.Pt01Mapper;
 import cn.dyaoming.privatelife.wechatmall.mappers.Sp01Mapper;
-import cn.dyaoming.privatelife.wechatmall.models.Pt01;
-import cn.dyaoming.privatelife.wechatmall.models.PtInfo;
-import cn.dyaoming.privatelife.wechatmall.models.Sp01;
-import cn.dyaoming.privatelife.wechatmall.models.SpInfo;
+import cn.dyaoming.privatelife.wechatmall.models.*;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +30,12 @@ public class ShopService extends BaseService {
 	private Sp01Mapper sp01Mapper;
 	@Autowired
 	private Pt01Mapper pt01Mapper;
-
+    @Autowired
+    private Dd01Mapper dd01Mapper;
+    @Autowired
+    private Dd02Mapper dd02Mapper;
+    @Autowired
+    private Acb02Service acb02Service;
 
 
 	@Cacheable("publicInfo")
@@ -115,13 +122,30 @@ public class ShopService extends BaseService {
 
 			if (accessService.check(accessToken)) {
 				openId = accessService.decrypt(accessToken, openId);
-				type = accessService.decrypt(accessToken, type);
+                type = accessService.decrypt(accessToken, type);
 			} else {
 				return new DataResult(false, "9011");
 			}
 
-//			dataResult.setData(sp01Mapper.selectById(goodsId).toMx());
+            String hya001 = ((Acb02)acb02Service.checkBind(openId).getData()).getHya001();
 
+            PageHelper.startPage(pageNum,10);
+            List<Dd01>  dd01List = dd01Mapper.selectOrderList(hya001,type);
+
+            List<OrderList> orderLists = new ArrayList<OrderList>();
+
+            dd01List.stream().forEach((p)->{
+                OrderList orderList = new OrderList();
+                orderList.setOrderId(p.getDda001());
+                orderList.setOrderType(p.getDda005());
+                orderList.setTime(p.getDda028());
+                orderList.setState(p.getDda022());
+                orderList.setChildren(dd02Mapper.getChildren(p.getDda001()));
+                orderList.setTotle(p.getDda011());
+                orderLists.add(orderList);
+            });
+
+            dataResult.setData(orderLists);
 		} catch(Exception e) {
 			e.printStackTrace();
 			dataResult = new DataResult(false, "9999");
@@ -132,17 +156,24 @@ public class ShopService extends BaseService {
 
 
 	@Cacheable("businessInfo")
-	public DataResult getOrder(String accessToken, String openId, String orderId) {
+	public DataResult getOrderInfo(String accessToken, String openId, String orderId) {
 		DataResult dataResult = new DataResult();
 		try {
 
-		/*	if (accessService.check(accessToken)) {
-				goodsId = accessService.decrypt(accessToken, goodsId);
+			if (accessService.check(accessToken)) {
+				openId = accessService.decrypt(accessToken, openId);
+				orderId = accessService.decrypt(accessToken, orderId);
 			} else {
 				return new DataResult(false, "9011");
 			}
 
-			dataResult.setData(sp01Mapper.selectById(goodsId).toMx());*/
+			String hya001 = ((Acb02)acb02Service.checkBind(openId).getData()).getHya001();
+
+
+
+
+//			dataResult.setData(sp01Mapper.selectById(goodsId).toMx());
+
 
 		} catch(Exception e) {
 			e.printStackTrace();

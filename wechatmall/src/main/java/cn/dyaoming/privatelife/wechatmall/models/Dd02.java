@@ -176,7 +176,7 @@ public class Dd02  implements Serializable {
 
 
 	@Basic
-	@Column(name = "ddb011", nullable = true, length = 1)
+	@Column(name = "ddb011", nullable = true, length = 200)
 	public String getDdb011() {
 		return ddb011;
 	}

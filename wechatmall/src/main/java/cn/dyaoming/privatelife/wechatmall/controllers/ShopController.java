@@ -68,14 +68,14 @@ public class ShopController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/getOrder", method = RequestMethod.GET)
-    public ApiResult getOrder(String accessToken, String openId,String orderId) {
+    @RequestMapping(value = "/getOrderInfo", method = RequestMethod.GET)
+    public ApiResult getOrderInfo(String accessToken, String openId,String orderId) {
         ApiResult apiResult = new ApiResult();
         try{
             if (isNull(accessToken) || isNull(openId) || isNull(orderId)) {
                 return new ApiResult(false, "9015");
             }
-            return shopService.getOrder(accessToken,openId,orderId);
+            return shopService.getOrderInfo(accessToken,openId,orderId);
         }catch (Exception e){
             e.printStackTrace();
             apiResult = new ApiResult(false,"9999");
