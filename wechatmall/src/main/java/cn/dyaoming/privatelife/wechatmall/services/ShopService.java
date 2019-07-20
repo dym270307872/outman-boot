@@ -169,11 +169,23 @@ public class ShopService extends BaseService {
 
 			String hya001 = ((Acb02)acb02Service.checkBind(openId).getData()).getHya001();
 
+            Dd01 dd01 = dd01Mapper.selectByPrimaryKey(orderId);
 
 
 
-//			dataResult.setData(sp01Mapper.selectById(goodsId).toMx());
+            if(dd01!=null){
+                OrderInfo orderInfo = new OrderInfo();
+                orderInfo.setOrderId(dd01.getDda001());
+                orderInfo.setOrderType(dd01.getDda005());
+                orderInfo.setTime(dd01.getDda028());
+                orderInfo.setState(dd01.getDda022());
+                orderInfo.setChildren(dd02Mapper.getChildren(dd01.getDda001()));
+                orderInfo.setTotle(dd01.getDda011());
 
+
+            }else{
+                dataResult = new DataResult(false,"9999");
+            }
 
 		} catch(Exception e) {
 			e.printStackTrace();
