@@ -27,15 +27,16 @@ public class ShopService extends BaseService {
 	private AccessService accessService;
 
 	@Autowired
-	private Sp01Mapper sp01Mapper;
+	private Sp01Mapper   sp01Mapper;
 	@Autowired
-	private Pt01Mapper pt01Mapper;
-    @Autowired
-    private Dd01Mapper dd01Mapper;
-    @Autowired
-    private Dd02Mapper dd02Mapper;
-    @Autowired
-    private Acb02Service acb02Service;
+	private Pt01Mapper   pt01Mapper;
+	@Autowired
+	private Dd01Mapper   dd01Mapper;
+	@Autowired
+	private Dd02Mapper   dd02Mapper;
+	@Autowired
+	private Acb02Service acb02Service;
+
 
 
 	@Cacheable("publicInfo")
@@ -122,30 +123,30 @@ public class ShopService extends BaseService {
 
 			if (accessService.check(accessToken)) {
 				openId = accessService.decrypt(accessToken, openId);
-                type = accessService.decrypt(accessToken, type);
+				type = accessService.decrypt(accessToken, type);
 			} else {
 				return new DataResult(false, "9011");
 			}
 
-            String hya001 = ((Acb02)acb02Service.checkBind(openId).getData()).getHya001();
+			String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
 
-            PageHelper.startPage(pageNum,10);
-            List<Dd01>  dd01List = dd01Mapper.selectOrderList(hya001,type);
+			PageHelper.startPage(pageNum, 10);
+			List<Dd01> dd01List = dd01Mapper.selectOrderList(hya001, type);
 
-            List<OrderList> orderLists = new ArrayList<OrderList>();
+			List<OrderList> orderLists = new ArrayList<OrderList>();
 
-            dd01List.stream().forEach((p)->{
-                OrderList orderList = new OrderList();
-                orderList.setOrderId(p.getDda001());
-                orderList.setOrderType(p.getDda005());
-                orderList.setTime(p.getDda028());
-                orderList.setState(p.getDda022());
-                orderList.setChildren(dd02Mapper.getChildren(p.getDda001()));
-                orderList.setTotle(p.getDda011());
-                orderLists.add(orderList);
-            });
+			dd01List.stream().forEach((p) -> {
+				OrderList orderList = new OrderList();
+				orderList.setOrderId(p.getDda001());
+				orderList.setOrderType(p.getDda005());
+				orderList.setTime(p.getDda028());
+				orderList.setState(p.getDda022());
+				orderList.setChildren(dd02Mapper.getChildren(p.getDda001()));
+				orderList.setTotle(p.getDda011());
+				orderLists.add(orderList);
+			});
 
-            dataResult.setData(orderLists);
+			dataResult.setData(orderLists);
 		} catch(Exception e) {
 			e.printStackTrace();
 			dataResult = new DataResult(false, "9999");
@@ -155,7 +156,7 @@ public class ShopService extends BaseService {
 
 
 
-	@Cacheable("businessInfo")
+//	@Cacheable("businessInfo")
 	public DataResult getOrderInfo(String accessToken, String openId, String orderId) {
 		DataResult dataResult = new DataResult();
 		try {
@@ -167,25 +168,28 @@ public class ShopService extends BaseService {
 				return new DataResult(false, "9011");
 			}
 
-			String hya001 = ((Acb02)acb02Service.checkBind(openId).getData()).getHya001();
+			String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
 
-            Dd01 dd01 = dd01Mapper.selectByPrimaryKey(orderId);
+			Dd01 dd01 = dd01Mapper.selectById(hya001, orderId);
 
+			if (dd01 != null) {
+				OrderInfo orderInfo = new OrderInfo();
+				orderInfo.setOrderId(dd01.getDda001());
+				orderInfo.setOrderType(dd01.getDda005());
+				orderInfo.setTime(dd01.getDda028());
+				orderInfo.setState(dd01.getDda022());
+				orderInfo.setChildren(dd02Mapper.getChildren(dd01.getDda001()));
+				orderInfo.setTotle(dd01.getDda011());
+				orderInfo.setDeliveryTime(dd01.getDda014());
+				orderInfo.setRemarks(dd01.getDda009());
+				orderInfo.setName(dd01.getDda006());
+				orderInfo.setPhoneNum(dd01.getDda007());
+				orderInfo.setAddress(dd01.getDda008());
 
-
-            if(dd01!=null){
-                OrderInfo orderInfo = new OrderInfo();
-                orderInfo.setOrderId(dd01.getDda001());
-                orderInfo.setOrderType(dd01.getDda005());
-                orderInfo.setTime(dd01.getDda028());
-                orderInfo.setState(dd01.getDda022());
-                orderInfo.setChildren(dd02Mapper.getChildren(dd01.getDda001()));
-                orderInfo.setTotle(dd01.getDda011());
-
-
-            }else{
-                dataResult = new DataResult(false,"9999");
-            }
+				dataResult.setData(orderInfo);
+			} else {
+				dataResult = new DataResult(false, "9999");
+			}
 
 		} catch(Exception e) {
 			e.printStackTrace();

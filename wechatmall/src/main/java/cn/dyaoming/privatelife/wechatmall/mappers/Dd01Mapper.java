@@ -16,5 +16,9 @@ public interface Dd01Mapper extends Mapper<Dd01> {
     List<Dd01> selectOrderList(@Param("dda002") String dda002,@Param("type") String type);
 
 
+    @Select("select * from dd01 where dda002=#{dda002}  and dda001 = #{dda001}/*and dda022='4'*/ and dda026='1' order by dda028 desc")
+    Dd01 selectById(@Param("dda002") String hya001,@Param("dda001") String orderId);
+
+
 
 }
