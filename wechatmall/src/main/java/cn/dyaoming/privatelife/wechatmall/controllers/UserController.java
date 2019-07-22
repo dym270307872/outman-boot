@@ -63,4 +63,23 @@ public class UserController  extends BaseController{
         }
         return userService.changeUserInfo(accessToken, openId, changeType,changeInfo);
     }
+
+
+
+    @RequestMapping(value = "/getReserveInfo", method = RequestMethod.GET)
+    public ApiResult getReserveInfo(String accessToken, String openId) {
+        if (isNull(accessToken) || isNull(openId)) {
+            return new ApiResult(false, "9015");
+        }
+        return userService.getReserveInfo(accessToken, openId);
+    }
+
+
+    @RequestMapping(value = "/changeReserveInfo", method = RequestMethod.POST)
+    public ApiResult changeReserveInfo(String accessToken, String openId,String type,String state,String ydgz,String remarks) {
+        if (isNull(accessToken) || isNull(openId)){
+            return new ApiResult(false, "9015");
+        }
+        return userService.changeReserveInfo(accessToken, openId, type,state,ydgz,remarks);
+    }
 }

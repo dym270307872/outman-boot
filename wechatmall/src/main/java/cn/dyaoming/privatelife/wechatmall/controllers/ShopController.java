@@ -82,4 +82,21 @@ public class ShopController extends BaseController {
         }
         return apiResult;
     }
+
+
+
+    @RequestMapping(value = "/getSnapshot", method = RequestMethod.GET)
+    public ApiResult getSnapshot(String accessToken, String snapshotId) {
+        ApiResult apiResult = new ApiResult();
+        try{
+            if (isNull(accessToken) || isNull(snapshotId)) {
+                return new ApiResult(false, "9015");
+            }
+            return shopService.getSnapshot(accessToken,snapshotId);
+        }catch (Exception e){
+            e.printStackTrace();
+            apiResult = new ApiResult(false,"9999");
+        }
+        return apiResult;
+    }
 }

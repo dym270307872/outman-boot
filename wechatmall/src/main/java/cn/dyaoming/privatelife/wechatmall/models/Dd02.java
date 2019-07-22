@@ -314,84 +314,16 @@ public class Dd02  implements Serializable {
 	}
 
 
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-
-		Dd02 dd02 = (Dd02) o;
-
-		if (ddb001 != null ? !ddb001.equals(dd02.ddb001) : dd02.ddb001 != null)
-			return false;
-		if (ddb002 != null ? !ddb002.equals(dd02.ddb002) : dd02.ddb002 != null)
-			return false;
-		if (ddb003 != null ? !ddb003.equals(dd02.ddb003) : dd02.ddb003 != null)
-			return false;
-		if (ddb004 != null ? !ddb004.equals(dd02.ddb004) : dd02.ddb004 != null)
-			return false;
-		if (ddb005 != null ? !ddb005.equals(dd02.ddb005) : dd02.ddb005 != null)
-			return false;
-		if (ddb006 != null ? !ddb006.equals(dd02.ddb006) : dd02.ddb006 != null)
-			return false;
-		if (ddb007 != null ? !ddb007.equals(dd02.ddb007) : dd02.ddb007 != null)
-			return false;
-		if (ddb008 != null ? !ddb008.equals(dd02.ddb008) : dd02.ddb008 != null)
-			return false;
-		if (ddb009 != null ? !ddb009.equals(dd02.ddb009) : dd02.ddb009 != null)
-			return false;
-		if (ddb010 != null ? !ddb010.equals(dd02.ddb010) : dd02.ddb010 != null)
-			return false;
-		if (ddb011 != null ? !ddb011.equals(dd02.ddb011) : dd02.ddb011 != null)
-			return false;
-		if (ddb012 != null ? !ddb012.equals(dd02.ddb012) : dd02.ddb012 != null)
-			return false;
-		if (ddb013 != null ? !ddb013.equals(dd02.ddb013) : dd02.ddb013 != null)
-			return false;
-		if (ddb014 != null ? !ddb014.equals(dd02.ddb014) : dd02.ddb014 != null)
-			return false;
-		if (ddb015 != null ? !ddb015.equals(dd02.ddb015) : dd02.ddb015 != null)
-			return false;
-		if (ddb016 != null ? !ddb016.equals(dd02.ddb016) : dd02.ddb016 != null)
-			return false;
-		if (ddb017 != null ? !ddb017.equals(dd02.ddb017) : dd02.ddb017 != null)
-			return false;
-		if (ddb018 != null ? !ddb018.equals(dd02.ddb018) : dd02.ddb018 != null)
-			return false;
-		if (ddb019 != null ? !ddb019.equals(dd02.ddb019) : dd02.ddb019 != null)
-			return false;
-		if (ddb020 != null ? !ddb020.equals(dd02.ddb020) : dd02.ddb020 != null)
-			return false;
-
-		return true;
-	}
-
-
-
-	@Override
-	public int hashCode() {
-		int result = ddb001 != null ? ddb001.hashCode() : 0;
-		result = 31 * result + (ddb002 != null ? ddb002.hashCode() : 0);
-		result = 31 * result + (ddb003 != null ? ddb003.hashCode() : 0);
-		result = 31 * result + (ddb004 != null ? ddb004.hashCode() : 0);
-		result = 31 * result + (ddb005 != null ? ddb005.hashCode() : 0);
-		result = 31 * result + (ddb006 != null ? ddb006.hashCode() : 0);
-		result = 31 * result + (ddb007 != null ? ddb007.hashCode() : 0);
-		result = 31 * result + (ddb008 != null ? ddb008.hashCode() : 0);
-		result = 31 * result + (ddb009 != null ? ddb009.hashCode() : 0);
-		result = 31 * result + (ddb010 != null ? ddb010.hashCode() : 0);
-		result = 31 * result + (ddb011 != null ? ddb011.hashCode() : 0);
-		result = 31 * result + (ddb012 != null ? ddb012.hashCode() : 0);
-		result = 31 * result + (ddb013 != null ? ddb013.hashCode() : 0);
-		result = 31 * result + (ddb014 != null ? ddb014.hashCode() : 0);
-		result = 31 * result + (ddb015 != null ? ddb015.hashCode() : 0);
-		result = 31 * result + (ddb016 != null ? ddb016.hashCode() : 0);
-		result = 31 * result + (ddb017 != null ? ddb017.hashCode() : 0);
-		result = 31 * result + (ddb018 != null ? ddb018.hashCode() : 0);
-		result = 31 * result + (ddb019 != null ? ddb019.hashCode() : 0);
-		result = 31 * result + (ddb020 != null ? ddb020.hashCode() : 0);
-		return result;
+	public SpMx toMx(){
+		SpMx spMx = new SpMx();
+		spMx.setGoodsId(getDdb001());
+		spMx.setType(getDdb003());
+		spMx.addGoodsImages(getDdb011());
+		spMx.setGoodsName(getDdb005());
+		spMx.setGoodsInfo(getDdb006());
+		spMx.setDescription(getDdb007());
+		spMx.setGg(getDdb010());
+		spMx.setDj(getDdb008());
+		return spMx;
 	}
 }

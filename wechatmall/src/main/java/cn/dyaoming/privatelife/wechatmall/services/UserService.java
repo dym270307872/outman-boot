@@ -138,8 +138,6 @@ public class UserService extends BaseService {
             } else {
                 return new ApiResult(false, "9011");
             }
-//TODO 未实现 修改用户信息
-
             apiResult = hy01Service.changeInfo(openId, changeType, changeInfo);
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,4 +145,51 @@ public class UserService extends BaseService {
         }
         return apiResult;
     }
+
+
+    public DataResult getReserveInfo(String accessToken, String openId) {
+        DataResult dataResult = new DataResult();
+        try {
+            if (accessService.check(accessToken)) {
+                openId = accessService.decrypt(accessToken, openId);
+
+            } else {
+                return new DataResult(false, "9011");
+            }
+
+            dataResult = hy01Service.getReserveInfo(openId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            dataResult = new DataResult(false, "9999");
+        }
+        return dataResult;
+    }
+
+
+    public ApiResult changeReserveInfo(String accessToken, String openId, String type,String state,String ydgz,String remarks) {
+        ApiResult apiResult = new ApiResult();
+        try {
+            if (accessService.check(accessToken)) {
+                openId = accessService.decrypt(accessToken, openId);
+                type = accessService.decrypt(accessToken, type);
+                state = accessService.decrypt(accessToken, state);
+                ydgz = accessService.decrypt(accessToken, ydgz);
+                remarks = accessService.decrypt(accessToken, remarks);
+
+            } else {
+                return new ApiResult(false, "9011");
+            }
+            if("0".equals(state)){
+                return new ApiResult(false, "9015","状态标识不能修改成未预定！");
+            }
+
+
+            apiResult = hy01Service.changeReserveInfo( openId, type,state,ydgz,remarks);
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResult = new ApiResult(false, "9999");
+        }
+        return apiResult;
+    }
+
 }

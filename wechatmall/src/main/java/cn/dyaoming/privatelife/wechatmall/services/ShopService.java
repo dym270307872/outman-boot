@@ -198,4 +198,25 @@ public class ShopService extends BaseService {
 		return dataResult;
 	}
 
+
+
+	@Cacheable("publicInfo")
+	public DataResult getSnapshot(String accessToken, String snapshotId) {
+		DataResult dataResult = new DataResult();
+		try {
+
+			if (accessService.check(accessToken)) {
+				snapshotId = accessService.decrypt(accessToken, snapshotId);
+			} else {
+				return new DataResult(false, "9011");
+			}
+
+			dataResult.setData(dd02Mapper.selectById(snapshotId).toMx());
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			dataResult = new DataResult(false, "9999");
+		}
+		return dataResult;
+	}
 }

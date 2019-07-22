@@ -6,11 +6,9 @@ import cn.dyaoming.models.ApiResult;
 import cn.dyaoming.models.DataResult;
 import cn.dyaoming.privatelife.wechatmall.mappers.Hy01Mapper;
 import cn.dyaoming.privatelife.wechatmall.mappers.Hy02Mapper;
-import cn.dyaoming.privatelife.wechatmall.models.Acb02;
-import cn.dyaoming.privatelife.wechatmall.models.Hy01;
-import cn.dyaoming.privatelife.wechatmall.models.Hy02;
-import cn.dyaoming.privatelife.wechatmall.models.HyInfo;
+import cn.dyaoming.privatelife.wechatmall.models.*;
 import cn.dyaoming.privatelife.wechatmall.utils.EncryptionUtil;
+import com.sun.deploy.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,8 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -244,15 +246,81 @@ public class Hy01Service extends BaseService {
                 if ("01".equals(changeType)) {
                     hy01.setHya007(changeInfo);
                     hy01Mapper.updateName(hy01);
-                }else{
-                    return new ApiResult(false,"9026");
+                } else {
+                    return new ApiResult(false, "9026");
                 }
 
 //                System.out.println(hy01Mapper.updateByPrimaryKeySelective(hy01));
             }
         } catch (Exception e) {
             e.printStackTrace();
+            apiResult = new ApiResult(false,"9999");
         }
         return apiResult;
+    }
+
+
+    public DataResult getReserveInfo(String openId) {
+        DataResult dataResult = new DataResult();
+        try {
+            DataResult bdInfo = acb02Service.checkBind(openId);
+
+            if (bdInfo.isFlag()) {
+                String hya001 = ((Acb02) bdInfo.getData()).getHya001();
+
+                Hy01 hy01 = hy01Mapper.findById(hya001);
+
+                ReserveInfo reserveInfo = new ReserveInfo();
+
+                reserveInfo.setType(hy01.getHya019());
+                reserveInfo.setYdgz(hy01.getHya018());
+                reserveInfo.setRemarks(hy01.getHya020());
+                reserveInfo.setState(hy01.getHya037());
+
+                dataResult.setData(reserveInfo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            dataResult = new DataResult(false, "9999");
+        }
+        return dataResult;
+    }
+
+
+
+    @Transactional
+    @CacheEvict(value = "userInfo", key = "'userInfo:'+  #openId")
+    public ApiResult changeReserveInfo(String openId, String type,String state,String ydgz,String remarks) {
+        ApiResult apiResult = new ApiResult();
+        try {
+            DataResult bdInfo = acb02Service.checkBind(openId);
+
+            if (bdInfo.isFlag()) {
+                String hya001 = ((Acb02) bdInfo.getData()).getHya001();
+
+                Hy01 hy01 = new Hy01();
+                hy01.setHya001(hya001);
+                hy01.setHya018(checkYdgz(ydgz));
+                hy01.setHya019(type);
+                hy01.setHya020(remarks);
+                hy01.setHya037(state);
+
+                hy01Mapper.updateReserveInfo(hy01);
+
+            }else {
+                return new ApiResult(false, "9011");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResult = new ApiResult(false, "9999");
+        }
+        return apiResult;
+    }
+
+    private String checkYdgz(String ydgz){
+        String regEx="[^0-7]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(ydgz);
+        return StringUtils.join(Arrays.asList(m.replaceAll("").split ("")).stream().distinct().sorted().collect(Collectors.toList()), ",");
     }
 }

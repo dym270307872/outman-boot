@@ -19,4 +19,8 @@ public interface Hy01Mapper extends Mapper<Hy01> {
 
 	@Update("update hy01 set hya007=#{hya007} where hya001=#{hya001}")
 	int updateName(Hy01 hy01);
+
+
+	@Update("update hy01 set hya018=#{hya018},hya019=#{hya019},hya020=#{hya020},hya037=#{hya037} where hya001=#{hya001}")
+	int updateReserveInfo(Hy01 hy01);
 }
