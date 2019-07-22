@@ -65,6 +65,23 @@ public class UserController  extends BaseController{
     }
 
 
+    @RequestMapping(value = "/getBalance", method = RequestMethod.GET)
+    public ApiResult getBalance(String accessToken, String openId) {
+        if (isNull(accessToken) || isNull(openId)) {
+            return new ApiResult(false, "9015");
+        }
+        return userService.getBalance(accessToken, openId);
+    }
+
+
+    @RequestMapping(value = "/getBalanceMx", method = RequestMethod.GET)
+    public ApiResult getBalanceMx(String accessToken, String openId,String type) {
+        if (isNull(accessToken) || isNull(openId)) {
+            return new ApiResult(false, "9015");
+        }
+        return userService.getBalanceMx(accessToken, openId);
+    }
+
 
     @RequestMapping(value = "/getReserveInfo", method = RequestMethod.GET)
     public ApiResult getReserveInfo(String accessToken, String openId) {

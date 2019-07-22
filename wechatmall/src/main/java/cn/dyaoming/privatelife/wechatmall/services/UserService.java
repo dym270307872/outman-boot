@@ -147,6 +147,45 @@ public class UserService extends BaseService {
     }
 
 
+    public DataResult getBalance(String accessToken, String openId){
+        DataResult dataResult = new DataResult();
+        try {
+            if (accessService.check(accessToken)) {
+                openId = accessService.decrypt(accessToken, openId);
+
+            } else {
+                return new DataResult(false, "9011");
+            }
+
+            dataResult = hy01Service.getReserveInfo(openId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            dataResult = new DataResult(false, "9999");
+        }
+        return dataResult;
+    }
+
+
+    public DataResult getBalanceMx(String accessToken, String openId,String type){
+        DataResult dataResult = new DataResult();
+        try {
+            if (accessService.check(accessToken)) {
+                openId = accessService.decrypt(accessToken, openId);
+
+            } else {
+                return new DataResult(false, "9011");
+            }
+
+            dataResult = hy01Service.getReserveInfo(openId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            dataResult = new DataResult(false, "9999");
+        }
+        return dataResult;
+    }
+
+
+
     public DataResult getReserveInfo(String accessToken, String openId) {
         DataResult dataResult = new DataResult();
         try {
