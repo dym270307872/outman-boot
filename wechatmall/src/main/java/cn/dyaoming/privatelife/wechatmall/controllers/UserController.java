@@ -79,7 +79,7 @@ public class UserController  extends BaseController{
         if (isNull(accessToken) || isNull(openId)) {
             return new ApiResult(false, "9015");
         }
-        return userService.getBalanceMx(accessToken, openId);
+        return userService.getBalanceMx(accessToken, openId,type);
     }
 
 
@@ -99,4 +99,8 @@ public class UserController  extends BaseController{
         }
         return userService.changeReserveInfo(accessToken, openId, type,state,ydgz,remarks);
     }
+
+
+
+
 }

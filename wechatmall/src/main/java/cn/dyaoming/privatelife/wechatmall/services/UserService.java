@@ -157,7 +157,7 @@ public class UserService extends BaseService {
                 return new DataResult(false, "9011");
             }
 
-            dataResult = hy01Service.getReserveInfo(openId);
+            dataResult = hy01Service.getBalance(openId);
         } catch (Exception e) {
             e.printStackTrace();
             dataResult = new DataResult(false, "9999");
@@ -171,12 +171,12 @@ public class UserService extends BaseService {
         try {
             if (accessService.check(accessToken)) {
                 openId = accessService.decrypt(accessToken, openId);
-
+                type = accessService.decrypt(accessToken, type);
             } else {
                 return new DataResult(false, "9011");
             }
 
-            dataResult = hy01Service.getReserveInfo(openId);
+            dataResult = hy01Service.getBalanceMx(openId,type);
         } catch (Exception e) {
             e.printStackTrace();
             dataResult = new DataResult(false, "9999");

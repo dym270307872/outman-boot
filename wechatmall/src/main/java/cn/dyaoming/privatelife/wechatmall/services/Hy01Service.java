@@ -17,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -254,9 +252,52 @@ public class Hy01Service extends BaseService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            apiResult = new ApiResult(false,"9999");
+            apiResult = new ApiResult(false, "9999");
         }
         return apiResult;
+    }
+
+    public DataResult getBalance(String openId) {
+        DataResult dataResult = new DataResult();
+        try {
+            DataResult bdInfo = acb02Service.checkBind(openId);
+
+            if (bdInfo.isFlag()) {
+                String hya001 = ((Acb02) bdInfo.getData()).getHya001();
+
+                Map balance = hy01Mapper.findBalance(hya001);
+
+                dataResult.setData(balance);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            dataResult = new DataResult(false, "9999");
+        }
+        return dataResult;
+    }
+
+
+    public DataResult getBalanceMx(String openId, String type) {
+        DataResult dataResult = new DataResult();
+        try {
+            DataResult bdInfo = acb02Service.checkBind(openId);
+
+            if (bdInfo.isFlag()) {
+                String hya001 = ((Acb02) bdInfo.getData()).getHya001();
+
+
+                if ("01".equals(type) || "02".equals(type)) {
+                    List<Map> balanceMx = hy01Mapper.findBalanceMx(hya001, type);
+                    dataResult.setData(balanceMx);
+                } else {
+                    dataResult = new DataResult(false, "9011");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            dataResult = new DataResult(false, "9999");
+        }
+        return dataResult;
     }
 
 
@@ -287,10 +328,9 @@ public class Hy01Service extends BaseService {
     }
 
 
-
     @Transactional
     @CacheEvict(value = "userInfo", key = "'userInfo:'+  #openId")
-    public ApiResult changeReserveInfo(String openId, String type,String state,String ydgz,String remarks) {
+    public ApiResult changeReserveInfo(String openId, String type, String state, String ydgz, String remarks) {
         ApiResult apiResult = new ApiResult();
         try {
             DataResult bdInfo = acb02Service.checkBind(openId);
@@ -307,7 +347,7 @@ public class Hy01Service extends BaseService {
 
                 hy01Mapper.updateReserveInfo(hy01);
 
-            }else {
+            } else {
                 return new ApiResult(false, "9011");
             }
         } catch (Exception e) {
@@ -317,10 +357,10 @@ public class Hy01Service extends BaseService {
         return apiResult;
     }
 
-    private String checkYdgz(String ydgz){
-        String regEx="[^0-7]";
+    private String checkYdgz(String ydgz) {
+        String regEx = "[^0-7]";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(ydgz);
-        return StringUtils.join(Arrays.asList(m.replaceAll("").split ("")).stream().distinct().sorted().collect(Collectors.toList()), ",");
+        return StringUtils.join(Arrays.asList(m.replaceAll("").split("")).stream().distinct().sorted().collect(Collectors.toList()), ",");
     }
 }
