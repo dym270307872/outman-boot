@@ -13,7 +13,7 @@ import static java.util.Objects.isNull;
 
 @RestController
 @RequestMapping("/api")
-public class UserController  extends BaseController{
+public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -23,7 +23,7 @@ public class UserController  extends BaseController{
         if (isNull(accessToken) || isNull(phoneNumber) || isNull(password)) {
             return new ApiResult(false, "9015");
         }
-        return userService.register(accessToken, phoneNumber,password);
+        return userService.register(accessToken, phoneNumber, password);
     }
 
 
@@ -34,7 +34,6 @@ public class UserController  extends BaseController{
         }
         return userService.getUserInfo(accessToken, openId);
     }
-
 
 
     @RequestMapping(value = "/binding", method = RequestMethod.POST)
@@ -48,7 +47,7 @@ public class UserController  extends BaseController{
 
 
     @RequestMapping(value = "/unbind", method = RequestMethod.POST)
-    public ApiResult unbind(String accessToken, String openId,String password) {
+    public ApiResult unbind(String accessToken, String openId, String password) {
         if (isNull(accessToken) || isNull(openId) || isNull(password)) {
             return new ApiResult(false, "9015");
         }
@@ -57,11 +56,11 @@ public class UserController  extends BaseController{
 
 
     @RequestMapping(value = "/changeUserInfo", method = RequestMethod.POST)
-    public ApiResult changeUserInfo(String accessToken, String openId,String changeType,String changeInfo) {
-        if (isNull(accessToken) || isNull(openId) || isNull(changeType)|| isNull(changeInfo)) {
+    public ApiResult changeUserInfo(String accessToken, String openId, String changeType, String changeInfo) {
+        if (isNull(accessToken) || isNull(openId) || isNull(changeType) || isNull(changeInfo)) {
             return new ApiResult(false, "9015");
         }
-        return userService.changeUserInfo(accessToken, openId, changeType,changeInfo);
+        return userService.changeUserInfo(accessToken, openId, changeType, changeInfo);
     }
 
 
@@ -75,11 +74,11 @@ public class UserController  extends BaseController{
 
 
     @RequestMapping(value = "/getBalanceMx", method = RequestMethod.GET)
-    public ApiResult getBalanceMx(String accessToken, String openId,String type) {
+    public ApiResult getBalanceMx(String accessToken, String openId, String type) {
         if (isNull(accessToken) || isNull(openId)) {
             return new ApiResult(false, "9015");
         }
-        return userService.getBalanceMx(accessToken, openId,type);
+        return userService.getBalanceMx(accessToken, openId, type);
     }
 
 
@@ -93,14 +92,41 @@ public class UserController  extends BaseController{
 
 
     @RequestMapping(value = "/changeReserveInfo", method = RequestMethod.POST)
-    public ApiResult changeReserveInfo(String accessToken, String openId,String type,String state,String ydgz,String remarks) {
-        if (isNull(accessToken) || isNull(openId)){
+    public ApiResult changeReserveInfo(String accessToken, String openId, String type, String state, String ydgz, String remarks) {
+        if (isNull(accessToken) || isNull(openId)) {
             return new ApiResult(false, "9015");
         }
-        return userService.changeReserveInfo(accessToken, openId, type,state,ydgz,remarks);
+        return userService.changeReserveInfo(accessToken, openId, type, state, ydgz, remarks);
+    }
+
+    @RequestMapping(value = "/getAddress", method = RequestMethod.GET)
+    public ApiResult getAddress(String accessToken, String openId) {
+
+        if (isNull(accessToken) || isNull(openId)) {
+            return new ApiResult(false, "9015");
+        }
+        return userService.getAddress(accessToken, openId);
     }
 
 
+    @RequestMapping(value = "/changeAddress", method = RequestMethod.POST)
+    public ApiResult changeAddress(String accessToken, String openId, String addressId, String mrbz, String name, String phoneNum, String address) {
+
+        if (isNull(accessToken) || isNull(openId)) {
+            return new ApiResult(false, "9015");
+        }
+        return userService.changeAddress(accessToken, openId, addressId, mrbz, name, phoneNum, address);
+    }
+
+
+    @RequestMapping(value = "/deleteAddress", method = RequestMethod.POST)
+    public ApiResult deleteAddress(String accessToken, String openId, String addressId) {
+
+        if (isNull(accessToken) || isNull(openId) || isNull(addressId)) {
+            return new ApiResult(false, "9015");
+        }
+        return userService.deleteAddress(accessToken, openId, addressId);
+    }
 
 
 }
