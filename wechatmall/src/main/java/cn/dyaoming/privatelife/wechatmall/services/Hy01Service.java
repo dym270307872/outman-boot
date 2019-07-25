@@ -8,7 +8,8 @@ import cn.dyaoming.privatelife.wechatmall.mappers.Hy01Mapper;
 import cn.dyaoming.privatelife.wechatmall.mappers.Hy02Mapper;
 import cn.dyaoming.privatelife.wechatmall.models.*;
 import cn.dyaoming.privatelife.wechatmall.utils.EncryptionUtil;
-import com.sun.deploy.util.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -361,6 +362,7 @@ public class Hy01Service extends BaseService {
         String regEx = "[^0-7]";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(ydgz);
-        return StringUtils.join(Arrays.asList(m.replaceAll("").split("")).stream().distinct().sorted().collect(Collectors.toList()), ",");
+        return StringUtils
+				.join(Arrays.asList(m.replaceAll("").split("")).stream().distinct().sorted().collect(Collectors.toList()), ",");
     }
 }

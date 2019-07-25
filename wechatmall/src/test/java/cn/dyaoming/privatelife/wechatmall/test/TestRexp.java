@@ -1,11 +1,9 @@
 package cn.dyaoming.privatelife.wechatmall.test;
 
-import com.alibaba.druid.sql.visitor.functions.Char;
-import com.sun.deploy.util.StringUtils;
 
-import java.util.ArrayList;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -18,7 +16,8 @@ public static void main(String[] args){
     Pattern p = Pattern.compile(regEx);
     Matcher m = p.matcher(a);
 
-    String str = StringUtils.join(Arrays.asList(m.replaceAll("").split ("")).stream().distinct().sorted().collect(Collectors.toList()), ",");
+    String str = StringUtils
+            .join(Arrays.asList(m.replaceAll("").split ("")).stream().distinct().sorted().collect(Collectors.toList()), ",");
     System.out.println(str);
 
 }
