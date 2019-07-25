@@ -3,6 +3,7 @@ package cn.dyaoming.privatelife.wechatmall.services;
 
 import cn.dyaoming.models.ApiResult;
 import cn.dyaoming.models.DataResult;
+import cn.dyaoming.privatelife.wechatmall.mappers.Hy03Mapper;
 import cn.dyaoming.privatelife.wechatmall.models.HyInfo;
 import cn.dyaoming.privatelife.wechatmall.models.Sq01;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class UserService extends BaseService {
     private AccessService accessService;
     @Autowired
     private Hy01Service hy01Service;
+    @Autowired
+    private Hy03Service hy03Service;
     @Autowired
     private Acb02Service acb02Service;
 
@@ -147,7 +150,7 @@ public class UserService extends BaseService {
     }
 
 
-    public DataResult getBalance(String accessToken, String openId){
+    public DataResult getBalance(String accessToken, String openId) {
         DataResult dataResult = new DataResult();
         try {
             if (accessService.check(accessToken)) {
@@ -166,7 +169,7 @@ public class UserService extends BaseService {
     }
 
 
-    public DataResult getBalanceMx(String accessToken, String openId,String type){
+    public DataResult getBalanceMx(String accessToken, String openId, String type) {
         DataResult dataResult = new DataResult();
         try {
             if (accessService.check(accessToken)) {
@@ -176,14 +179,13 @@ public class UserService extends BaseService {
                 return new DataResult(false, "9011");
             }
 
-            dataResult = hy01Service.getBalanceMx(openId,type);
+            dataResult = hy01Service.getBalanceMx(openId, type);
         } catch (Exception e) {
             e.printStackTrace();
             dataResult = new DataResult(false, "9999");
         }
         return dataResult;
     }
-
 
 
     public DataResult getReserveInfo(String accessToken, String openId) {
@@ -205,7 +207,7 @@ public class UserService extends BaseService {
     }
 
 
-    public ApiResult changeReserveInfo(String accessToken, String openId, String type,String state,String ydgz,String remarks) {
+    public ApiResult changeReserveInfo(String accessToken, String openId, String type, String state, String ydgz, String remarks) {
         ApiResult apiResult = new ApiResult();
         try {
             if (accessService.check(accessToken)) {
@@ -218,17 +220,81 @@ public class UserService extends BaseService {
             } else {
                 return new ApiResult(false, "9011");
             }
-            if("0".equals(state)){
-                return new ApiResult(false, "9015","状态标识不能修改成未预定！");
+            if ("0".equals(state)) {
+                return new ApiResult(false, "9015", "状态标识不能修改成未预定！");
             }
 
 
-            apiResult = hy01Service.changeReserveInfo( openId, type,state,ydgz,remarks);
+            apiResult = hy01Service.changeReserveInfo(openId, type, state, ydgz, remarks);
         } catch (Exception e) {
             e.printStackTrace();
             apiResult = new ApiResult(false, "9999");
         }
         return apiResult;
     }
+
+
+    public DataResult getAddress(String accessToken, String openId) {
+        DataResult dataResult = new DataResult();
+        try {
+            if (accessService.check(accessToken)) {
+                openId = accessService.decrypt(accessToken, openId);
+
+            } else {
+                return new DataResult(false, "9011");
+            }
+
+            dataResult = hy03Service.getAddress(openId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            dataResult = new DataResult(false, "9999");
+        }
+        return dataResult;
+    }
+
+
+    public ApiResult changeAddress(String accessToken, String openId, String addressId, String mrbz, String name, String phoneNum, String address) {
+        ApiResult apiResult = new ApiResult();
+        try {
+            if (accessService.check(accessToken)) {
+                openId = accessService.decrypt(accessToken, openId);
+                addressId = accessService.decrypt(accessToken, addressId);
+                mrbz = accessService.decrypt(accessToken, mrbz);
+                name = accessService.decrypt(accessToken, name);
+                phoneNum = accessService.decrypt(accessToken, phoneNum);
+                address = accessService.decrypt(accessToken, address);
+
+            } else {
+                return new ApiResult(false, "9011");
+            }
+
+            apiResult = hy03Service.changeAddress(openId, addressId, mrbz, name, phoneNum, address);
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResult = new ApiResult(false, "9999");
+        }
+        return apiResult;
+    }
+
+
+    public ApiResult deleteAddress(String accessToken, String openId, String addressId) {
+        ApiResult apiResult = new ApiResult();
+        try {
+            if (accessService.check(accessToken)) {
+                openId = accessService.decrypt(accessToken, openId);
+                addressId = accessService.decrypt(accessToken, addressId);
+
+            } else {
+                return new ApiResult(false, "9011");
+            }
+
+            apiResult = hy03Service.deleteAddress(openId, addressId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResult = new ApiResult(false, "9999");
+        }
+        return apiResult;
+    }
+
 
 }
