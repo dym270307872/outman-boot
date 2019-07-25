@@ -117,6 +117,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
+
+        <dependency>
             <groupId>cn.dyaoming.common</groupId>
             <artifactId>common-cache</artifactId>
             <version>0.0.1</version>
