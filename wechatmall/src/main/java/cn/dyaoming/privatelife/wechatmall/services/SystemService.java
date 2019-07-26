@@ -42,7 +42,7 @@ public class SystemService extends BaseService {
     }
 
 
-    @Cacheable("systemInfo")
+    @Cacheable(value = "systemInfo",key = "'homeParam'")
     public DataResult getIndex(String openId) throws AppServiceException {
         DataResult dataResult = new DataResult();
         try {
@@ -52,7 +52,7 @@ public class SystemService extends BaseService {
                 List<Map> l_banner = new ArrayList<Map>();
                 for (int i = 0; i < 4; i++) {
                     Map banner_map = new HashMap();
-                    banner_map.put("image", "/images/" + i + ".jpg");
+                    banner_map.put("image", "/statics/images/banner" + i + ".jpg");
                     banner_map.put("goods_id", "123123" + i);
                     l_banner.add(banner_map);
                 }
@@ -61,7 +61,7 @@ public class SystemService extends BaseService {
                 List<Map> l_button = new ArrayList<Map>();
                 for (int i = 0; i < 4; i++) {
                     Map button_map = new HashMap();
-                    button_map.put("image", "/images/" + i + ".jpg");
+                    button_map.put("image", "/statics/icons/button" + i + ".png");
                     button_map.put("type", "123123" + i);
                     button_map.put("id", "123123" + i);
                     l_button.add(button_map);
@@ -72,12 +72,12 @@ public class SystemService extends BaseService {
 
                 Map tj1 = new HashMap();
                 tj1.put("title", "本月新品");
-                tj1.put("image", "/abcd.png");
+                tj1.put("image", "/statics/upload/title0.png");
                 tj1.put("type", "01");
                 List<Map> l_m_1 = new ArrayList<Map>();
                 for (int i = 0; i < 6; i++) {
                     Map button_map = new HashMap();
-                    button_map.put("image", "/images/" + i + ".jpg");
+                    button_map.put("image", "/statics/upload/sp00" + i + ".jpg");
                     button_map.put("goods_id", "123123" + i);
                     l_m_1.add(button_map);
                 }
@@ -86,12 +86,12 @@ public class SystemService extends BaseService {
 
                 Map tj2 = new HashMap();
                 tj2.put("title", "会员权益");
-                tj2.put("image", "/abcd.png");
+                tj2.put("image", "/statics/upload/title1.png");
                 tj2.put("type", "01");
                 List<Map> l_m_2 = new ArrayList<Map>();
                 for (int i = 0; i < 4; i++) {
                     Map button_map = new HashMap();
-                    button_map.put("image", "/images/" + i + ".jpg");
+                    button_map.put("image", "/statics/upload/sp00" + i + ".jpg");
                     button_map.put("goods_id", "123123" + i);
                     l_m_2.add(button_map);
                 }

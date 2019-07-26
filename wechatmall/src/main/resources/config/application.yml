@@ -8,6 +8,8 @@ spring:
   messages:
     basename: i18n/Messages,i18n/Pages
 
+  resources:
+    static-locations: classpath:/statics/
   datasource:
     name: ddglxt
 #url: jdbc:mysql://localhost:3306/ddglxt?useUnicode=true&amp;characterEncoding=UTF-8
@@ -50,3 +52,4 @@ mybatis:
       max-idle: 8
     # 连接池中的最小空闲连接
       min-idle: 0
+

@@ -8,6 +8,8 @@
     <groupId>cn.dyaoming.privatelife</groupId>
     <artifactId>wechat-mall</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <packaging>war</packaging>
     <build>
         <plugins>
             <plugin>
@@ -20,7 +22,6 @@
             </plugin>
         </plugins>
     </build>
-    <packaging>jar</packaging>
 
 
     <properties>
