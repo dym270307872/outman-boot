@@ -22,13 +22,13 @@ public class SystemController extends BaseController {
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ApiResult login(String appId,String code) {
+    public ApiResult login(String appId, String code) {
 
-        if (isNull(appId)||isNull(code)) {
+        if (isNull(appId) || isNull(code)) {
             return new ApiResult(false, "9015");
         }
 
-        return loginService.login(appId,code);
+        return loginService.login(appId, code);
     }
 
 
@@ -44,11 +44,15 @@ public class SystemController extends BaseController {
 
     @RequestMapping(value = "/getIndex", method = RequestMethod.GET)
     public ApiResult getIndex(String openId) {
-
-        if (isNull(openId)) {
-            return new ApiResult(false, "9015");
+        try {
+            if (isNull(openId)) {
+                return new ApiResult(false, "9015");
+            }
+            return systemService.getIndex(openId);
+        } catch (Exception e) {
+            return new ApiResult(false, e.getMessage());
         }
-        return systemService.getIndex(openId);
+
     }
 
 

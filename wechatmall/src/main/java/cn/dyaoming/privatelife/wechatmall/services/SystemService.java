@@ -100,7 +100,7 @@ public class SystemService extends BaseService {
                 map.put("recommends", l_recommend);
                 dataResult.setData(map);
             } else {
-                return new DataResult(false, "9011");
+                throw new AppServiceException("9011");
             }
         } catch (Exception e) {
             e.printStackTrace();
