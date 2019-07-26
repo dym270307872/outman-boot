@@ -59,13 +59,27 @@ public class SystemService extends BaseService {
                 map.put("banners", l_banner);
                 //菜单按钮列表
                 List<Map> l_button = new ArrayList<Map>();
-                for (int i = 0; i < 4; i++) {
-                    Map button_map = new HashMap();
-                    button_map.put("image", "/statics/icons/button" + i + ".png");
-                    button_map.put("type", "123123" + i);
-                    button_map.put("id", "123123" + i);
-                    l_button.add(button_map);
-                }
+                Map button_map0 = new HashMap();
+                button_map0.put("image", "/statics/icons/button0.png");
+                button_map0.put("name", "每日十件");
+                button_map0.put("url", "");
+                l_button.add(button_map0);
+                Map button_map1 = new HashMap();
+                button_map1.put("image", "/statics/icons/button1.png");
+                button_map1.put("name", "精选蔬菜");
+                button_map1.put("url", "");
+                l_button.add(button_map1);
+                Map button_map2 = new HashMap();
+                button_map2.put("image", "/statics/icons/button2.png");
+                button_map2.put("name", "会员预定");
+                button_map2.put("url", "");
+                l_button.add(button_map2);
+                Map button_map3 = new HashMap();
+                button_map3.put("image", "/statics/icons/button3.png");
+                button_map3.put("name", "会员中心");
+                button_map3.put("url", "");
+                l_button.add(button_map3);
+
                 map.put("buttons", l_button);
                 //推荐列表
                 List<Map> l_recommend = new ArrayList<Map>();
@@ -73,7 +87,7 @@ public class SystemService extends BaseService {
                 Map tj1 = new HashMap();
                 tj1.put("title", "本月新品");
                 tj1.put("image", "/statics/upload/title0.png");
-                tj1.put("type", "01");
+                tj1.put("typeId", "01");
                 List<Map> l_m_1 = new ArrayList<Map>();
                 for (int i = 0; i < 6; i++) {
                     Map button_map = new HashMap();
@@ -87,7 +101,7 @@ public class SystemService extends BaseService {
                 Map tj2 = new HashMap();
                 tj2.put("title", "会员权益");
                 tj2.put("image", "/statics/upload/title1.png");
-                tj2.put("type", "01");
+                tj2.put("typeId", "02");
                 List<Map> l_m_2 = new ArrayList<Map>();
                 for (int i = 0; i < 4; i++) {
                     Map button_map = new HashMap();
