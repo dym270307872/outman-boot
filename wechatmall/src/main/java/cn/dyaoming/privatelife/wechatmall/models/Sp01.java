@@ -236,6 +236,8 @@ public class Sp01 {
         spInfo.setGoodsId(getSpa001());
         spInfo.setGoodsImage(getSpa004());
         spInfo.setGoodsName(getSpa005());
+        spInfo.setDj(getSpa008());
+        spInfo.setGg(getSpa009());
         return spInfo;
     }
 
