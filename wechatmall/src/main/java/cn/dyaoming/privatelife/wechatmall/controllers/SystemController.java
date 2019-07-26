@@ -2,10 +2,8 @@ package cn.dyaoming.privatelife.wechatmall.controllers;
 
 
 import cn.dyaoming.models.ApiResult;
-import cn.dyaoming.privatelife.wechatmall.services.AccessService;
+import cn.dyaoming.privatelife.wechatmall.services.LoginService;
 import cn.dyaoming.privatelife.wechatmall.services.SystemService;
-import cn.dyaoming.privatelife.wechatmall.services.UserService;
-import cn.dyaoming.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,36 +17,38 @@ import static java.util.Objects.isNull;
 public class SystemController extends BaseController {
     @Autowired
     private SystemService systemService;
+    @Autowired
+    private LoginService loginService;
 
 
-    @RequestMapping(value = "/access", method = RequestMethod.POST)
-    public ApiResult access(String appId) {
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ApiResult login(String appId,String code) {
 
-        if (isNull(appId)) {
+        if (isNull(appId)||isNull(code)) {
             return new ApiResult(false, "9015");
         }
 
-        return accessService.access(appId);
+        return loginService.login(appId,code);
     }
 
 
     @RequestMapping(value = "/getParam", method = RequestMethod.GET)
-    public ApiResult getParam(String accessToken) {
+    public ApiResult getParam(String openId) {
 
-        if (isNull(accessToken)) {
+        if (isNull(openId)) {
             return new ApiResult(false, "9015");
         }
-        return systemService.getParam(accessToken);
+        return systemService.getParam(openId);
     }
 
 
     @RequestMapping(value = "/getIndex", method = RequestMethod.GET)
-    public ApiResult getIndex(String accessToken) {
+    public ApiResult getIndex(String openId) {
 
-        if (isNull(accessToken)) {
+        if (isNull(openId)) {
             return new ApiResult(false, "9015");
         }
-        return systemService.getIndex(accessToken);
+        return systemService.getIndex(openId);
     }
 
 

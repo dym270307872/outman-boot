@@ -264,6 +264,15 @@ public class RedisTemplateImp implements CacheInterface {
                     if (value == null) {
                         return null;
                     }
+                    byte[] head = new byte[DEFALUTHEAD.length];
+                    System.arraycopy(value, 0, head, 0, DEFALUTHEAD.length);
+                    if (Arrays.equals(head, DEFALUTHEAD)) {
+                        byte[] body = new byte[value.length - DEFALUTHEAD.length];
+                        System.arraycopy(value, DEFALUTHEAD.length, body, 0,
+                                value.length - DEFALUTHEAD.length);
+                        body = AesUtil.decrypt(body);
+                        return SerializeUtil.unSerialize(body);
+                    }
                     return SerializeUtil.unSerialize(value);
                 }
             });

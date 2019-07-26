@@ -50,13 +50,6 @@ public class Hy01Service extends BaseService {
             } else {
                 throw new AppServiceException("9021");
             }
-
-			/*if (cacheDao.exists("cache:openId:" + openId)) {
-				Map map = (Map) cacheDao.getCacheData("cache:openId:" + openId);
-				dataResult.setData(map);
-			} else {
-				return new DataResult(false, "9021");
-			}*/
         } catch (Exception e) {
             throw new AppServiceException(e.getMessage());
         }
@@ -82,7 +75,7 @@ public class Hy01Service extends BaseService {
     }
 
     @CacheEvict(value = "userInfo", key = "'userInfo:'+  #openId")
-    public DataResult binding(String acbb002, String openId, String hya011, String hya003) {
+    public DataResult binding(String openId, String hya011, String hya003) {
         DataResult dataResult = new DataResult();
         try {
             //根据手机号查询用户信息
@@ -94,7 +87,7 @@ public class Hy01Service extends BaseService {
                     Acb02 acb02 = new Acb02();
                     acb02.setHya001(hy01.getHya001());
                     acb02.setCreater(hy01.getHya001());
-                    acb02.setAcbb002(acbb002);
+                    acb02.setAcbb002(getSqId(openId));
                     acb02.setAcbb003(openId);
                     ApiResult result = acb02Service.toBind(acb02);
 
@@ -113,14 +106,18 @@ public class Hy01Service extends BaseService {
             } else {
                 return new DataResult(false, "9016");
             }
+        } catch (AppServiceException e) {
+//            e.printStackTrace();
+            dataResult = new DataResult(false,e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            dataResult = new DataResult(false,"9999");
         }
         return dataResult;
     }
 
     @CacheEvict(value = "userInfo", key = "'userInfo:'+  #openId")
-    public ApiResult unbind(String acbb002, String openId, String hya003) {
+    public ApiResult unbind(String openId, String hya003) {
         ApiResult apiResult = new ApiResult();
         try {
             //根据openId查询用户信息

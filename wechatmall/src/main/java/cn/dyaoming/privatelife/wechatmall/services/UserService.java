@@ -3,21 +3,16 @@ package cn.dyaoming.privatelife.wechatmall.services;
 
 import cn.dyaoming.models.ApiResult;
 import cn.dyaoming.models.DataResult;
-import cn.dyaoming.privatelife.wechatmall.mappers.Hy03Mapper;
 import cn.dyaoming.privatelife.wechatmall.models.HyInfo;
 import cn.dyaoming.privatelife.wechatmall.models.Sq01;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 
 @Service
 public class UserService extends BaseService {
 
-    @Autowired
-    private AccessService accessService;
     @Autowired
     private Hy01Service hy01Service;
     @Autowired
@@ -26,12 +21,12 @@ public class UserService extends BaseService {
     private Acb02Service acb02Service;
 
 
-    public ApiResult register(String accessToken, String phoneNumber, String password) {
+    public ApiResult register(String openId, String phoneNumber, String password) {
         ApiResult apiResult = new ApiResult();
         try {
-            if (accessService.check(accessToken)) {
-                phoneNumber = accessService.decrypt(accessToken, phoneNumber);
-                password = accessService.decrypt(accessToken, password);
+            if (checkSession(openId)) {
+                phoneNumber = getDecryptParam(openId, phoneNumber);
+                password = getDecryptParam(openId, password);
             } else {
                 return new DataResult(false, "9011");
             }
@@ -45,11 +40,11 @@ public class UserService extends BaseService {
     }
 
 
-    public DataResult getUserInfo(String accessToken, String openId) {
+    public DataResult getUserInfo(String openId) {
         DataResult dataResult = new DataResult();
         try {
-            if (accessService.check(accessToken)) {
-                openId = accessService.decrypt(accessToken, openId);
+            if (checkSession(openId)) {
+                openId = getDecryptParam(openId, openId);
             } else {
                 dataResult = new DataResult(false, "9011");
             }
@@ -64,19 +59,16 @@ public class UserService extends BaseService {
     }
 
 
-    public DataResult binding(String accessToken, String openId, String phoneNumber,
-                              String password) {
+    public DataResult binding(String openId, String phoneNumber, String password) {
         DataResult dataResult = new DataResult();
         try {
-            if (accessService.check(accessToken)) {
-                openId = accessService.decrypt(accessToken, openId);
-                phoneNumber = accessService.decrypt(accessToken, phoneNumber);
-                password = accessService.decrypt(accessToken, password);
-
+            if (checkSession(openId)) {
+                phoneNumber = getDecryptParam(openId, phoneNumber);
+                password = getDecryptParam(openId, password);
             } else {
                 return new DataResult(false, "9011");
             }
-            Sq01 sq01 = accessService.getSqInfo(accessToken);
+
             //判断是否已经绑定
             if (acb02Service.checkBind(openId).isFlag()) {
                 //微信已绑定用户账号
@@ -91,12 +83,12 @@ public class UserService extends BaseService {
 
             } else {
                 //未绑定，继续验证数据库判断用户账号是否绑定其他微信
-                if (acb02Service.checkBindByHy(sq01.getSqa001(), phoneNumber).isFlag()) {
+                if (acb02Service.checkBindByHy(openId, phoneNumber).isFlag()) {
                     //用户账号已绑定其他微信
                     return new DataResult(false, "9024");
                 } else {
                     //用户账号未绑定其他微信即用户和微信都处于未绑定状态
-                    return hy01Service.binding(sq01.getSqa001(), openId, phoneNumber, password);
+                    return hy01Service.binding(openId, phoneNumber, password);
                 }
 
             }
@@ -109,19 +101,16 @@ public class UserService extends BaseService {
     }
 
 
-    public ApiResult unbind(String accessToken, String openId, String password) {
+    public ApiResult unbind(String openId, String password) {
         ApiResult apiResult = new ApiResult();
         try {
-            if (accessService.check(accessToken)) {
-                openId = accessService.decrypt(accessToken, openId);
-                password = accessService.decrypt(accessToken, password);
-
+            if (checkSession(openId)) {
+                password = getDecryptParam(openId, password);
             } else {
                 return new ApiResult(false, "9011");
             }
-            Sq01 sq01 = accessService.getSqInfo(accessToken);
             //操作解绑逻辑
-            apiResult = hy01Service.unbind(sq01.getSqa001(), openId, password);
+            apiResult = hy01Service.unbind(openId, password);
         } catch (Exception e) {
             e.printStackTrace();
             apiResult = new DataResult(false, e.getMessage());
@@ -130,13 +119,12 @@ public class UserService extends BaseService {
     }
 
 
-    public ApiResult changeUserInfo(String accessToken, String openId, String changeType, String changeInfo) {
+    public ApiResult changeUserInfo(String openId, String changeType, String changeInfo) {
         ApiResult apiResult = new ApiResult();
         try {
-            if (accessService.check(accessToken)) {
-                openId = accessService.decrypt(accessToken, openId);
-                changeType = accessService.decrypt(accessToken, changeType);
-                changeInfo = accessService.decrypt(accessToken, changeInfo);
+            if (checkSession(openId)) {
+                changeType = getDecryptParam(openId, changeType);
+                changeInfo = getDecryptParam(openId, changeInfo);
 
             } else {
                 return new ApiResult(false, "9011");
@@ -150,13 +138,10 @@ public class UserService extends BaseService {
     }
 
 
-    public DataResult getBalance(String accessToken, String openId) {
+    public DataResult getBalance(String openId) {
         DataResult dataResult = new DataResult();
         try {
-            if (accessService.check(accessToken)) {
-                openId = accessService.decrypt(accessToken, openId);
-
-            } else {
+            if (!checkSession(openId)) {
                 return new DataResult(false, "9011");
             }
 
@@ -169,12 +154,11 @@ public class UserService extends BaseService {
     }
 
 
-    public DataResult getBalanceMx(String accessToken, String openId, String type) {
+    public DataResult getBalanceMx(String openId, String type) {
         DataResult dataResult = new DataResult();
         try {
-            if (accessService.check(accessToken)) {
-                openId = accessService.decrypt(accessToken, openId);
-                type = accessService.decrypt(accessToken, type);
+            if (checkSession(openId)) {
+                type = getDecryptParam(openId, type);
             } else {
                 return new DataResult(false, "9011");
             }
@@ -188,11 +172,11 @@ public class UserService extends BaseService {
     }
 
 
-    public DataResult getReserveInfo(String accessToken, String openId) {
+    public DataResult getReserveInfo(String openId) {
         DataResult dataResult = new DataResult();
         try {
-            if (accessService.check(accessToken)) {
-                openId = accessService.decrypt(accessToken, openId);
+            if (checkSession(openId)) {
+                openId = getDecryptParam(openId, openId);
 
             } else {
                 return new DataResult(false, "9011");
@@ -207,15 +191,14 @@ public class UserService extends BaseService {
     }
 
 
-    public ApiResult changeReserveInfo(String accessToken, String openId, String type, String state, String ydgz, String remarks) {
+    public ApiResult changeReserveInfo(String openId, String type, String state, String ydgz, String remarks) {
         ApiResult apiResult = new ApiResult();
         try {
-            if (accessService.check(accessToken)) {
-                openId = accessService.decrypt(accessToken, openId);
-                type = accessService.decrypt(accessToken, type);
-                state = accessService.decrypt(accessToken, state);
-                ydgz = accessService.decrypt(accessToken, ydgz);
-                remarks = accessService.decrypt(accessToken, remarks);
+            if (checkSession(openId)) {
+                type = getDecryptParam(openId, type);
+                state = getDecryptParam(openId, state);
+                ydgz = getDecryptParam(openId, ydgz);
+                remarks = getDecryptParam(openId, remarks);
 
             } else {
                 return new ApiResult(false, "9011");
@@ -234,13 +217,10 @@ public class UserService extends BaseService {
     }
 
 
-    public DataResult getAddress(String accessToken, String openId) {
+    public DataResult getAddress(String openId) {
         DataResult dataResult = new DataResult();
         try {
-            if (accessService.check(accessToken)) {
-                openId = accessService.decrypt(accessToken, openId);
-
-            } else {
+            if (!checkSession(openId)) {
                 return new DataResult(false, "9011");
             }
 
@@ -253,16 +233,15 @@ public class UserService extends BaseService {
     }
 
 
-    public ApiResult changeAddress(String accessToken, String openId, String addressId, String mrbz, String name, String phoneNum, String address) {
+    public ApiResult changeAddress(String openId, String addressId, String mrbz, String name, String phoneNum, String address) {
         ApiResult apiResult = new ApiResult();
         try {
-            if (accessService.check(accessToken)) {
-                openId = accessService.decrypt(accessToken, openId);
-                addressId = accessService.decrypt(accessToken, addressId);
-                mrbz = accessService.decrypt(accessToken, mrbz);
-                name = accessService.decrypt(accessToken, name);
-                phoneNum = accessService.decrypt(accessToken, phoneNum);
-                address = accessService.decrypt(accessToken, address);
+            if (checkSession(openId)) {
+                addressId = getDecryptParam(openId, addressId);
+                mrbz = getDecryptParam(openId, mrbz);
+                name = getDecryptParam(openId, name);
+                phoneNum = getDecryptParam(openId, phoneNum);
+                address = getDecryptParam(openId, address);
 
             } else {
                 return new ApiResult(false, "9011");
@@ -277,12 +256,11 @@ public class UserService extends BaseService {
     }
 
 
-    public ApiResult deleteAddress(String accessToken, String openId, String addressId) {
+    public ApiResult deleteAddress(String openId, String addressId) {
         ApiResult apiResult = new ApiResult();
         try {
-            if (accessService.check(accessToken)) {
-                openId = accessService.decrypt(accessToken, openId);
-                addressId = accessService.decrypt(accessToken, addressId);
+            if (checkSession(openId)) {
+                addressId = getDecryptParam(openId, addressId);
 
             } else {
                 return new ApiResult(false, "9011");

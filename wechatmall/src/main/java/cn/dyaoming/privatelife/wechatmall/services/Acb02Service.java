@@ -60,10 +60,11 @@ public class Acb02Service extends BaseService {
 
 
 //	@Cacheable(value ="userInfo",key = "'checkBindByHy:'+  #hya001")
-	public DataResult checkBindByHy(String acbb002,String hya001){
+	public DataResult checkBindByHy(String openId,String hya001){
 		DataResult dataResult = new DataResult();
 		try {
-			Acb02 acb02 = acb02Mapper.findBindByHy(acbb002,hya001);
+
+			Acb02 acb02 = acb02Mapper.findBindByHy(getSqId(openId),hya001);
 			if(acb02!=null){
 				dataResult.setData(acb02);
 			}else{
@@ -76,9 +77,7 @@ public class Acb02Service extends BaseService {
 	}
 
 	@Transactional
-//	TODO 需要编写缓存逻辑刷新缓存。
 	@CacheEvict(value = "userInfo",key = "'checkBind:'+  #acb02.acbb003")
-//	@CacheEvict(value = "userInfo",key = "'checkBindByHy:'+  #acb02.hya001")
 	public ApiResult unbind(Acb02 acb02){
 		ApiResult apiResult = new ApiResult();
 		try{

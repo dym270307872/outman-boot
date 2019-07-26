@@ -7,13 +7,11 @@ import cn.dyaoming.privatelife.wechatmall.mappers.Dd02Mapper;
 import cn.dyaoming.privatelife.wechatmall.mappers.Pt01Mapper;
 import cn.dyaoming.privatelife.wechatmall.mappers.Sp01Mapper;
 import cn.dyaoming.privatelife.wechatmall.models.*;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +21,6 @@ import java.util.Map;
 @Service
 public class ShopService extends BaseService {
 
-	@Autowired
-	private AccessService accessService;
 
 	@Autowired
 	private Sp01Mapper   sp01Mapper;
@@ -40,15 +36,15 @@ public class ShopService extends BaseService {
 
 
 	@Cacheable("publicInfo")
-	public DataResult getGoodsList(String accessToken, String goodsName, String goodsType,
+	public DataResult getGoodsList(String openId, String goodsName, String goodsType,
 			String type) {
 		DataResult dataResult = new DataResult();
 		try {
 
-			if (accessService.check(accessToken)) {
-				goodsName = accessService.decrypt(accessToken, goodsName);
-				goodsType = accessService.decrypt(accessToken, goodsType);
-				type = accessService.decrypt(accessToken, type);
+			if (checkSession(openId)) {
+				goodsName = getDecryptParam(openId, goodsName);
+				goodsType = getDecryptParam(openId, goodsType);
+				type = getDecryptParam(openId, type);
 			} else {
 				return new DataResult(false, "9011");
 			}
@@ -94,12 +90,12 @@ public class ShopService extends BaseService {
 
 
 	@Cacheable("publicInfo")
-	public DataResult getGoods(String accessToken, String goodsId) {
+	public DataResult getGoods(String openId, String goodsId) {
 		DataResult dataResult = new DataResult();
 		try {
 
-			if (accessService.check(accessToken)) {
-				goodsId = accessService.decrypt(accessToken, goodsId);
+			if (checkSession(openId)) {
+				goodsId = getDecryptParam(openId, goodsId);
 			} else {
 				return new DataResult(false, "9011");
 			}
@@ -117,13 +113,13 @@ public class ShopService extends BaseService {
 
 
 	@Cacheable("businessInfo")
-	public DataResult getOrderList(String accessToken, String openId, String type, int pageNum) {
+	public DataResult getOrderList(String openId, String type, int pageNum) {
 		DataResult dataResult = new DataResult();
 		try {
 
-			if (accessService.check(accessToken)) {
-				openId = accessService.decrypt(accessToken, openId);
-				type = accessService.decrypt(accessToken, type);
+			if (checkSession(openId)) {
+				openId = getDecryptParam(openId, openId);
+				type = getDecryptParam(openId, type);
 			} else {
 				return new DataResult(false, "9011");
 			}
@@ -157,13 +153,13 @@ public class ShopService extends BaseService {
 
 
 //	@Cacheable("businessInfo")
-	public DataResult getOrderInfo(String accessToken, String openId, String orderId) {
+	public DataResult getOrderInfo(String openId, String orderId) {
 		DataResult dataResult = new DataResult();
 		try {
 
-			if (accessService.check(accessToken)) {
-				openId = accessService.decrypt(accessToken, openId);
-				orderId = accessService.decrypt(accessToken, orderId);
+			if (checkSession(openId)) {
+				openId = getDecryptParam(openId, openId);
+				orderId = getDecryptParam(openId, orderId);
 			} else {
 				return new DataResult(false, "9011");
 			}
@@ -201,12 +197,12 @@ public class ShopService extends BaseService {
 
 
 	@Cacheable("publicInfo")
-	public DataResult getSnapshot(String accessToken, String snapshotId) {
+	public DataResult getSnapshot(String openId, String snapshotId) {
 		DataResult dataResult = new DataResult();
 		try {
 
-			if (accessService.check(accessToken)) {
-				snapshotId = accessService.decrypt(accessToken, snapshotId);
+			if (checkSession(openId)) {
+				snapshotId = getDecryptParam(openId, snapshotId);
 			} else {
 				return new DataResult(false, "9011");
 			}

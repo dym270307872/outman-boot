@@ -18,13 +18,13 @@ public class ShopController extends BaseController {
     private ShopService shopService;
 
     @RequestMapping(value = "/getGoodsList", method = RequestMethod.GET)
-    public ApiResult getGoodsList(String accessToken, String goodsName, String goodsType, String type) {
+    public ApiResult getGoodsList(String openId, String goodsName, String goodsType, String type) {
         ApiResult apiResult = new ApiResult();
         try{
-            if (isNull(accessToken)) {
+            if (isNull(openId)) {
                 return new ApiResult(false, "9015");
             }
-            return shopService.getGoodsList(accessToken,goodsName,goodsType,type);
+            return shopService.getGoodsList(openId,goodsName,goodsType,type);
         }catch (Exception e){
             e.printStackTrace();
             apiResult = new ApiResult(false,"9999");
@@ -34,13 +34,13 @@ public class ShopController extends BaseController {
 
 
     @RequestMapping(value = "/getGoods", method = RequestMethod.GET)
-    public ApiResult getGoods(String accessToken, String goodsId) {
+    public ApiResult getGoods(String openId, String goodsId) {
         ApiResult apiResult = new ApiResult();
         try{
-            if (isNull(accessToken) || isNull(goodsId)) {
+            if (isNull(openId) || isNull(goodsId)) {
                 return new ApiResult(false, "9015");
             }
-            return shopService.getGoods(accessToken,goodsId);
+            return shopService.getGoods(openId,goodsId);
         }catch (Exception e){
             e.printStackTrace();
             apiResult = new ApiResult(false,"9999");
@@ -50,16 +50,16 @@ public class ShopController extends BaseController {
 
 
     @RequestMapping(value = "/getOrderList", method = RequestMethod.GET)
-    public ApiResult getOrderList(String accessToken, String openId,String type,int pageNum) {
+    public ApiResult getOrderList(String openId,String type,int pageNum) {
         ApiResult apiResult = new ApiResult();
         try{
-            if (isNull(accessToken) || isNull(openId)) {
+            if (isNull(openId)) {
                 return new ApiResult(false, "9015");
             }
 			if(isNull(pageNum)||pageNum<1){
 				pageNum = 1;
 			}
-            return shopService.getOrderList(accessToken,openId,type,pageNum);
+            return shopService.getOrderList(openId,type,pageNum);
         }catch (Exception e){
             e.printStackTrace();
             apiResult = new ApiResult(false,"9999");
@@ -69,13 +69,13 @@ public class ShopController extends BaseController {
 
 
     @RequestMapping(value = "/getOrderInfo", method = RequestMethod.GET)
-    public ApiResult getOrderInfo(String accessToken, String openId,String orderId) {
+    public ApiResult getOrderInfo(String openId,String orderId) {
         ApiResult apiResult = new ApiResult();
         try{
-            if (isNull(accessToken) || isNull(openId) || isNull(orderId)) {
+            if (isNull(openId) || isNull(orderId)) {
                 return new ApiResult(false, "9015");
             }
-            return shopService.getOrderInfo(accessToken,openId,orderId);
+            return shopService.getOrderInfo(openId,orderId);
         }catch (Exception e){
             e.printStackTrace();
             apiResult = new ApiResult(false,"9999");
@@ -86,13 +86,13 @@ public class ShopController extends BaseController {
 
 
     @RequestMapping(value = "/getSnapshot", method = RequestMethod.GET)
-    public ApiResult getSnapshot(String accessToken, String snapshotId) {
+    public ApiResult getSnapshot(String openId, String snapshotId) {
         ApiResult apiResult = new ApiResult();
         try{
-            if (isNull(accessToken) || isNull(snapshotId)) {
+            if (isNull(openId) || isNull(snapshotId)) {
                 return new ApiResult(false, "9015");
             }
-            return shopService.getSnapshot(accessToken,snapshotId);
+            return shopService.getSnapshot(openId,snapshotId);
         }catch (Exception e){
             e.printStackTrace();
             apiResult = new ApiResult(false,"9999");
