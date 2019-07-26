@@ -13,9 +13,9 @@ public class TestWeChat extends BaseJunit {
 
     @Test
     public void min() {
-        String appid = "wxb4724704dfdf11e7";
+//        String appid = "wxb4724704dfdf11e7";
 //        String secret = "57e73b3eef309f063b52f900072f7e1c";
-        System.out.println(weChatServer.login(appid,"071cASKY1gM9OT0YkwIY1DIVKY1cASKL"));
+//        System.out.println(weChatServer.login(appid,"071cASKY1gM9OT0YkwIY1DIVKY1cASKL"));
 //        System.out.println(JSON.toJSON(weChatAccess));
     }
 }
