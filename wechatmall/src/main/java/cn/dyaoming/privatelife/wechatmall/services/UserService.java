@@ -227,7 +227,7 @@ public class UserService extends BaseService {
             dataResult = hy03Service.getAddress(openId);
         } catch (Exception e) {
             e.printStackTrace();
-            dataResult = new DataResult(false, "9999");
+            dataResult = new DataResult(false, e.getMessage());
         }
         return dataResult;
     }
@@ -250,7 +250,7 @@ public class UserService extends BaseService {
             apiResult = hy03Service.changeAddress(openId, addressId, mrbz, name, phoneNum, address);
         } catch (Exception e) {
             e.printStackTrace();
-            apiResult = new ApiResult(false, "9999");
+            apiResult = new ApiResult(false, e.getMessage());
         }
         return apiResult;
     }
@@ -269,7 +269,7 @@ public class UserService extends BaseService {
             apiResult = hy03Service.deleteAddress(openId, addressId);
         } catch (Exception e) {
             e.printStackTrace();
-            apiResult = new ApiResult(false, "9999");
+            apiResult = new ApiResult(false, e.getMessage());
         }
         return apiResult;
     }
