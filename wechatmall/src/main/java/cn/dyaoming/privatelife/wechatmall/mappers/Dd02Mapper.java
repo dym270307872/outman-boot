@@ -17,4 +17,7 @@ public interface Dd02Mapper extends Mapper<Dd02> {
 
     @Select("select * from dd02 where ddb001=#{ddb001} and ddb016='1'")
     Dd02 selectById(@Param("ddb001") String ddb001);
+
+
+    int batchInsert(List<Dd02> dd02List);
 }
