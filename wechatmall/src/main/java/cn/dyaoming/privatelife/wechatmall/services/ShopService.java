@@ -1,6 +1,7 @@
 package cn.dyaoming.privatelife.wechatmall.services;
 
 
+import cn.dyaoming.models.ApiResult;
 import cn.dyaoming.models.DataResult;
 import cn.dyaoming.privatelife.wechatmall.mappers.Dd01Mapper;
 import cn.dyaoming.privatelife.wechatmall.mappers.Dd02Mapper;
@@ -8,9 +9,11 @@ import cn.dyaoming.privatelife.wechatmall.mappers.Pt01Mapper;
 import cn.dyaoming.privatelife.wechatmall.mappers.Sp01Mapper;
 import cn.dyaoming.privatelife.wechatmall.models.*;
 import com.github.pagehelper.PageHelper;
+import com.google.protobuf.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,7 +113,45 @@ public class ShopService extends BaseService {
 		return dataResult;
 	}
 
+	@Transactional
+	public DataResult sendOrder(String openId, String name,String phoneNum,String address,String remark,String ydsj,String[] goodsList){
+		DataResult dataResult = new DataResult();
+		try{
+			if (checkSession(openId)) {
+				name = getDecryptParam(openId, name);
+				phoneNum = getDecryptParam(openId, phoneNum);
+				address = getDecryptParam(openId, address);
+				remark = getDecryptParam(openId, remark);
+				ydsj = getDecryptParam(openId, ydsj);
+			} else {
+				return new DataResult(false, "9011");
+			}
+			//获取用户编号
 
+
+			//效验商品参数
+
+
+			//填充订单内容
+			Dd01 dd01 = new Dd01();
+			dd01.setDda001(dd01Mapper.autoKey());
+			dd01.setDda002();
+
+
+			//保存数据
+
+//			返回订单编号
+
+
+
+
+
+
+		}catch(Exception e){
+ 			e.printStackTrace();
+		}
+		return dataResult;
+	}
 
 	@Cacheable("businessInfo")
 	public DataResult getOrderList(String openId, String type, int pageNum) {

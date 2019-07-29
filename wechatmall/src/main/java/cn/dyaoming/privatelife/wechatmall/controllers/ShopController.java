@@ -49,6 +49,28 @@ public class ShopController extends BaseController {
     }
 
 
+    @RequestMapping(value = "/sendOrder", method = RequestMethod.POST)
+    public ApiResult sendOrder(String openId, String name,String phoneNum,String address,String remark,String ydsj,String[] goodsList) {
+        ApiResult apiResult = new ApiResult();
+        try{
+            //示例：goodsList： ["2019072821351|5","2019072821350|2","2019072821355|1","2019072821358|1"]
+            if (isNull(openId)) {
+                return new ApiResult(false, "9015");
+            }else if(isNull(name)){
+                return new ApiResult(false, "9015","收货人姓名不能为空");
+            }else if(isNull(phoneNum)){
+                return new ApiResult(false, "9015","收货人电话不能为空");
+            }else if(isNull(address)){
+                return new ApiResult(false, "9015","收货地址不能为空");
+            }
+            return shopService.sendOrder(openId,name,phoneNum,address,remark,ydsj,goodsList);
+        }catch (Exception e){
+            e.printStackTrace();
+            apiResult = new ApiResult(false,"9999");
+        }
+        return apiResult;
+    }
+
     @RequestMapping(value = "/getOrderList", method = RequestMethod.GET)
     public ApiResult getOrderList(String openId,String type,int pageNum) {
         ApiResult apiResult = new ApiResult();
