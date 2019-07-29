@@ -3,13 +3,15 @@ package cn.dyaoming.privatelife.wechatmall.services;
 
 import cn.dyaoming.models.ApiResult;
 import cn.dyaoming.models.DataResult;
-import cn.dyaoming.privatelife.wechatmall.mappers.Dd01Mapper;
-import cn.dyaoming.privatelife.wechatmall.mappers.Dd02Mapper;
-import cn.dyaoming.privatelife.wechatmall.mappers.Pt01Mapper;
-import cn.dyaoming.privatelife.wechatmall.mappers.Sp01Mapper;
+import cn.dyaoming.privatelife.wechatmall.mappers.*;
 import cn.dyaoming.privatelife.wechatmall.models.*;
+import cn.dyaoming.privatelife.wechatmall.utils.TimeUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.google.protobuf.Api;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.util.Objects.isNull;
 
 
 @Service
@@ -35,6 +41,8 @@ public class ShopService extends BaseService {
 	private Dd02Mapper   dd02Mapper;
 	@Autowired
 	private Acb02Service acb02Service;
+	@Autowired
+	private Hy01Service hy01Service;
 
 
 
@@ -114,29 +122,47 @@ public class ShopService extends BaseService {
 	}
 
 	@Transactional
-	public DataResult sendOrder(String openId, String name,String phoneNum,String address,String remark,String ydsj,String[] goodsList){
+	public DataResult sendOrder(String openId, String param){
 		DataResult dataResult = new DataResult();
 		try{
 			if (checkSession(openId)) {
-				name = getDecryptParam(openId, name);
-				phoneNum = getDecryptParam(openId, phoneNum);
-				address = getDecryptParam(openId, address);
-				remark = getDecryptParam(openId, remark);
-				ydsj = getDecryptParam(openId, ydsj);
+				param = getDecryptParam(openId, param);
 			} else {
 				return new DataResult(false, "9011");
 			}
-			//获取用户编号
+			//获取输入参数
+			JSONObject map = JSON.parseObject(param);
 
+			if(isNull(map.get("name"))){
+				return new DataResult(false, "9015","收货人姓名不能为空");
+			}else if(isNull(map.get("phoneNum"))){
+				return new DataResult(false, "9015","收货人电话不能为空");
+			}else if(isNull(map.get("address"))){
+				return new DataResult(false, "9015","收货地址不能为空");
+			}else if(!checkDate(map.getString("ydsj"))){
+				return new DataResult(false, "9015","预定时间格式不正确");
+			}
 
+			HyInfo hyInfo =   (HyInfo)hy01Service.getUserInfo(openId).getData();
 			//效验商品参数
+			JSONArray jsonArray = map.getJSONArray("goodsList");
+
 
 
 			//填充订单内容
 			Dd01 dd01 = new Dd01();
 			dd01.setDda001(dd01Mapper.autoKey());
-			dd01.setDda002();
+			dd01.setDda002(hyInfo.getHyId());
+			dd01.setDda003(hyInfo.getHyCardId());
+			dd01.setDda005("1");
+			dd01.setDda006(map.getString("name"));
+			dd01.setDda007(map.getString("phoneNum"));
+			dd01.setDda008(map.getString("address"));
+			dd01.setDda009(map.getString("remark"));
 
+
+			dd01.setDda014(TimeUtil.parse(map.getString("ydsj"),"yyyy-MM-dd"));
+			dd01.setDda015(hyInfo.getHyId());
 
 			//保存数据
 
@@ -159,7 +185,6 @@ public class ShopService extends BaseService {
 		try {
 
 			if (checkSession(openId)) {
-				openId = getDecryptParam(openId, openId);
 				type = getDecryptParam(openId, type);
 			} else {
 				return new DataResult(false, "9011");
@@ -199,7 +224,6 @@ public class ShopService extends BaseService {
 		try {
 
 			if (checkSession(openId)) {
-				openId = getDecryptParam(openId, openId);
 				orderId = getDecryptParam(openId, orderId);
 			} else {
 				return new DataResult(false, "9011");
@@ -255,5 +279,13 @@ public class ShopService extends BaseService {
 			dataResult = new DataResult(false, "9999");
 		}
 		return dataResult;
+	}
+
+
+	private boolean checkDate(String date){
+		String regEx = "([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8])))";
+		Pattern p = Pattern.compile(regEx);
+		Matcher m = p.matcher(date);
+		return m.matches();
 	}
 }

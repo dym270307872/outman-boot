@@ -11,6 +11,10 @@ import java.util.List;
 
 public interface Dd01Mapper extends Mapper<Dd01> {
 
+    @Select("select concat(DATE_FORMAT(sysdate(), '%Y%m%d'),LPAD(autokey('dda001'),6,0))")
+    String autoKey();
+
+
     //TODO 暂时写死的查询条件，后续需要调整
     @Select("select * from dd01 where dda002=#{dda002} /*and dda022='4'*/ and dda026='1' order by dda028 desc")
     List<Dd01> selectOrderList(@Param("dda002") String dda002,@Param("type") String type);

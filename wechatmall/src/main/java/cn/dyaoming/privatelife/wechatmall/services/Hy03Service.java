@@ -39,7 +39,7 @@ public class Hy03Service extends BaseService {
                 List<Map> l_address = hy03Mapper.selectByHy(hya001);
                 dataResult.setData(l_address);
             } else {
-                throw new AppServiceException("9999");
+                throw new AppServiceException("9021");
             }
 
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class Hy03Service extends BaseService {
                     mrbz = "0";
                 }
 
-                if("".equals(addressId)){
+                if ("".equals(addressId)) {
                     Hy03 hy03 = new Hy03();
                     hy03.setHyc001(hy03Mapper.autoKey());
                     hy03.setHyc002(hya001);
@@ -79,14 +79,14 @@ public class Hy03Service extends BaseService {
                     hy03.setHyc019(hya001);
 
                     hy03Mapper.insert(hy03);
-                }else {
+                } else {
 
 
                     hy03Mapper.changeAddress(hya001, addressId, mrbz, name, phoneNum, address);
                 }
 
             } else {
-                throw new AppServiceException("9999");
+                throw new AppServiceException("9021");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,10 +107,11 @@ public class Hy03Service extends BaseService {
 
                 hy03Mapper.deleteById(hya001, addressId);
             } else {
-                throw new AppServiceException("9999");
+                throw new AppServiceException("9021");
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new AppServiceException("9999");
         }
         return apiResult;
     }

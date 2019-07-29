@@ -50,20 +50,15 @@ public class ShopController extends BaseController {
 
 
     @RequestMapping(value = "/sendOrder", method = RequestMethod.POST)
-    public ApiResult sendOrder(String openId, String name,String phoneNum,String address,String remark,String ydsj,String[] goodsList) {
+    public ApiResult sendOrder(String openId, String param) {
         ApiResult apiResult = new ApiResult();
         try{
-            //示例：goodsList： ["2019072821351|5","2019072821350|2","2019072821355|1","2019072821358|1"]
+            //param示例：{"name":"董耀明","phoneNum":"18603928785","address":"河南省郑州市金水区","remark":"快点送货","ydsj":"2019-07-30","goodsList":["2019072821351|5","2019072821350|2","2019072821355|1","2019072821358|1"]}
+            param = "{\"name\":\"董耀明\",\"phoneNum\":\"18603928785\",\"address\":\"河南省郑州市金水区\",\"remark\":\"快点送货\",\"ydsj\":\"2019-07-30\",\"goodsList\":[\"2019072821351|5\",\"2019072821350|2\",\"2019072821355|1\",\"2019072821358|1\"]}";
             if (isNull(openId)) {
                 return new ApiResult(false, "9015");
-            }else if(isNull(name)){
-                return new ApiResult(false, "9015","收货人姓名不能为空");
-            }else if(isNull(phoneNum)){
-                return new ApiResult(false, "9015","收货人电话不能为空");
-            }else if(isNull(address)){
-                return new ApiResult(false, "9015","收货地址不能为空");
             }
-            return shopService.sendOrder(openId,name,phoneNum,address,remark,ydsj,goodsList);
+            return shopService.sendOrder(openId,param);
         }catch (Exception e){
             e.printStackTrace();
             apiResult = new ApiResult(false,"9999");
