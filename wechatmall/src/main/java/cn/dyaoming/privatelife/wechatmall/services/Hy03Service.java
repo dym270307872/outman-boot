@@ -42,6 +42,10 @@ public class Hy03Service extends BaseService {
                 throw new AppServiceException("9021");
             }
 
+        } catch (AppServiceException e) {
+//            e.printStackTrace();
+            throw new AppServiceException("9021");
+//            dataResult = new DataResult(false, "9999");
         } catch (Exception e) {
             e.printStackTrace();
             throw new AppServiceException("9999");
@@ -88,6 +92,10 @@ public class Hy03Service extends BaseService {
             } else {
                 throw new AppServiceException("9021");
             }
+        } catch (AppServiceException e) {
+//            e.printStackTrace();
+            throw new AppServiceException("9021");
+//            dataResult = new DataResult(false, "9999");
         } catch (Exception e) {
             e.printStackTrace();
             throw new AppServiceException("9999");
@@ -109,7 +117,11 @@ public class Hy03Service extends BaseService {
             } else {
                 throw new AppServiceException("9021");
             }
-        } catch (Exception e) {
+        }catch (AppServiceException e) {
+//            e.printStackTrace();
+            throw new AppServiceException("9021");
+//            dataResult = new DataResult(false, "9999");
+        }  catch (Exception e) {
             e.printStackTrace();
             throw new AppServiceException("9999");
         }
