@@ -1,7 +1,7 @@
 package cn.dyaoming.privatelife.wechatmall.servers;
 
 import cn.dyaoming.errors.AppServiceException;
-import cn.dyaoming.privatelife.wechatmall.models.Sq01;
+import cn.dyaoming.privatelife.wechatmall.entitys.Sq01;
 import cn.dyaoming.privatelife.wechatmall.models.WeChatAccess;
 import cn.dyaoming.utils.HttpRequestUtil;
 import cn.dyaoming.utils.StringUtil;

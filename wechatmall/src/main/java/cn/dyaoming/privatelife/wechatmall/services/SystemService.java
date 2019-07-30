@@ -3,7 +3,7 @@ package cn.dyaoming.privatelife.wechatmall.services;
 import cn.dyaoming.errors.AppServiceException;
 import cn.dyaoming.models.DataResult;
 import cn.dyaoming.privatelife.wechatmall.mappers.Cs01Mapper;
-import cn.dyaoming.privatelife.wechatmall.models.Cs01;
+import cn.dyaoming.privatelife.wechatmall.entitys.Cs01;
 import cn.dyaoming.privatelife.wechatmall.models.CsInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;

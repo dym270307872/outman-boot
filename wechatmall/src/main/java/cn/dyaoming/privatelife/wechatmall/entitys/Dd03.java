@@ -1,4 +1,4 @@
-package cn.dyaoming.privatelife.wechatmall.models;
+package cn.dyaoming.privatelife.wechatmall.entitys;
 
 
 import javax.persistence.Basic;

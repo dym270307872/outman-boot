@@ -1,7 +1,7 @@
 package cn.dyaoming.privatelife.wechatmall.mappers;
 
 
-import cn.dyaoming.privatelife.wechatmall.models.Hy02;
+import cn.dyaoming.privatelife.wechatmall.entitys.Hy02;
 import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;
 

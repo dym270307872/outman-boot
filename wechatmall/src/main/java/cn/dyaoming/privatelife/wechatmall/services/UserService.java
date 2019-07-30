@@ -4,7 +4,6 @@ package cn.dyaoming.privatelife.wechatmall.services;
 import cn.dyaoming.models.ApiResult;
 import cn.dyaoming.models.DataResult;
 import cn.dyaoming.privatelife.wechatmall.models.HyInfo;
-import cn.dyaoming.privatelife.wechatmall.models.Sq01;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;

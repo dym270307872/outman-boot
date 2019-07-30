@@ -2,9 +2,6 @@ package cn.dyaoming.privatelife.wechatmall.services;
 
 
 import cn.dyaoming.cache.interfaces.CacheInterface;
-import cn.dyaoming.errors.AppServiceException;
-import cn.dyaoming.privatelife.wechatmall.models.Sq01;
-import cn.dyaoming.privatelife.wechatmall.models.WeChatAccess;
 import cn.dyaoming.privatelife.wechatmall.servers.WeChatServer;
 import cn.dyaoming.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;

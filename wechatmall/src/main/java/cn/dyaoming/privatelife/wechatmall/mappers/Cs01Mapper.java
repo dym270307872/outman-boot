@@ -1,7 +1,7 @@
 package cn.dyaoming.privatelife.wechatmall.mappers;
 
 
-import cn.dyaoming.privatelife.wechatmall.models.Cs01;
+import cn.dyaoming.privatelife.wechatmall.entitys.Cs01;
 import tk.mybatis.mapper.common.Mapper;
 
 

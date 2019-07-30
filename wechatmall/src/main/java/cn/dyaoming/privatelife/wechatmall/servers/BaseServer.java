@@ -2,12 +2,9 @@ package cn.dyaoming.privatelife.wechatmall.servers;
 
 import cn.dyaoming.cache.interfaces.CacheInterface;
 import cn.dyaoming.privatelife.wechatmall.mappers.Sq01Mapper;
-import cn.dyaoming.privatelife.wechatmall.models.Sq01;
-import cn.dyaoming.utils.StringUtil;
+import cn.dyaoming.privatelife.wechatmall.entitys.Sq01;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 public class BaseServer {

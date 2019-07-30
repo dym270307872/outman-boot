@@ -1,4 +1,6 @@
-package cn.dyaoming.privatelife.wechatmall.models;
+package cn.dyaoming.privatelife.wechatmall.entitys;
+
+import cn.dyaoming.privatelife.wechatmall.models.CsInfo;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
