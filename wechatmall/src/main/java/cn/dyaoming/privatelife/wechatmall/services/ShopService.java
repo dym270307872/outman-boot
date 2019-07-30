@@ -1,6 +1,8 @@
 package cn.dyaoming.privatelife.wechatmall.services;
 
 
+import cn.dyaoming.errors.AppServiceException;
+import cn.dyaoming.models.ApiResult;
 import cn.dyaoming.models.DataResult;
 import cn.dyaoming.privatelife.wechatmall.entitys.*;
 import cn.dyaoming.privatelife.wechatmall.mappers.*;
@@ -11,6 +13,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +39,8 @@ public class ShopService extends BaseService {
     private Dd01Mapper dd01Mapper;
     @Autowired
     private Dd02Mapper dd02Mapper;
+    @Autowired
+    private Dd03Mapper dd03Mapper;
     @Autowired
     private Acb02Service acb02Service;
     @Autowired
@@ -167,8 +172,8 @@ public class ShopService extends BaseService {
                     dd02List.add(dd02);
                     l_totle.add(sp01.getSpa008().multiply(new BigDecimal(goods[1])));
                 });
-            }catch (Exception e){
-                return new DataResult(false,"9015","查询不到商品信息");
+            } catch (Exception e) {
+                return new DataResult(false, "9015", "查询不到商品信息");
             }
             BigDecimal totle = BigDecimal.ZERO;
             for (BigDecimal big : l_totle) {
@@ -202,12 +207,12 @@ public class ShopService extends BaseService {
             dd02Mapper.batchInsert(dd02List);
 //			返回订单编号
             Map map = new HashMap();
-            map.put("orderId",dda001);
+            map.put("orderId", dda001);
             dataResult.setData(map);
 
         } catch (Exception e) {
             e.printStackTrace();
-            dataResult = new DataResult(false,"9999");
+            dataResult = new DataResult(false, "9999");
         }
         return dataResult;
     }
@@ -292,18 +297,39 @@ public class ShopService extends BaseService {
     }
 
 
-    @Cacheable("publicInfo")
-    public DataResult getSnapshot(String openId, String snapshotId) {
+    @Cacheable("businessInfo")
+    public DataResult getSnapshot(String openId, String snapshotId) throws AppServiceException {
         DataResult dataResult = new DataResult();
         try {
 
             if (checkSession(openId)) {
                 snapshotId = getDecryptParam(openId, snapshotId);
             } else {
-                return new DataResult(false, "9011");
+                throw new AppServiceException("9011");
             }
 
             dataResult.setData(dd02Mapper.selectById(snapshotId).toMx());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new AppServiceException("9999");
+        }
+        return dataResult;
+    }
+
+
+    @Cacheable(value = "businessInfo", key = "'shopCart:' + #openId")
+    public DataResult getShopCart(String openId) {
+        DataResult dataResult = new DataResult();
+        try {
+
+            if (checkSession(openId)) {
+            } else {
+                return new DataResult(false, "9011");
+            }
+            String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
+
+            dataResult.setData(dd03Mapper.getMyCart(hya001));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -313,10 +339,145 @@ public class ShopService extends BaseService {
     }
 
 
+    @Transactional
+    @CacheEvict(value = "businessInfo", key = "'shopCart:' + #openId")
+    public ApiResult addShopCart(String openId, String goodsId, String amount) {
+        ApiResult apiResult = new ApiResult();
+        try {
+
+            if (checkSession(openId)) {
+                goodsId = getDecryptParam(openId, goodsId);
+                amount = getDecryptParam(openId, amount);
+
+                if (!checkNum(amount)) {
+                    return new DataResult(false, "9015", "商品数量格式有误！");
+                }
+            } else {
+                return new DataResult(false, "9011");
+            }
+            String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
+
+            Dd03 dd03 = dd03Mapper.find(hya001, goodsId);
+
+            if (dd03 != null) {
+                dd03.setDdc009(dd03.getDdc009().add(new BigDecimal(amount)));
+                dd03Mapper.updateSl(dd03);
+            } else {
+
+                Sp01 sp01 = sp01Mapper.selectById(goodsId);
+                dd03 = new Dd03();
+                dd03.setDdc001(dd03Mapper.autoKey());
+                dd03.setDdc002(hya001);
+                dd03.setDdc004(goodsId);
+                dd03.setDdc005(sp01.getSpa005());
+                dd03.setDdc006(sp01.getSpa006());
+                dd03.setDdc007(sp01.getSpa007());
+                dd03.setDdc008(sp01.getSpa008());
+                dd03.setDdc009(new BigDecimal(amount));
+                dd03.setDdc010(sp01.getSpa009());
+                dd03.setDdc011(sp01.getSpa004());
+                dd03.setDdc016("1");
+                dd03.setDdc018(new Timestamp(new Date().getTime()));
+                dd03.setDdc019(hya001);
+
+                dd03Mapper.insert(dd03);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResult = new DataResult(false, "9999");
+        }
+        return apiResult;
+    }
+
+    @Transactional
+    @CacheEvict(value = "businessInfo", key = "'shopCart:' + #openId")
+    public ApiResult deleteShopCart(String openId, String goodsIds) {
+        ApiResult apiResult = new ApiResult();
+        try {
+
+            if (checkSession(openId)) {
+                goodsIds = getDecryptParam(openId, goodsIds);
+            } else {
+                return new DataResult(false, "9011");
+            }
+            String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
+
+            JSONArray jsonArray = JSON.parseArray(goodsIds);
+
+            List<String> l_goodsId = jsonArray.toJavaList(String.class);
+
+            dd03Mapper.batchDelete(hya001,l_goodsId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResult = new DataResult(false, "9999");
+        }
+        return apiResult;
+    }
+
+
+
+    @Transactional
+    @CacheEvict(value = "businessInfo", key = "'shopCart:' + #openId")
+    public ApiResult changeShopCart(String openId, String goodsId, String amount) {
+        ApiResult apiResult = new ApiResult();
+        try {
+
+            if (checkSession(openId)) {
+                goodsId = getDecryptParam(openId, goodsId);
+                amount = getDecryptParam(openId, amount);
+                if (!checkNum(amount)) {
+                    return new DataResult(false, "9015", "商品数量格式有误！");
+                }
+            } else {
+                return new DataResult(false, "9011");
+            }
+            String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
+
+            Dd03 dd03 = dd03Mapper.find(hya001, goodsId);
+
+            if (dd03 != null) {
+                dd03.setDdc009(new BigDecimal(amount));
+                dd03Mapper.updateSl(dd03);
+            } else {
+                Sp01 sp01 = sp01Mapper.selectById(goodsId);
+                dd03 = new Dd03();
+                dd03.setDdc001(dd03Mapper.autoKey());
+                dd03.setDdc002(hya001);
+                dd03.setDdc004(goodsId);
+                dd03.setDdc005(sp01.getSpa005());
+                dd03.setDdc006(sp01.getSpa006());
+                dd03.setDdc007(sp01.getSpa007());
+                dd03.setDdc008(sp01.getSpa008());
+                dd03.setDdc009(new BigDecimal(amount));
+                dd03.setDdc010(sp01.getSpa009());
+                dd03.setDdc011(sp01.getSpa004());
+                dd03.setDdc016("1");
+                dd03.setDdc018(new Timestamp(new Date().getTime()));
+                dd03.setDdc019(hya001);
+
+                dd03Mapper.insert(dd03);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResult = new DataResult(false, "9999");
+        }
+        return apiResult;
+    }
+
     private boolean checkDate(String date) {
         String regEx = "([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8])))";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(date);
+        return m.matches();
+    }
+
+    private boolean checkNum(String num) {
+        String regEx = "^([0-9]*)|(([0-9]+)([.])([0-9]*))$";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(num);
         return m.matches();
     }
 }

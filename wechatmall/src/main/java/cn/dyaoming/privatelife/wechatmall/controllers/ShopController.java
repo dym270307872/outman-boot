@@ -119,5 +119,65 @@ public class ShopController extends BaseController {
 
 
 
+    @RequestMapping(value = "/getShopCart", method = RequestMethod.GET)
+    public ApiResult getShopCart(String openId) {
+        ApiResult apiResult = new ApiResult();
+        try{
+            if (isNull(openId)) {
+                return new ApiResult(false, "9015");
+            }
+            return shopService.getShopCart(openId);
+        }catch (Exception e){
+            e.printStackTrace();
+            apiResult = new ApiResult(false,e.getMessage());
+        }
+        return apiResult;
+    }
+
+    @RequestMapping(value = "/addShopCart", method = RequestMethod.POST)
+    public ApiResult addShopCart(String openId, String goodsId, String amount) {
+        ApiResult apiResult = new ApiResult();
+        try{
+            if (isNull(openId) || isNull(goodsId)|| isNull(amount)) {
+                return new ApiResult(false, "9015");
+            }
+            return shopService.addShopCart(openId,goodsId,amount);
+        }catch (Exception e){
+            e.printStackTrace();
+            apiResult = new ApiResult(false,e.getMessage());
+        }
+        return apiResult;
+    }
+
+    @RequestMapping(value = "/deleteShopCart", method = RequestMethod.POST)
+    public ApiResult deleteShopCart(String openId, String goodsIds) {
+        ApiResult apiResult = new ApiResult();
+        try{
+            if (isNull(openId) || isNull(goodsIds)) {
+                return new ApiResult(false, "9015");
+            }
+            return shopService.deleteShopCart(openId,goodsIds);
+        }catch (Exception e){
+            e.printStackTrace();
+            apiResult = new ApiResult(false,e.getMessage());
+        }
+        return apiResult;
+    }
+
+
+    @RequestMapping(value = "/changeShopCart", method = RequestMethod.POST)
+    public ApiResult changeShopCart(String openId, String goodsId,String amount) {
+        ApiResult apiResult = new ApiResult();
+        try{
+            if (isNull(openId) || isNull(goodsId) || isNull(amount)) {
+                return new ApiResult(false, "9015");
+            }
+            return shopService.changeShopCart(openId,goodsId,amount);
+        }catch (Exception e){
+            e.printStackTrace();
+            apiResult = new ApiResult(false,e.getMessage());
+        }
+        return apiResult;
+    }
 
 }

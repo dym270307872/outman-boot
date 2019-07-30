@@ -4,6 +4,7 @@ package cn.dyaoming.privatelife.wechatmall.entitys;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -34,7 +35,7 @@ public class Dd03 {
 
 
 
-	@Basic
+	@Id
 	@Column(name = "ddc001", nullable = true, length = 20)
 	public String getDdc001() {
 		return ddc001;
