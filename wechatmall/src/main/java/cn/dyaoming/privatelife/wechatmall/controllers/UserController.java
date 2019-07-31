@@ -5,6 +5,7 @@ import cn.dyaoming.privatelife.wechatmall.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static java.util.Objects.isNull;
@@ -73,11 +74,16 @@ public class UserController extends BaseController {
 
 
     @RequestMapping(value = "/getBalanceMx", method = RequestMethod.GET)
-    public ApiResult getBalanceMx(String openId, String type) {
+    public ApiResult getBalanceMx(String openId, String type,String pageNum) {
         if (isNull(openId)) {
             return new ApiResult(false, "9015");
         }
-        return userService.getBalanceMx(openId, type);
+        if(isNull(pageNum)||"".equals(pageNum)){
+            pageNum = "1";
+        }else if(Integer.valueOf(pageNum)<1){
+            pageNum = "1";
+        }
+        return userService.getBalanceMx(openId, type,Integer.valueOf(pageNum));
     }
 
 

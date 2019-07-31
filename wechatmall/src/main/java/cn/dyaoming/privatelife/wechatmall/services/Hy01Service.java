@@ -12,6 +12,7 @@ import cn.dyaoming.privatelife.wechatmall.mappers.Hy02Mapper;
 import cn.dyaoming.privatelife.wechatmall.models.*;
 import cn.dyaoming.privatelife.wechatmall.utils.EncryptionUtil;
 
+import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -278,7 +279,7 @@ public class Hy01Service extends BaseService {
     }
 
 
-    public DataResult getBalanceMx(String openId, String type) {
+    public DataResult getBalanceMx(String openId, String type,int pageNum) {
         DataResult dataResult = new DataResult();
         try {
             DataResult bdInfo = acb02Service.checkBind(openId);
@@ -286,9 +287,10 @@ public class Hy01Service extends BaseService {
             if (bdInfo.isFlag()) {
                 String hya001 = ((Acb02) bdInfo.getData()).getHya001();
 
+                PageHelper.startPage(pageNum, 10);
                 List<Map> balanceMx = new ArrayList<Map>();
                 if ("01".equals(type) || "02".equals(type)) {
-                    balanceMx = hy01Mapper.findBalanceMx(hya001, type);
+                    balanceMx = hy01Mapper.findBalanceMxByType(hya001, type);
                 }else{
                     balanceMx = hy01Mapper.findBalanceMx(hya001);
                 }

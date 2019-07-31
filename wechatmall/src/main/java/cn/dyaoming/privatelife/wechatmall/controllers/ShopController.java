@@ -6,6 +6,7 @@ import cn.dyaoming.privatelife.wechatmall.services.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static java.util.Objects.isNull;
@@ -67,16 +68,19 @@ public class ShopController extends BaseController {
     }
 
     @RequestMapping(value = "/getOrderList", method = RequestMethod.GET)
-    public ApiResult getOrderList(String openId,String type,int pageNum) {
+    public ApiResult getOrderList(String openId,String type,String pageNum) {
         ApiResult apiResult = new ApiResult();
         try{
             if (isNull(openId)) {
                 return new ApiResult(false, "9015");
             }
-			if(isNull(pageNum)||pageNum<1){
-				pageNum = 1;
+
+            if(isNull(pageNum)||"".equals(pageNum)){
+                pageNum = "1";
+            }else if(Integer.valueOf(pageNum)<1){
+                pageNum = "1";
 			}
-            return shopService.getOrderList(openId,type,pageNum);
+            return shopService.getOrderList(openId,type,Integer.valueOf(pageNum));
         }catch (Exception e){
             e.printStackTrace();
             apiResult = new ApiResult(false,"9999");

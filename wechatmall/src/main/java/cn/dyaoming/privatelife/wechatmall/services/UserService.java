@@ -153,7 +153,7 @@ public class UserService extends BaseService {
     }
 
 
-    public DataResult getBalanceMx(String openId, String type) {
+    public DataResult getBalanceMx(String openId, String type, int pageNum) {
         DataResult dataResult = new DataResult();
         try {
             if (checkSession(openId)) {
@@ -162,7 +162,7 @@ public class UserService extends BaseService {
                 return new DataResult(false, "9011");
             }
 
-            dataResult = hy01Service.getBalanceMx(openId, type);
+            dataResult = hy01Service.getBalanceMx(openId, type, pageNum);
         } catch (Exception e) {
             e.printStackTrace();
             dataResult = new DataResult(false, "9999");
@@ -232,7 +232,7 @@ public class UserService extends BaseService {
     }
 
 
-    public ApiResult changeAddress(String openId, String addressId, String mrbz, String name, String phoneNum,String ssqy,  String address) {
+    public ApiResult changeAddress(String openId, String addressId, String mrbz, String name, String phoneNum, String ssqy, String address) {
         ApiResult apiResult = new ApiResult();
         try {
             if (checkSession(openId)) {
@@ -247,7 +247,7 @@ public class UserService extends BaseService {
                 return new ApiResult(false, "9011");
             }
 
-            apiResult = hy03Service.changeAddress(openId, addressId, mrbz, name, phoneNum,ssqy, address);
+            apiResult = hy03Service.changeAddress(openId, addressId, mrbz, name, phoneNum, ssqy, address);
         } catch (Exception e) {
             e.printStackTrace();
             apiResult = new ApiResult(false, e.getMessage());
