@@ -105,6 +105,20 @@ public class ShopController extends BaseController {
     }
 
 
+    @RequestMapping(value = "/deleteOrder", method = RequestMethod.POST)
+    public ApiResult deleteOrder(String openId,String orderId) {
+        ApiResult apiResult = new ApiResult();
+        try{
+            if (isNull(openId) || isNull(orderId)) {
+                return new ApiResult(false, "9015");
+            }
+            return shopService.deleteOrder(openId,orderId);
+        }catch (Exception e){
+            e.printStackTrace();
+            apiResult = new ApiResult(false,"9999");
+        }
+        return apiResult;
+    }
 
     @RequestMapping(value = "/getSnapshot", method = RequestMethod.GET)
     public ApiResult getSnapshot(String openId, String snapshotId) {
