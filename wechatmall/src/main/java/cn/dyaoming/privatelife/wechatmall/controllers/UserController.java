@@ -109,12 +109,12 @@ public class UserController extends BaseController {
 
 
     @RequestMapping(value = "/changeAddress", method = RequestMethod.POST)
-    public ApiResult changeAddress(String openId, String addressId, String mrbz, String name, String phoneNum, String address) {
+    public ApiResult changeAddress(String openId, String addressId, String mrbz, String name,String ssqy,  String phoneNum, String address) {
 
         if (isNull(openId)) {
             return new ApiResult(false, "9015");
         }
-        return userService.changeAddress(openId, addressId, mrbz, name, phoneNum, address);
+        return userService.changeAddress(openId, addressId, mrbz, name, phoneNum,ssqy, address);
     }
 
 

@@ -232,7 +232,7 @@ public class UserService extends BaseService {
     }
 
 
-    public ApiResult changeAddress(String openId, String addressId, String mrbz, String name, String phoneNum, String address) {
+    public ApiResult changeAddress(String openId, String addressId, String mrbz, String name, String phoneNum,String ssqy,  String address) {
         ApiResult apiResult = new ApiResult();
         try {
             if (checkSession(openId)) {
@@ -240,13 +240,14 @@ public class UserService extends BaseService {
                 mrbz = getDecryptParam(openId, mrbz);
                 name = getDecryptParam(openId, name);
                 phoneNum = getDecryptParam(openId, phoneNum);
+                ssqy = getDecryptParam(openId, ssqy);
                 address = getDecryptParam(openId, address);
 
             } else {
                 return new ApiResult(false, "9011");
             }
 
-            apiResult = hy03Service.changeAddress(openId, addressId, mrbz, name, phoneNum, address);
+            apiResult = hy03Service.changeAddress(openId, addressId, mrbz, name, phoneNum,ssqy, address);
         } catch (Exception e) {
             e.printStackTrace();
             apiResult = new ApiResult(false, e.getMessage());

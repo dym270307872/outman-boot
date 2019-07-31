@@ -57,7 +57,7 @@ public class Hy03Service extends BaseService {
 
     @Transactional
     @CacheEvict(value = "userInfo", key = "'address:'+#openId")
-    public ApiResult changeAddress(String openId, String addressId, String mrbz, String name, String phoneNum, String address) {
+    public ApiResult changeAddress(String openId, String addressId, String mrbz, String name, String phoneNum,String ssqy, String address) {
         ApiResult apiResult = new ApiResult();
         try {
             DataResult bdInfo = acb02Service.checkBind(openId);
@@ -79,6 +79,7 @@ public class Hy03Service extends BaseService {
                     hy03.setHyc007(name);
                     hy03.setHyc008(phoneNum);
                     hy03.setHyc009(address);
+                    hy03.setHyc011(ssqy);
                     hy03.setHyc016("1");
                     hy03.setHyc018(new Timestamp(new Date().getTime()));
                     hy03.setHyc019(hya001);
@@ -87,7 +88,7 @@ public class Hy03Service extends BaseService {
                 } else {
 
 
-                    hy03Mapper.changeAddress(hya001, addressId, mrbz, name, phoneNum, address);
+                    hy03Mapper.changeAddress(hya001, addressId, mrbz, name, phoneNum,ssqy, address);
                 }
 
             } else {

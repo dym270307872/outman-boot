@@ -41,7 +41,7 @@ public class SystemService extends BaseService {
 
                 dataResult.setData(map);
             } else {
-                return new DataResult(false, "9011");
+                throw new AppServiceException("9011");
             }
         } catch (Exception e) {
             e.printStackTrace();
