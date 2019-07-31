@@ -32,15 +32,18 @@ spring:
     testOnReturn: false
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
-mybatis:
-  mapper-locations: classpath:mappings/*Mapper.xml
-  type-aliases-package: cn.dyaoming.privatelife.wechatmall.entitys
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
   redis:
+    ##单服务器
     host: localhost
     port: 6379
-#password:
+
+    #集群版
+#    cluster:
+#      nodes: localhost:6379 #,192.168.159.129:7002,192.168.159.129:7003,192.168.159.129:7004,192.168.159.129:7005,192.168.159.129:7006
+
+    #password:
     database: 0
     timeout: 200
 
@@ -54,3 +57,8 @@ mybatis:
     # 连接池中的最小空闲连接
       min-idle: 0
 
+mybatis:
+  mapper-locations: classpath:mappings/*Mapper.xml
+  type-aliases-package: cn.dyaoming.privatelife.wechatmall.entitys
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
