@@ -288,7 +288,7 @@ public class Hy01Service extends BaseService {
 
                 List<Map> balanceMx = new ArrayList<Map>();
                 if ("01".equals(type) || "02".equals(type)) {
-                    balanceMx = hy01Mapper.findBalanceMx(hya001, type);
+                    balanceMx = hy01Mapper.findBalanceMxByType(hya001, type);
                 }else{
                     balanceMx = hy01Mapper.findBalanceMx(hya001);
                 }
