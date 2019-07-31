@@ -286,13 +286,16 @@ public class Hy01Service extends BaseService {
             if (bdInfo.isFlag()) {
                 String hya001 = ((Acb02) bdInfo.getData()).getHya001();
 
-
+                List<Map> balanceMx = new ArrayList<Map>();
                 if ("01".equals(type) || "02".equals(type)) {
-                    List<Map> balanceMx = hy01Mapper.findBalanceMx(hya001, type);
-                    dataResult.setData(balanceMx);
-                } else {
-                    dataResult = new DataResult(false, "9011");
+                    balanceMx = hy01Mapper.findBalanceMx(hya001, type);
+                }else{
+                    balanceMx = hy01Mapper.findBalanceMx(hya001);
                 }
+
+                dataResult.setData(balanceMx);
+            } else {
+                dataResult = new DataResult(false, "9021");
             }
         } catch (Exception e) {
             e.printStackTrace();

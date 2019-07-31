@@ -33,4 +33,7 @@ public interface Hy01Mapper extends Mapper<Hy01> {
 
 	@Select("select hyf006 'type',hyf011 'je',hyf005 'ye' ,(select CONCAT('消费备注：',bma006) from bm01 where bma001 = hyf020) 'remark',DATE_FORMAT(hyf018,'%Y-%m-%d %H:%i:%s') 'date' from hy06 where hyf002 not in (select t1.hyf002 from hy06 t1 where t1.hyf006='03'  and   t1.hyf003=#{hya001}) and hyf017='1' and hyf006 = #{type} and  hyf003=#{hya001} order by hyf018 desc")
 	List<Map> findBalanceMx(@Param("hya001") String hya001, @Param("type") String type);
+
+	@Select("select hyf006 'type',hyf011 'je',hyf005 'ye' ,(select CONCAT('消费备注：',bma006) from bm01 where bma001 = hyf020) 'remark',DATE_FORMAT(hyf018,'%Y-%m-%d %H:%i:%s') 'date' from hy06 where hyf002 not in (select t1.hyf002 from hy06 t1 where t1.hyf006='03'  and   t1.hyf003=#{hya001}) and hyf017='1' and  hyf003=#{hya001} order by hyf018 desc")
+	List<Map> findBalanceMx(@Param("hya001") String hya001);
 }

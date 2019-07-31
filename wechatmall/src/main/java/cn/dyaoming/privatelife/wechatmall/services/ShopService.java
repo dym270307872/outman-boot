@@ -141,10 +141,13 @@ public class ShopService extends BaseService {
                 return new DataResult(false, "9015", "收货地址不能为空");
             } else if (!checkDate(o_param.getString("ydsj"))) {
                 return new DataResult(false, "9015", "预定时间格式不正确");
+            } else if (isNull(o_param.getString("ssqy"))) {
+                return new DataResult(false, "9015", "所属区域不能为空");
             }
 
             HyInfo hyInfo = (HyInfo) hy01Service.getUserInfo(openId).getData();
             String dda001 = dd01Mapper.autoKey();
+            String ssqy = o_param.getString("ssqy").substring(o_param.getString("ssqy").lastIndexOf(":") + 1);
             //效验商品参数
             JSONArray jsonArray = o_param.getJSONArray("goodsList");
 
@@ -185,6 +188,7 @@ public class ShopService extends BaseService {
             dd01.setDda001(dda001);
             dd01.setDda002(hyInfo.getHyId());
             dd01.setDda003(hyInfo.getHyCardId());
+            dd01.setDda004(ssqy);
             dd01.setDda005("1");
             dd01.setDda006(o_param.getString("name"));
             dd01.setDda007(o_param.getString("phoneNum"));
@@ -216,6 +220,45 @@ public class ShopService extends BaseService {
         }
         return dataResult;
     }
+
+
+    @Transactional
+    public ApiResult deleteOrder(String openId, String orderId) {
+        ApiResult apiResult = new ApiResult();
+        try {
+            if (checkSession(openId)) {
+                orderId = getDecryptParam(openId, orderId);
+            } else {
+                return new ApiResult(false, "9011");
+            }
+
+            String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
+
+            Dd01 dd01 = dd01Mapper.selectById(hya001,orderId);
+
+            if(dd01!=null){
+
+                if("0".equals(dd01.getDda022())){
+                    dd01Mapper.deleteById(hya001,orderId);
+                }else{
+                    return new ApiResult(false, "9026","此订单已复核，不能取消订单，请联系客服取消！");
+                }
+
+            }else{
+                return new ApiResult(false, "9031");
+            }
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResult = new ApiResult(false, "9999");
+        }
+        return apiResult;
+    }
+
+
 
     @Cacheable("businessInfo")
     public DataResult getOrderList(String openId, String type, int pageNum) {
@@ -407,7 +450,7 @@ public class ShopService extends BaseService {
 
             List<String> l_goodsId = jsonArray.toJavaList(String.class);
 
-            dd03Mapper.batchDelete(hya001,l_goodsId);
+            dd03Mapper.batchDelete(hya001, l_goodsId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -415,7 +458,6 @@ public class ShopService extends BaseService {
         }
         return apiResult;
     }
-
 
 
     @Transactional
