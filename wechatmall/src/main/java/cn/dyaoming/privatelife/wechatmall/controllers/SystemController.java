@@ -15,45 +15,51 @@ import static java.util.Objects.isNull;
 @RestController
 @RequestMapping("/api")
 public class SystemController extends BaseController {
-    @Autowired
-    private SystemService systemService;
-    @Autowired
-    private LoginService loginService;
+	@Autowired
+	private SystemService systemService;
+	@Autowired
+	private LoginService  loginService;
 
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ApiResult login(String appId, String code) {
 
-        if (isNull(appId) || isNull(code)) {
-            return new ApiResult(false, "9015");
-        }
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ApiResult login(String appId, String code) {
 
-        return loginService.login(appId, code);
-    }
+		if (isNull(appId) || isNull(code)) {
+			return new ApiResult(false, "9015");
+		}
 
-
-    @RequestMapping(value = "/getParam", method = RequestMethod.GET)
-    public ApiResult getParam(String openId) {
-
-        if (isNull(openId)) {
-            return new ApiResult(false, "9015");
-        }
-        return systemService.getParam(openId);
-    }
+		return loginService.login(appId, code);
+	}
 
 
-    @RequestMapping(value = "/getIndex", method = RequestMethod.GET)
-    public ApiResult getIndex(String openId) {
-        try {
-            if (isNull(openId)) {
-                return new ApiResult(false, "9015");
-            }
-            return systemService.getIndex(openId);
-        } catch (Exception e) {
-            return new ApiResult(false, e.getMessage());
-        }
 
-    }
+	@RequestMapping(value = "/getParam", method = RequestMethod.GET)
+	public ApiResult getParam(String openId) {
+		try {
+			if (isNull(openId)) {
+				return new ApiResult(false, "9015");
+			}
+			return systemService.getParam(openId);
+		} catch(Exception e) {
+			return new ApiResult(false,e.getMessage());
+		}
 
+	}
+
+
+
+	@RequestMapping(value = "/getIndex", method = RequestMethod.GET)
+	public ApiResult getIndex(String openId) {
+		try {
+			if (isNull(openId)) {
+				return new ApiResult(false, "9015");
+			}
+			return systemService.getIndex(openId);
+		} catch(Exception e) {
+			return new ApiResult(false, e.getMessage());
+		}
+
+	}
 
 }
