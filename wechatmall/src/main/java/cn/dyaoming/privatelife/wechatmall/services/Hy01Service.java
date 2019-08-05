@@ -112,10 +112,10 @@ public class Hy01Service extends BaseService {
             }
         } catch (AppServiceException e) {
 //            e.printStackTrace();
-            dataResult = new DataResult(false,e.getMessage());
+            dataResult = new DataResult(false, e.getMessage());
         } catch (Exception e) {
 //            e.printStackTrace();
-            dataResult = new DataResult(false,"9999");
+            dataResult = new DataResult(false, "9999");
         }
         return dataResult;
     }
@@ -259,6 +259,31 @@ public class Hy01Service extends BaseService {
         return apiResult;
     }
 
+
+    @Transactional
+//    @CacheEvict(value = "userInfo", key = "'userInfo:'+  #openId")
+    public ApiResult changePassword(String openId, String oPassword, String nPassword) {
+        ApiResult apiResult = new ApiResult();
+        try {
+            //根据openId查询用户信息
+            String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
+
+            Hy01 hy01 = hy01Mapper.findById(hya001);
+
+            //判断用户名密码是否一致
+            if (hy01.getHya003().equals(EncryptionUtil.encryptPassword(oPassword))) {
+                hy01.setHya003(EncryptionUtil.encryptPassword(nPassword));
+                hy01Mapper.updatePassword(hy01);
+            } else {
+                return new ApiResult(false, "9016");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResult = new ApiResult(false, "9999");
+        }
+        return apiResult;
+    }
+
     public DataResult getBalance(String openId) {
         DataResult dataResult = new DataResult();
         try {
@@ -279,7 +304,7 @@ public class Hy01Service extends BaseService {
     }
 
 
-    public DataResult getBalanceMx(String openId, String type,int pageNum) {
+    public DataResult getBalanceMx(String openId, String type, int pageNum) {
         DataResult dataResult = new DataResult();
         try {
             DataResult bdInfo = acb02Service.checkBind(openId);
@@ -291,7 +316,7 @@ public class Hy01Service extends BaseService {
                 List<Map> balanceMx = new ArrayList<Map>();
                 if ("01".equals(type) || "02".equals(type)) {
                     balanceMx = hy01Mapper.findBalanceMxByType(hya001, type);
-                }else{
+                } else {
                     balanceMx = hy01Mapper.findBalanceMx(hya001);
                 }
 
@@ -368,6 +393,6 @@ public class Hy01Service extends BaseService {
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(ydgz);
         return StringUtils
-				.join(Arrays.asList(m.replaceAll("").split("")).stream().distinct().sorted().collect(Collectors.toList()), ",");
+                .join(Arrays.asList(m.replaceAll("").split("")).stream().distinct().sorted().collect(Collectors.toList()), ",");
     }
 }

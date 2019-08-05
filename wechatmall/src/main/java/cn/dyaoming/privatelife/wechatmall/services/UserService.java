@@ -15,6 +15,8 @@ public class UserService extends BaseService {
     @Autowired
     private Hy01Service hy01Service;
     @Autowired
+    private CardService cardService;
+    @Autowired
     private Hy03Service hy03Service;
     @Autowired
     private Acb02Service acb02Service;
@@ -137,6 +139,25 @@ public class UserService extends BaseService {
     }
 
 
+    public ApiResult changePassword(String openId, String oPassword,String nPassword) {
+        ApiResult apiResult = new ApiResult();
+        try {
+            if (checkSession(openId)) {
+                oPassword = getDecryptParam(openId, oPassword);
+                nPassword = getDecryptParam(openId, nPassword);
+
+            } else {
+                return new ApiResult(false, "9011");
+            }
+            apiResult = hy01Service.changePassword(openId, oPassword, nPassword);
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResult = new ApiResult(false, "9999");
+        }
+        return apiResult;
+    }
+
+
     public DataResult getBalance(String openId) {
         DataResult dataResult = new DataResult();
         try {
@@ -170,6 +191,41 @@ public class UserService extends BaseService {
         return dataResult;
     }
 
+
+    public ApiResult renewalCard(String openId, String cardId, String password) {
+        ApiResult apiResult = new ApiResult();
+        try {
+            if (checkSession(openId)) {
+                cardId = getDecryptParam(openId, cardId);
+                password = getDecryptParam(openId, password);
+            } else {
+                return new DataResult(false, "9011");
+            }
+
+            apiResult = cardService.renewalCard(openId, cardId, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResult = new DataResult(false, "9999");
+        }
+        return apiResult;
+    }
+
+
+    public ApiResult loseCard(String openId) {
+        ApiResult apiResult = new ApiResult();
+        try {
+            if (checkSession(openId)) {
+            } else {
+                return new DataResult(false, "9011");
+            }
+
+            apiResult = cardService.loseCard(openId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            apiResult = new DataResult(false, "9999");
+        }
+        return apiResult;
+    }
 
     public DataResult getReserveInfo(String openId) {
         DataResult dataResult = new DataResult();

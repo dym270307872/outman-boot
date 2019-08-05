@@ -63,6 +63,18 @@ public class UserController extends BaseController {
         return userService.changeUserInfo(openId, changeType, changeInfo);
     }
 
+    //修改密码
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    public ApiResult changePassword(String openId,String oPassword,String nPassword) {
+        try {
+            if (isNull(openId)||isNull(oPassword)||isNull(nPassword)) {
+                return new ApiResult(false, "9015");
+            }
+            return userService.changePassword(openId,oPassword,nPassword);
+        } catch (Exception e) {
+            return new ApiResult(false, e.getMessage());
+        }
+    }
 
     @RequestMapping(value = "/getBalance", method = RequestMethod.GET)
     public ApiResult getBalance(String openId) {
@@ -74,16 +86,44 @@ public class UserController extends BaseController {
 
 
     @RequestMapping(value = "/getBalanceMx", method = RequestMethod.GET)
-    public ApiResult getBalanceMx(String openId, String type,String pageNum) {
+    public ApiResult getBalanceMx(String openId, String type, String pageNum) {
         if (isNull(openId)) {
             return new ApiResult(false, "9015");
         }
-        if(isNull(pageNum)||"".equals(pageNum)){
+        if (isNull(pageNum) || "".equals(pageNum)) {
             pageNum = "1";
-        }else if(Integer.valueOf(pageNum)<1){
+        } else if (Integer.valueOf(pageNum) < 1) {
             pageNum = "1";
         }
-        return userService.getBalanceMx(openId, type,Integer.valueOf(pageNum));
+        return userService.getBalanceMx(openId, type, Integer.valueOf(pageNum));
+    }
+
+
+    //续卡操作
+    @RequestMapping(value = "/renewalCard", method = RequestMethod.POST)
+    public ApiResult renewalCard(String openId, String cardId, String password) {
+        try {
+            if (isNull(openId) || isNull(cardId) || isNull(password)) {
+                return new ApiResult(false, "9015");
+            }
+            return userService.renewalCard(openId, cardId, password);
+        } catch (Exception e) {
+            return new ApiResult(false, e.getMessage());
+        }
+    }
+
+
+    //临时挂失
+    @RequestMapping(value = "/loseCard", method = RequestMethod.POST)
+    public ApiResult loseCard(String openId) {
+        try {
+            if (isNull(openId)) {
+                return new ApiResult(false, "9015");
+            }
+            return userService.loseCard(openId);
+        } catch (Exception e) {
+            return new ApiResult(false, e.getMessage());
+        }
     }
 
 
@@ -115,12 +155,12 @@ public class UserController extends BaseController {
 
 
     @RequestMapping(value = "/changeAddress", method = RequestMethod.POST)
-    public ApiResult changeAddress(String openId, String addressId, String mrbz, String name,String ssqy,  String phoneNum, String address) {
+    public ApiResult changeAddress(String openId, String addressId, String mrbz, String name, String ssqy, String phoneNum, String address) {
 
         if (isNull(openId)) {
             return new ApiResult(false, "9015");
         }
-        return userService.changeAddress(openId, addressId, mrbz, name, phoneNum,ssqy, address);
+        return userService.changeAddress(openId, addressId, mrbz, name, phoneNum, ssqy, address);
     }
 
 
