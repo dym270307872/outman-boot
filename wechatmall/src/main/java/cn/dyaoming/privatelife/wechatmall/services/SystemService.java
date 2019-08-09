@@ -19,7 +19,7 @@ public class SystemService extends BaseService {
     @Autowired
     private Cs01Mapper cs01Mapper;
 
-    @Cacheable("systemInfo")
+    @Cacheable(value = "systemInfo", key = "'systemParam'")
     public DataResult getParam(String openId) throws AppServiceException {
         DataResult dataResult = new DataResult();
         try {
@@ -35,7 +35,7 @@ public class SystemService extends BaseService {
 
                 //会员区域处理
                 if (map.get("HYQY") != null) {
-                    List<CsInfo> hyqy = (List<CsInfo>)map.get("HYQY");
+                    List<CsInfo> hyqy = (List<CsInfo>) map.get("HYQY");
                     map.put("HYQY", JsTreeUtil.transform(hyqy));
                 }
 
@@ -54,7 +54,7 @@ public class SystemService extends BaseService {
     }
 
 
-    @Cacheable(value = "systemInfo",key = "'homeParam'")
+    @Cacheable(value = "systemInfo", key = "'homeParam'")
     public DataResult getIndex(String openId) throws AppServiceException {
         DataResult dataResult = new DataResult();
         try {
@@ -107,10 +107,13 @@ public class SystemService extends BaseService {
                 tj1.put("typeId", "4");
                 List<Map> l_m_1 = new ArrayList<Map>();
                 for (int i = 0; i < 6; i++) {
-                    Map button_map = new HashMap();
-                    button_map.put("image", "/statics/upload/sp00" + i + ".jpg");
-                    button_map.put("goods_id", "201707270018");
-                    l_m_1.add(button_map);
+                    Map goods_map = new HashMap();
+                    goods_map.put("goodsImage", "/statics/upload/sp00" + i + ".jpg");
+                    goods_map.put("goodsId", "201707270018");
+                    goods_map.put("goodsName", "多味葵花籽");
+                    goods_map.put("dj", 8.00);
+                    goods_map.put("gg", "108g");
+                    l_m_1.add(goods_map);
                 }
                 tj1.put("children", l_m_1);
                 l_recommend.add(tj1);
@@ -122,10 +125,13 @@ public class SystemService extends BaseService {
                 tj2.put("typeId", "6");
                 List<Map> l_m_2 = new ArrayList<Map>();
                 for (int i = 0; i < 4; i++) {
-                    Map button_map = new HashMap();
-                    button_map.put("image", "/statics/upload/sp00" + i + ".jpg");
-                    button_map.put("goods_id", "201707270015");
-                    l_m_2.add(button_map);
+                    Map goods_map = new HashMap();
+                    goods_map.put("goodsImage", "/statics/upload/sp00" + i + ".jpg");
+                    goods_map.put("goodsId", "201707270015");
+                    goods_map.put("goodsName", "会员卡（储值卡）");
+                    goods_map.put("dj", 3000*(i+1));
+                    goods_map.put("gg", "张");
+                    l_m_2.add(goods_map);
                 }
                 tj2.put("children", l_m_2);
                 l_recommend.add(tj2);
