@@ -43,6 +43,9 @@ public class SystemService extends BaseService {
             } else {
                 throw new AppServiceException("9011");
             }
+        } catch (AppServiceException e) {
+            e.printStackTrace();
+            throw new AppServiceException(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             throw new AppServiceException("9999");
