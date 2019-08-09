@@ -71,22 +71,22 @@ public class SystemService extends BaseService {
                 Map button_map0 = new HashMap();
                 button_map0.put("image", "/statics/icons/button0.png");
                 button_map0.put("name", "每日十件");
-                button_map0.put("url", "");
+                button_map0.put("url", "/pages/classify/classify");
                 l_button.add(button_map0);
                 Map button_map1 = new HashMap();
                 button_map1.put("image", "/statics/icons/button1.png");
-                button_map1.put("name", "精选蔬菜");
-                button_map1.put("url", "");
+                button_map1.put("name", "精选商品");
+                button_map1.put("url", "/pages/classify/classify");
                 l_button.add(button_map1);
                 Map button_map2 = new HashMap();
                 button_map2.put("image", "/statics/icons/button2.png");
-                button_map2.put("name", "会员预定");
-                button_map2.put("url", "");
+                button_map2.put("name", "我的预定");
+                button_map2.put("url", "/subPackages/member/reserve/reserve");
                 l_button.add(button_map2);
                 Map button_map3 = new HashMap();
                 button_map3.put("image", "/statics/icons/button3.png");
                 button_map3.put("name", "会员中心");
-                button_map3.put("url", "");
+                button_map3.put("url", "/pages/info/info");
                 l_button.add(button_map3);
 
                 map.put("buttons", l_button);
