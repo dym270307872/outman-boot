@@ -75,21 +75,25 @@ public class SystemService extends BaseService {
                 button_map0.put("image", "/statics/icons/button0.png");
                 button_map0.put("name", "每日十件");
                 button_map0.put("url", "/pages/classify/classify");
+                button_map0.put("typeId", "4");
                 l_button.add(button_map0);
                 Map button_map1 = new HashMap();
                 button_map1.put("image", "/statics/icons/button1.png");
                 button_map1.put("name", "精选商品");
                 button_map1.put("url", "/pages/classify/classify");
+                button_map1.put("typeId", "5");
                 l_button.add(button_map1);
                 Map button_map2 = new HashMap();
                 button_map2.put("image", "/statics/icons/button2.png");
                 button_map2.put("name", "我的预定");
                 button_map2.put("url", "/subPackages/member/reserve/reserve");
+                button_map2.put("typeId", "");
                 l_button.add(button_map2);
                 Map button_map3 = new HashMap();
                 button_map3.put("image", "/statics/icons/button3.png");
                 button_map3.put("name", "会员中心");
                 button_map3.put("url", "/pages/info/info");
+                button_map3.put("typeId", "");
                 l_button.add(button_map3);
 
                 map.put("buttons", l_button);
@@ -99,12 +103,13 @@ public class SystemService extends BaseService {
                 Map tj1 = new HashMap();
                 tj1.put("title", "本月新品");
                 tj1.put("image", "/statics/upload/title0.png");
-                tj1.put("typeId", "01");
+                tj1.put("url", "/pages/classify/classify");
+                tj1.put("typeId", "4");
                 List<Map> l_m_1 = new ArrayList<Map>();
                 for (int i = 0; i < 6; i++) {
                     Map button_map = new HashMap();
                     button_map.put("image", "/statics/upload/sp00" + i + ".jpg");
-                    button_map.put("goods_id", "123123" + i);
+                    button_map.put("goods_id", "201707270018");
                     l_m_1.add(button_map);
                 }
                 tj1.put("children", l_m_1);
@@ -113,12 +118,13 @@ public class SystemService extends BaseService {
                 Map tj2 = new HashMap();
                 tj2.put("title", "会员权益");
                 tj2.put("image", "/statics/upload/title1.png");
-                tj2.put("typeId", "02");
+                tj2.put("url", "/pages/classify/classify");
+                tj2.put("typeId", "6");
                 List<Map> l_m_2 = new ArrayList<Map>();
                 for (int i = 0; i < 4; i++) {
                     Map button_map = new HashMap();
                     button_map.put("image", "/statics/upload/sp00" + i + ".jpg");
-                    button_map.put("goods_id", "123123" + i);
+                    button_map.put("goods_id", "201707270015");
                     l_m_2.add(button_map);
                 }
                 tj2.put("children", l_m_2);
