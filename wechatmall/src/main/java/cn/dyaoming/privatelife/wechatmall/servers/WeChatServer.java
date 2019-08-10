@@ -94,6 +94,7 @@ public class WeChatServer extends BaseServer {
     }
 
 
+
     private String getSession(String openId) {
         return StringUtil.processNullString((cacheDao.getCacheTData("cache:session:" + openId,Map.class).get("session_key")));
     }

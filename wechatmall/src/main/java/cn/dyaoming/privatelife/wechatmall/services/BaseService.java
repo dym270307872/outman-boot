@@ -20,7 +20,8 @@ public class BaseService {
 
 
     protected boolean checkSession(String openId) {
-        return cacheDao.exists("cache:session:" + openId);
+        return true;
+//        return cacheDao.exists("cache:session:" + openId);
     }
 
     protected String getSqId(String openId){
