@@ -209,7 +209,7 @@ public class WXPayUtil {
     }
 
 
-    public String requestWithoutCert(String strUrl, Map<String, String> reqData, int connectTimeoutMs, int readTimeoutMs)
+    public static String requestWithoutCert(String strUrl, Map<String, String> reqData, int connectTimeoutMs, int readTimeoutMs)
             throws Exception {
         String UTF8 = "UTF-8";
         String reqBody = WXPayUtil.mapToXml(reqData);

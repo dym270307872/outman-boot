@@ -7,7 +7,10 @@ import cn.dyaoming.models.DataResult;
 import cn.dyaoming.privatelife.wechatmall.entitys.*;
 import cn.dyaoming.privatelife.wechatmall.mappers.*;
 import cn.dyaoming.privatelife.wechatmall.models.*;
+import cn.dyaoming.privatelife.wechatmall.servers.WeChatPayServer;
 import cn.dyaoming.privatelife.wechatmall.utils.TimeUtil;
+import cn.dyaoming.privatelife.wechatmall.utils.WXPayUtil;
+import cn.dyaoming.utils.StringUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -20,9 +23,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -32,24 +39,27 @@ public class ShopService extends BaseService {
 
 
     @Autowired
-    private Sp01Mapper sp01Mapper;
+    private Sp01Mapper      sp01Mapper;
     @Autowired
-    private Pt01Mapper pt01Mapper;
+    private Pt01Mapper      pt01Mapper;
     @Autowired
-    private Dd01Mapper dd01Mapper;
+    private Dd01Mapper      dd01Mapper;
     @Autowired
-    private Dd02Mapper dd02Mapper;
+    private Dd02Mapper      dd02Mapper;
     @Autowired
-    private Dd03Mapper dd03Mapper;
+    private Dd03Mapper      dd03Mapper;
     @Autowired
-    private Acb02Service acb02Service;
+    private Acb02Service    acb02Service;
     @Autowired
-    private Hy01Service hy01Service;
+    private Hy01Service     hy01Service;
+    @Autowired
+    private Hy06Mapper     hy06Mapper;
+    @Autowired
+    private WeChatPayServer weChatPayServer;
 
 
     @Cacheable("publicInfo")
-    public DataResult getGoodsList(String openId, String goodsName, String goodsType,
-                                   String type) {
+    public DataResult getGoodsList(String openId, String goodsName, String goodsType, String type) {
         DataResult dataResult = new DataResult();
         try {
 
@@ -209,6 +219,7 @@ public class ShopService extends BaseService {
 
             dd01Mapper.insert(dd01);
             dd02Mapper.batchInsert(dd02List);
+
 //			返回订单编号
             Map map = new HashMap();
             map.put("orderId", dda001);
@@ -221,6 +232,154 @@ public class ShopService extends BaseService {
         return dataResult;
     }
 
+    @Transactional
+    public DataResult payOrder(String openId,String orderId)throws AppServiceException{
+        DataResult dataResult = new DataResult();
+        try {
+            if (checkSession(openId)) {
+                orderId = getDecryptParam(openId, orderId);
+            } else {
+                return new DataResult(false, "9011");
+            }
+
+            String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
+            Hy06 hy06 = new Hy06();
+            //获取订单信息
+            Dd01 dd01 = dd01Mapper.selectById(hya001,orderId);
+            if("0".equals(dd01.getDda017())){
+
+                //查询支付记录
+                List<Hy06> o_hy06 = hy06Mapper.findByOrderId(hya001,orderId);
+
+                if(o_hy06.size() == 0) {
+                    //没有支付记录，依据订单生成
+                    //判断支付金额及方式
+                    HyInfo hyInfo = hy01Service.getHyInfo(hya001);
+
+                    hy06.setHyf001(hy06Mapper.autoKey());
+                    hy06.setHyf002(dd01.getDda001());
+                    hy06.setHyf003(hyInfo.getHyId());
+                    hy06.setHyf004(hyInfo.getHyCardId());
+                    hy06.setHyf006("02");
+                    hy06.setHyf011(dd01.getDda011());
+                    hy06.setHyf018(new Timestamp(new Date().getTime()));
+                    hy06.setHyf019(hyInfo.getHyId());
+
+                    if (hyInfo.getYe().compareTo(dd01.getDda011()) >= 0) {
+                        //余额充足
+                        hy06.setHyf007("02");
+                        hy06.setHyf017("1");
+
+                        hy06.setHyf005(hyInfo.getYe().subtract(dd01.getDda011()));
+                        hy06.setHyf012(dd01.getDda011());
+                        hy06.setHyf013(new BigDecimal(0));
+                        //更新dd01 支付标志为1,
+                        dd01Mapper.setPay(orderId);
+                    } else {
+                        //余额不足
+                        hy06.setHyf007("01");
+                        hy06.setHyf017("0");
+                        hy06.setHyf005(hyInfo.getYe().subtract(hyInfo.getYe()));
+                        hy06.setHyf012(hyInfo.getYe());
+                        hy06.setHyf013(dd01.getDda011().subtract(hyInfo.getYe()));
+                    }
+                    //更新hy01表中会员余额
+                    hy01Service.setPay(hya001, hy06.getHyf012());
+                    //插入hy06
+                    hy06Mapper.insert(hy06);
+                }else{
+                    List<Hy06> hy06_dzf = o_hy06.stream().filter(f->("0".equals(f.getHyf017()))).collect(Collectors.toList());
+                    if(hy06_dzf.size()==1){
+                        hy06 = hy06_dzf.get(0);
+                    }else{
+                        //更新dd01 支付标志为1,
+                        dd01Mapper.setPay(orderId);
+                        return new DataResult(false,"9015","该订单已支付完成");
+                    }
+                }
+            }else{
+                return new DataResult(false,"9015","该订单已支付完成");
+            }
+
+//            处理返回结果
+
+            Map<String, Object> result = new HashMap<String, Object>();
+
+            Map<String, Object> hykzf = new HashMap<String, Object>();
+            hykzf.put("zhcjje", hy06.getHyf012());
+            hykzf.put("zhye", hy06.getHyf005());
+            result.put("hykzf", hykzf);
+            if (hy06.getHyf013().intValue()>0) {
+                //获取微信支付参数
+                String appId = StringUtil.processNullString(cacheDao.getCacheTData("cache:session:" + openId, Map.class).get("appid"));
+                //调用微信统一下单接口
+                //TODO 商户号写死的，如果动态调用需要调整
+                Map<String, String> pay_result = weChatPayServer.unifiedorder(openId, appId, "1549808951", hy06.getHyf001(), hy06.getHyf013());
+                result.put("weChatPay", pay_result);
+//                System.out.println("微信支付订单");
+            }
+            dataResult.setData(result);
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new AppServiceException("9999");
+        }
+        return dataResult;
+    }
+
+    @Transactional
+    public Map<String, String> paymentCallback(Map<String, String> params){
+        Map<String, String> return_data = new HashMap<String, String>();
+        try {
+            if (!WXPayUtil.isSignatureValid(params, "")) {
+                // 支付失败
+                return_data.put("return_code", "FAIL");
+                return_data.put("return_msg", "return_code不正确");
+
+            } else {
+                System.out.println("===============付款成功==============");
+                // ------------------------------
+                // 处理业务开始
+                // ------------------------------
+                // 此处处理订单状态，结合自己的订单数据完成订单状态的更新
+                // ------------------------------
+
+                BigDecimal total_fee = new BigDecimal(Double.valueOf(params.get("total_fee"))/ 100);
+
+                String hyf001 = String
+                        .valueOf(Long.parseLong(params.get("out_trade_no").split("O")[0]));
+                SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+                Date accountTime = df.parse(params.get("time_end"));
+                String appId = params.get("appid");
+                String tradeNo = params.get("transaction_id");
+                BigDecimal cash_fee = new BigDecimal(Double.valueOf(params.get("cash_fee"))/ 100);
+
+
+                Long hyf016 = Long.parseLong(params.get("coupon_fee"));
+
+                Hy06 hy06 = hy06Mapper.findById(hyf001);
+
+                if(hy06.getHyf013().compareTo(total_fee)==0){
+                    hy06.setHyf008("02");
+                    hy06.setHyf009(tradeNo);
+                    hy06.setHyf014(cash_fee);
+                    hy06.setHyf016( hyf016);
+                    hy06.setHyf017("1");
+                    hy06.setHyf018(new Timestamp(accountTime.getTime()));
+
+                    hy06Mapper.updateById(hy06);
+
+                    return_data.put("return_code", "SUCCESS");
+                    return_data.put("return_msg", "OK");
+                }else{
+                    return_data.put("return_code", "FAIL");
+                    return_data.put("return_msg", "支付金额不匹配");
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return return_data;
+    }
 
     @Transactional
     public ApiResult deleteOrder(String openId, String orderId) {

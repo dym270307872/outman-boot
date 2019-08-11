@@ -61,7 +61,7 @@ public class Hy01Service extends BaseService {
     }
 
 
-    private HyInfo getHyInfo(String hya001) {
+    public HyInfo getHyInfo(String hya001) {
         HyInfo hyInfo = new HyInfo();
         try {
             Hy01 hy01 = hy01Mapper.findById(hya001);
@@ -358,6 +358,17 @@ public class Hy01Service extends BaseService {
         return dataResult;
     }
 
+    @CacheEvict(value = "userInfo", key = "'userInfo:'+  #openId")
+    public void setPay(String hya001,BigDecimal kkje) throws AppServiceException{
+        try{
+           int i = hy01Mapper.setPay(hya001,kkje);
+           if(i!=1){
+               throw new AppServiceException("9998");
+           }
+        }catch(Exception e){
+            throw new AppServiceException("9998");
+        }
+    }
 
     @Transactional
     @CacheEvict(value = "userInfo", key = "'userInfo:'+  #openId")

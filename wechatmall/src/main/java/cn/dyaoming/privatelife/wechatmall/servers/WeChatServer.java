@@ -6,8 +6,10 @@ import cn.dyaoming.privatelife.wechatmall.models.WeChatAccess;
 import cn.dyaoming.utils.HttpRequestUtil;
 import cn.dyaoming.utils.StringUtil;
 import com.alibaba.fastjson.JSON;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,8 +94,6 @@ public class WeChatServer extends BaseServer {
             throw new AppServiceException("9999");
         }
     }
-
-
 
     private String getSession(String openId) {
         return StringUtil.processNullString((cacheDao.getCacheTData("cache:session:" + openId,Map.class).get("session_key")));
