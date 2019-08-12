@@ -433,7 +433,17 @@ public class ShopService extends BaseService {
             String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
 
             PageHelper.startPage(pageNum, 10);
-            List<Dd01> dd01List = dd01Mapper.selectOrderList(hya001, type);
+
+            List<Dd01> dd01List = new ArrayList<Dd01>();
+            if("".equals(type)){
+                dd01List = dd01Mapper.selectOrderListAll(hya001);
+            }else if("0".equals(type)){
+                dd01List = dd01Mapper.selectOrderListWfk(hya001);
+            }else if("2".equals(type)){
+                dd01List = dd01Mapper.selectOrderListPsz(hya001);
+            }else if("4".equals(type)){
+                dd01List = dd01Mapper.selectOrderListYwc(hya001);
+            }
 
             List<OrderList> orderLists = new ArrayList<OrderList>();
 
@@ -442,7 +452,9 @@ public class ShopService extends BaseService {
                 orderList.setOrderId(p.getDda001());
                 orderList.setOrderType(p.getDda005());
                 orderList.setTime(p.getDda028());
-                orderList.setState(p.getDda022());
+
+                orderList.setState(formatState(p.getDda017(),p.getDda022()));
+
                 orderList.setChildren(dd02Mapper.getChildren(p.getDda001()));
                 orderList.setTotle(p.getDda011());
                 orderLists.add(orderList);
@@ -680,5 +692,17 @@ public class ShopService extends BaseService {
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(num);
         return m.matches();
+    }
+
+    private String formatState(String fkzt,String ddzt){
+        if("0".equals(fkzt)){
+            return "0";
+        }else if("1".equals(fkzt) && !"4".equals(ddzt)){
+            return "2";
+        }else if("4".equals(ddzt)){
+            return "4";
+        }
+        return "";
+
     }
 }
