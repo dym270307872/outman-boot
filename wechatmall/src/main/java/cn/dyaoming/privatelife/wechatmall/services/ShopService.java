@@ -489,7 +489,7 @@ public class ShopService extends BaseService {
                 orderInfo.setOrderId(dd01.getDda001());
                 orderInfo.setOrderType(dd01.getDda005());
                 orderInfo.setTime(dd01.getDda028());
-                orderInfo.setState(dd01.getDda022());
+                orderInfo.setState(formatState(dd01.getDda017(),dd01.getDda022()));
                 orderInfo.setChildren(dd02Mapper.getChildren(dd01.getDda001()));
                 orderInfo.setTotle(dd01.getDda011());
                 orderInfo.setDeliveryTime(dd01.getDda014());
