@@ -34,7 +34,7 @@ public interface Dd01Mapper extends Mapper<Dd01> {
     Dd01 selectById(@Param("dda002") String hya001,@Param("dda001") String orderId);
 
 
-    @Update("update dd02 set dda022='5' where dda002=#{dda002}  and dda001 = #{dda001}/*and dda022='4'*/ and dda026='1'")
+    @Update("update dd01 set dda022='5' where dda002=#{dda002}  and dda001 = #{dda001}/*and dda022='4'*/ and dda026='1'")
     int deleteById(@Param("dda002") String hya001,@Param("dda001") String orderId);
 
     @Update("update dd01 set dda017='1' where dda001=#{dda001}")

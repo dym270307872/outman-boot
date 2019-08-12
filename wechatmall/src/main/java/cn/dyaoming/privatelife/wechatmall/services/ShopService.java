@@ -161,7 +161,7 @@ public class ShopService extends BaseService {
             //效验商品参数
             JSONArray jsonArray = o_param.getJSONArray("goodsList");
 
-            List<BigDecimal> l_totle = new ArrayList<BigDecimal>();
+            List<BigDecimal> l_total = new ArrayList<BigDecimal>();
             List<Dd02> dd02List = new ArrayList<Dd02>();
             try {
                 jsonArray.forEach(p -> {
@@ -183,14 +183,14 @@ public class ShopService extends BaseService {
                     dd02.setDdb019(hyInfo.getHyId());
 
                     dd02List.add(dd02);
-                    l_totle.add(sp01.getSpa008().multiply(new BigDecimal(goods[1])));
+                    l_total.add(sp01.getSpa008().multiply(new BigDecimal(goods[1])));
                 });
             } catch (Exception e) {
                 return new DataResult(false, "9015", "查询不到商品信息");
             }
-            BigDecimal totle = BigDecimal.ZERO;
-            for (BigDecimal big : l_totle) {
-                totle = totle.add(big);
+            BigDecimal total = BigDecimal.ZERO;
+            for (BigDecimal big : l_total) {
+                total = total.add(big);
             }
 
             //填充订单内容
@@ -204,7 +204,7 @@ public class ShopService extends BaseService {
             dd01.setDda007(o_param.getString("phoneNum"));
             dd01.setDda008(o_param.getString("address"));
             dd01.setDda009(o_param.getString("remark"));
-            dd01.setDda011(totle);
+            dd01.setDda011(total);
 
             dd01.setDda014(TimeUtil.parse(o_param.getString("ydsj"), "yyyy-MM-dd"));
             dd01.setDda015(hyInfo.getHyId());
@@ -285,6 +285,9 @@ public class ShopService extends BaseService {
                     }
                     //更新hy01表中会员余额
                     hy01Service.setPay(hya001, hy06.getHyf012());
+
+                    //TODO 为测试回调，现金支付金额固定0.01
+                    hy06.setHyf013(new BigDecimal(0.01));
                     //插入hy06
                     hy06Mapper.insert(hy06);
                 }else{
@@ -309,7 +312,7 @@ public class ShopService extends BaseService {
             hykzf.put("zhcjje", hy06.getHyf012());
             hykzf.put("zhye", hy06.getHyf005());
             result.put("hykzf", hykzf);
-            if (hy06.getHyf013().intValue()>0) {
+            if (hy06.getHyf013().doubleValue()>0) {
                 //获取微信支付参数
                 String appId = StringUtil.processNullString(cacheDao.getCacheTData("cache:session:" + openId, Map.class).get("appid"));
                 //调用微信统一下单接口
@@ -330,7 +333,7 @@ public class ShopService extends BaseService {
     public Map<String, String> paymentCallback(Map<String, String> params){
         Map<String, String> return_data = new HashMap<String, String>();
         try {
-            if (!WXPayUtil.isSignatureValid(params, "")) {
+            if (!WXPayUtil.isSignatureValid(params, "TsPDZFsj1VsUdXUCkKHun9MBRpCECMnl")) {
                 // 支付失败
                 return_data.put("return_code", "FAIL");
                 return_data.put("return_msg", "return_code不正确");
@@ -343,7 +346,7 @@ public class ShopService extends BaseService {
                 // 此处处理订单状态，结合自己的订单数据完成订单状态的更新
                 // ------------------------------
 
-                BigDecimal total_fee = new BigDecimal(Double.valueOf(params.get("total_fee"))/ 100);
+                BigDecimal total_fee = new BigDecimal(Integer.valueOf(params.get("total_fee"))).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
 
                 String hyf001 = String
                         .valueOf(Long.parseLong(params.get("out_trade_no").split("O")[0]));
@@ -351,10 +354,10 @@ public class ShopService extends BaseService {
                 Date accountTime = df.parse(params.get("time_end"));
                 String appId = params.get("appid");
                 String tradeNo = params.get("transaction_id");
-                BigDecimal cash_fee = new BigDecimal(Double.valueOf(params.get("cash_fee"))/ 100);
+                BigDecimal cash_fee = new BigDecimal(Integer.valueOf(params.get("cash_fee"))).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
 
 
-                Long hyf016 = Long.parseLong(params.get("coupon_fee"));
+//                Long hyf016 = Long.parseLong(params.get("coupon_fee"));
 
                 Hy06 hy06 = hy06Mapper.findById(hyf001);
 
@@ -362,7 +365,7 @@ public class ShopService extends BaseService {
                     hy06.setHyf008("02");
                     hy06.setHyf009(tradeNo);
                     hy06.setHyf014(cash_fee);
-                    hy06.setHyf016( hyf016);
+//                    hy06.setHyf016( hyf016);
                     hy06.setHyf017("1");
                     hy06.setHyf018(new Timestamp(accountTime.getTime()));
 
@@ -419,7 +422,7 @@ public class ShopService extends BaseService {
 
 
 
-    @Cacheable("businessInfo")
+    @Cacheable(value = "businessInfo",key = "'opedId=' + #openId + '&type=' + #type + '&pageNum='+ #pageNum")
     public DataResult getOrderList(String openId, String type, int pageNum) {
         DataResult dataResult = new DataResult();
         try {
@@ -456,7 +459,7 @@ public class ShopService extends BaseService {
                 orderList.setState(formatState(p.getDda017(),p.getDda022()));
 
                 orderList.setChildren(dd02Mapper.getChildren(p.getDda001()));
-                orderList.setTotle(p.getDda011());
+                orderList.setTotal(p.getDda011());
                 orderLists.add(orderList);
             });
 
@@ -491,7 +494,7 @@ public class ShopService extends BaseService {
                 orderInfo.setTime(dd01.getDda028());
                 orderInfo.setState(formatState(dd01.getDda017(),dd01.getDda022()));
                 orderInfo.setChildren(dd02Mapper.getChildren(dd01.getDda001()));
-                orderInfo.setTotle(dd01.getDda011());
+                orderInfo.setTotal(dd01.getDda011());
                 orderInfo.setDeliveryTime(dd01.getDda014());
                 orderInfo.setRemarks(dd01.getDda009());
                 orderInfo.setName(dd01.getDda006());

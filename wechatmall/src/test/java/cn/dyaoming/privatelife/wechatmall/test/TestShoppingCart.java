@@ -30,7 +30,7 @@ public class TestShoppingCart extends BaseJunit{
         System.out.println("查询购物车:"+JSON.toJSONString(shopService.getShopCart("oeOsN5Kq24VpS_Oh_XwonvhxogBI")));
 */
 
-        System.out.println(JSON.toJSONString(shopService.payOrder("otzm55UzEMcrRPImk5kahwnSPImk","20170731001431")));
+//        System.out.println(JSON.toJSONString(shopService.payOrder("otzm55UzEMcrRPImk5kahwnSPImk","20170731001431")));
 
     }
 

@@ -67,6 +67,8 @@ public class WeChatPayServer extends BaseServer {
 				Map result = new HashMap();
 				result.put("timeStamp", Long.toString(System.currentTimeMillis() / 1000));
 				result.put("nonceStr", RandomUtil.randomNumChar(32));
+//				result.put("nonceStr",respData.get("nonce_str"));
+				result.put("appId",appId);
 				result.put("package", "prepay_id=" + respData.get("prepay_id"));
 				result.put("signType", "MD5");
 				String paySign = WXPayUtil

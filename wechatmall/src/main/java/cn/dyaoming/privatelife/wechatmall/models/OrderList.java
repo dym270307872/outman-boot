@@ -19,7 +19,7 @@ public class OrderList implements Serializable {
     private Timestamp time;
     private List<Map> children = new ArrayList<Map>();
     private int count;
-    private BigDecimal totle;
+    private BigDecimal total;
 
 
     public String getOrderId() {
@@ -71,11 +71,11 @@ public class OrderList implements Serializable {
         return count;
     }
 
-    public BigDecimal getTotle() {
-        return totle;
+    public BigDecimal getTotal() {
+        return total;
     }
 
-    public void setTotle(BigDecimal totle) {
-        this.totle = totle;
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 }

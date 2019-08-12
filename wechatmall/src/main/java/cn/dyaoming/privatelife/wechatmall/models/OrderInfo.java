@@ -20,7 +20,7 @@ public class OrderInfo implements Serializable {
 	private Timestamp  time;//下单时间
 	private List<Map>  children = new ArrayList<Map>();//商品列表
 	private BigDecimal count;//商品总数量
-	private BigDecimal totle;//金额总计
+	private BigDecimal total;//金额总计
 
 	//备注
 	private String remarks;
@@ -107,14 +107,14 @@ public class OrderInfo implements Serializable {
 
 
 
-	public BigDecimal getTotle() {
-		return totle;
+	public BigDecimal getTotal() {
+		return total;
 	}
 
 
 
-	public void setTotle(BigDecimal totle) {
-		this.totle = totle;
+	public void setTotal(BigDecimal total) {
+		this.total = total;
 	}
 
 
