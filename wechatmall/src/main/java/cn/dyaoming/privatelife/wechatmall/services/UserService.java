@@ -25,11 +25,11 @@ public class UserService extends BaseService {
     public ApiResult register(String openId, String phoneNumber, String password) {
         ApiResult apiResult = new ApiResult();
         try {
-            if (checkSession(openId)) {
+            if (checkAccess(openId)) {
                 phoneNumber = getDecryptParam(openId, phoneNumber);
                 password = getDecryptParam(openId, password);
             } else {
-                return new DataResult(false, "9021");
+                return new DataResult(false, "9011");
             }
 
             apiResult = hy01Service.register(phoneNumber, password);
@@ -63,11 +63,11 @@ public class UserService extends BaseService {
     public DataResult binding(String openId, String phoneNumber, String password) {
         DataResult dataResult = new DataResult();
         try {
-            if (checkSession(openId)) {
+            if (checkAccess(openId)) {
                 phoneNumber = getDecryptParam(openId, phoneNumber);
                 password = getDecryptParam(openId, password);
             } else {
-                return new DataResult(false, "9021");
+                return new DataResult(false, "9011");
             }
 
             //判断是否已经绑定
