@@ -23,7 +23,7 @@ public class SystemService extends BaseService {
     public DataResult getParam(String openId) throws AppServiceException {
         DataResult dataResult = new DataResult();
         try {
-            if (checkSession(openId)) {
+            if (checkAccess(openId)) {
                 List<Cs01> l_cs01 = cs01Mapper.selectAll();
                 Map<String, List<CsInfo>> map = new HashMap<String, List<CsInfo>>();
                 l_cs01.stream().filter(p -> ("1".equals(p.getCsa017()))).forEach((f) -> {
@@ -58,7 +58,7 @@ public class SystemService extends BaseService {
     public DataResult getIndex(String openId) throws AppServiceException {
         DataResult dataResult = new DataResult();
         try {
-            if (checkSession(openId)) {
+            if (checkAccess(openId)) {
                 Map<String, Object> map = new HashMap<String, Object>();
 //banner图列表
                 List<Map> l_banner = new ArrayList<Map>();
@@ -146,4 +146,6 @@ public class SystemService extends BaseService {
         }
         return dataResult;
     }
+
+
 }

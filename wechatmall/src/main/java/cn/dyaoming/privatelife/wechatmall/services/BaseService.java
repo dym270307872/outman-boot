@@ -19,7 +19,7 @@ public class BaseService {
     protected WeChatServer weChatServer;
 
 
-    protected boolean checkSession(String openId) {
+    protected boolean checkAccess(String openId) {
         return cacheDao.exists("cache:session:" + openId);
     }
 

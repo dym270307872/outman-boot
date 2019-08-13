@@ -330,5 +330,10 @@ public class UserService extends BaseService {
         return apiResult;
     }
 
-
+    private boolean checkSession(String openId){
+        if(checkAccess(openId)) {
+            return acb02Service.checkBind(openId).isFlag();
+        }
+        return false;
+    }
 }

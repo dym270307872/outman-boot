@@ -101,6 +101,11 @@ public class CardService extends BaseService {
     }
 
 
-
+    private boolean checkSession(String openId){
+        if(checkAccess(openId)) {
+            return acb02Service.checkBind(openId).isFlag();
+        }
+        return false;
+    }
 
 }

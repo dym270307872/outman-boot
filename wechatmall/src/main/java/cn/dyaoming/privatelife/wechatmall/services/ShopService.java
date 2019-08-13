@@ -63,7 +63,7 @@ public class ShopService extends BaseService {
         DataResult dataResult = new DataResult();
         try {
 
-            if (checkSession(openId)) {
+            if (checkAccess(openId)) {
                 goodsName = getDecryptParam(openId, goodsName);
                 goodsType = getDecryptParam(openId, goodsType);
                 type = getDecryptParam(openId, type);
@@ -115,7 +115,7 @@ public class ShopService extends BaseService {
         DataResult dataResult = new DataResult();
         try {
 
-            if (checkSession(openId)) {
+            if (checkAccess(openId)) {
                 goodsId = getDecryptParam(openId, goodsId);
             } else {
                 return new DataResult(false, "9011");
@@ -219,6 +219,9 @@ public class ShopService extends BaseService {
 
             dd01Mapper.insert(dd01);
             dd02Mapper.batchInsert(dd02List);
+
+            //清除购物车对应商品
+
 
 //			返回订单编号
             Map map = new HashMap();
@@ -708,4 +711,13 @@ public class ShopService extends BaseService {
         return "";
 
     }
+
+
+    private boolean checkSession(String openId){
+        if(checkAccess(openId)) {
+            return acb02Service.checkBind(openId).isFlag();
+        }
+        return false;
+    }
+
 }
