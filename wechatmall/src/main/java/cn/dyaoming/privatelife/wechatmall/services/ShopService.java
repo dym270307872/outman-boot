@@ -101,9 +101,8 @@ public class ShopService extends BaseService {
                 dataResult.setData(data);
             }
 
-        } catch (
-                Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+//            e.printStackTrace();
             dataResult = new DataResult(false, "9999");
         }
         return dataResult;
@@ -123,15 +122,15 @@ public class ShopService extends BaseService {
 
             dataResult.setData(sp01Mapper.selectById(goodsId).toMx());
 
-        } catch (
-                Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+//            e.printStackTrace();
             dataResult = new DataResult(false, "9999");
         }
         return dataResult;
     }
 
     @Transactional
+    @CacheEvict(value = "businessInfo", key = "'shopCart:' + #openId")
     public DataResult sendOrder(String openId, String param) {
         DataResult dataResult = new DataResult();
         try {
@@ -221,7 +220,7 @@ public class ShopService extends BaseService {
             dd02Mapper.batchInsert(dd02List);
 
             //清除购物车对应商品
-
+            dd03Mapper.batchDelete(hyInfo.getHyId(),dd02List.stream().map(d->d.getDdb004()).collect(Collectors.toList()));
 
 //			返回订单编号
             Map map = new HashMap();
@@ -229,7 +228,7 @@ public class ShopService extends BaseService {
             dataResult.setData(map);
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             dataResult = new DataResult(false, "9999");
         }
         return dataResult;
@@ -326,7 +325,7 @@ public class ShopService extends BaseService {
             }
             dataResult.setData(result);
         }catch(Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
             throw new AppServiceException("9999");
         }
         return dataResult;
@@ -425,7 +424,7 @@ public class ShopService extends BaseService {
 
 
 
-    @Cacheable(value = "businessInfo",key = "'opedId=' + #openId + '&type=' + #type + '&pageNum='+ #pageNum")
+//    @Cacheable(value = "businessInfo",key = "'opedId=' + #openId + '&type=' + #type + '&pageNum='+ #pageNum")
     public DataResult getOrderList(String openId, String type, int pageNum) {
         DataResult dataResult = new DataResult();
         try {
