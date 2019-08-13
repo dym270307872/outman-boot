@@ -20,7 +20,7 @@ public interface Dd01Mapper extends Mapper<Dd01> {
     @Select("select * from dd01 where dda002=#{dda002} and dda022 not in ('5') and dda026='1' order by dda028 desc")
     List<Dd01> selectOrderListAll(@Param("dda002") String dda002);
 
-    @Select("select * from dd01 where dda002=#{dda002} and dda017='0' and dda026='1' order by dda028 desc")
+    @Select("select * from dd01 where dda002=#{dda002} and dda017='0' and dda022 not in ('5') and dda026='1' order by dda028 desc")
     List<Dd01> selectOrderListWfk(@Param("dda002") String dda002);
 
     @Select("select * from dd01 where dda002=#{dda002} and dda017='1' and dda022 not in ('4','5') and dda026='1' order by dda028 desc")
