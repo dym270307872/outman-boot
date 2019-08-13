@@ -137,7 +137,7 @@ public class ShopService extends BaseService {
             if (checkSession(openId)) {
                 param = getDecryptParam(openId, param);
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
             //获取输入参数
             JSONObject o_param = JSON.parseObject(param);
@@ -241,7 +241,7 @@ public class ShopService extends BaseService {
             if (checkSession(openId)) {
                 orderId = getDecryptParam(openId, orderId);
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
 
             String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
@@ -393,7 +393,7 @@ public class ShopService extends BaseService {
             if (checkSession(openId)) {
                 orderId = getDecryptParam(openId, orderId);
             } else {
-                return new ApiResult(false, "9011");
+                return new ApiResult(false, "9021");
             }
 
             String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
@@ -432,7 +432,7 @@ public class ShopService extends BaseService {
             if (checkSession(openId)) {
                 type = getDecryptParam(openId, type);
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
 
             String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
@@ -482,7 +482,7 @@ public class ShopService extends BaseService {
             if (checkSession(openId)) {
                 orderId = getDecryptParam(openId, orderId);
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
 
             String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
@@ -524,7 +524,7 @@ public class ShopService extends BaseService {
             if (checkSession(openId)) {
                 snapshotId = getDecryptParam(openId, snapshotId);
             } else {
-                throw new AppServiceException("9011");
+                throw new AppServiceException("9021");
             }
 
             dataResult.setData(dd02Mapper.selectById(snapshotId).toMx());
@@ -544,7 +544,7 @@ public class ShopService extends BaseService {
 
             if (checkSession(openId)) {
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
             String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
 
@@ -572,7 +572,7 @@ public class ShopService extends BaseService {
                     return new DataResult(false, "9015", "商品数量格式有误！");
                 }
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
             String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
 
@@ -618,7 +618,7 @@ public class ShopService extends BaseService {
             if (checkSession(openId)) {
                 goodsIds = getDecryptParam(openId, goodsIds);
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
             String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
 
@@ -649,7 +649,7 @@ public class ShopService extends BaseService {
                     return new DataResult(false, "9015", "商品数量格式有误！");
                 }
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
             String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
 

@@ -35,7 +35,7 @@ public class CardService extends BaseService {
                 cardId = getDecryptParam(openId, cardId).toUpperCase();
                 password = getDecryptParam(openId, password);
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
 
             String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
@@ -83,7 +83,7 @@ public class CardService extends BaseService {
         try {
             if (checkSession(openId)) {
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
             String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
             hy01Mapper.loseCard(hya001);

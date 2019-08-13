@@ -29,7 +29,7 @@ public class UserService extends BaseService {
                 phoneNumber = getDecryptParam(openId, phoneNumber);
                 password = getDecryptParam(openId, password);
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
 
             apiResult = hy01Service.register(phoneNumber, password);
@@ -47,7 +47,7 @@ public class UserService extends BaseService {
             if (checkSession(openId)) {
                 openId = getDecryptParam(openId, openId);
             } else {
-                dataResult = new DataResult(false, "9011");
+                dataResult = new DataResult(false, "9021");
             }
 
             dataResult = hy01Service.getUserInfo(openId);
@@ -67,7 +67,7 @@ public class UserService extends BaseService {
                 phoneNumber = getDecryptParam(openId, phoneNumber);
                 password = getDecryptParam(openId, password);
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
 
             //判断是否已经绑定
@@ -108,7 +108,7 @@ public class UserService extends BaseService {
             if (checkSession(openId)) {
                 password = getDecryptParam(openId, password);
             } else {
-                return new ApiResult(false, "9011");
+                return new ApiResult(false, "9021");
             }
             //操作解绑逻辑
             apiResult = hy01Service.unbind(openId, password);
@@ -128,7 +128,7 @@ public class UserService extends BaseService {
                 changeInfo = getDecryptParam(openId, changeInfo);
 
             } else {
-                return new ApiResult(false, "9011");
+                return new ApiResult(false, "9021");
             }
             apiResult = hy01Service.changeInfo(openId, changeType, changeInfo);
         } catch (Exception e) {
@@ -147,7 +147,7 @@ public class UserService extends BaseService {
                 nPassword = getDecryptParam(openId, nPassword);
 
             } else {
-                return new ApiResult(false, "9011");
+                return new ApiResult(false, "9021");
             }
             apiResult = hy01Service.changePassword(openId, oPassword, nPassword);
         } catch (Exception e) {
@@ -162,7 +162,7 @@ public class UserService extends BaseService {
         DataResult dataResult = new DataResult();
         try {
             if (!checkSession(openId)) {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
 
             dataResult = hy01Service.getBalance(openId);
@@ -180,7 +180,7 @@ public class UserService extends BaseService {
             if (checkSession(openId)) {
                 type = getDecryptParam(openId, type);
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
 
             dataResult = hy01Service.getBalanceMx(openId, type, pageNum);
@@ -199,7 +199,7 @@ public class UserService extends BaseService {
                 cardId = getDecryptParam(openId, cardId);
                 password = getDecryptParam(openId, password);
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
 
             apiResult = cardService.renewalCard(openId, cardId, password);
@@ -216,7 +216,7 @@ public class UserService extends BaseService {
         try {
             if (checkSession(openId)) {
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
 
             apiResult = cardService.loseCard(openId);
@@ -234,7 +234,7 @@ public class UserService extends BaseService {
                 openId = getDecryptParam(openId, openId);
 
             } else {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
 
             dataResult = hy01Service.getReserveInfo(openId);
@@ -256,7 +256,7 @@ public class UserService extends BaseService {
                 remarks = getDecryptParam(openId, remarks);
 
             } else {
-                return new ApiResult(false, "9011");
+                return new ApiResult(false, "9021");
             }
             if ("0".equals(state)) {
                 return new ApiResult(false, "9015", "状态标识不能修改成未预定！");
@@ -276,7 +276,7 @@ public class UserService extends BaseService {
         DataResult dataResult = new DataResult();
         try {
             if (!checkSession(openId)) {
-                return new DataResult(false, "9011");
+                return new DataResult(false, "9021");
             }
 
             dataResult = hy03Service.getAddress(openId);
@@ -300,7 +300,7 @@ public class UserService extends BaseService {
                 address = getDecryptParam(openId, address);
 
             } else {
-                return new ApiResult(false, "9011");
+                return new ApiResult(false, "9021");
             }
 
             apiResult = hy03Service.changeAddress(openId, addressId, mrbz, name, phoneNum, ssqy, address);
@@ -319,7 +319,7 @@ public class UserService extends BaseService {
                 addressId = getDecryptParam(openId, addressId);
 
             } else {
-                return new ApiResult(false, "9011");
+                return new ApiResult(false, "9021");
             }
 
             apiResult = hy03Service.deleteAddress(openId, addressId);
