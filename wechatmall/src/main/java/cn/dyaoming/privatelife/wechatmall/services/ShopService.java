@@ -206,7 +206,7 @@ public class ShopService extends BaseService {
             dd01.setDda011(total);
             dd01.setDda012("1");
             dd01.setDda013("0");
-            dd01.setDda014(TimeUtil.parse(o_param.getString("ydsj"), "yyyy-MM-dd"));
+            dd01.setDda014(TimeUtil.parse(o_param.getString("ydsj").substring(0,10), "yyyy-MM-dd"));
             dd01.setDda015(hyInfo.getHyId());
             dd01.setDda017("0");
             dd01.setDda022("0");

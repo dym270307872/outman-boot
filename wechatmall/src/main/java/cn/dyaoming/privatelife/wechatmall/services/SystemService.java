@@ -76,13 +76,13 @@ public class SystemService extends BaseService {
                 button_map0.put("image", "/statics/icons/button0.png");
                 button_map0.put("name", "每日十件");
                 button_map0.put("url", "/pages/classify/classify");
-                button_map0.put("typeId", "4");
+                button_map0.put("typeId", "9");
                 l_button.add(button_map0);
                 Map button_map1 = new HashMap();
                 button_map1.put("image", "/statics/icons/button1.png");
                 button_map1.put("name", "精选商品");
                 button_map1.put("url", "/pages/classify/classify");
-                button_map1.put("typeId", "5");
+                button_map1.put("typeId", "10");
                 l_button.add(button_map1);
                 Map button_map2 = new HashMap();
                 button_map2.put("image", "/statics/icons/button2.png");
