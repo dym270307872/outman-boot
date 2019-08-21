@@ -373,6 +373,9 @@ public class ShopService extends BaseService {
 
                     hy06Mapper.updateById(hy06);
 
+                    //更新dd01 支付标志为1,
+                    dd01Mapper.setPay(hy06.getHyf002());
+
                     return_data.put("return_code", "SUCCESS");
                     return_data.put("return_msg", "OK");
                 }else{
