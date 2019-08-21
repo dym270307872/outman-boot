@@ -99,7 +99,7 @@ public class UserController extends BaseController {
     }
 
 
-    //续卡操作
+    //换卡操作
     @RequestMapping(value = "/renewalCard", method = RequestMethod.POST)
     public ApiResult renewalCard(String openId, String cardId, String password) {
         try {
