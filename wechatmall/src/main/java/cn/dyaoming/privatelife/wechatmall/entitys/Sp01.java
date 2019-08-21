@@ -252,6 +252,7 @@ public class Sp01 {
         spMx.setGoodsName(getSpa005());
         spMx.setGoodsInfo(getSpa006());
         spMx.setDescription(getSpa007());
+        spMx.setInstruction(getSpa013());
         spMx.setGg(getSpa009());
         spMx.setDj(getSpa008());
         return spMx;

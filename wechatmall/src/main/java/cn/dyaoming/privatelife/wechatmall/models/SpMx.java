@@ -13,6 +13,7 @@ public class SpMx implements Serializable {
     private List<String> goodsImages = new ArrayList<String>();
     private String goodsInfo;
     private String description;
+    private String instruction;
     private String gg;
     private BigDecimal dj;
 
@@ -82,5 +83,17 @@ public class SpMx implements Serializable {
 
     public void setDj(BigDecimal dj) {
         this.dj = dj;
+    }
+
+
+
+    public String getInstruction() {
+        return instruction;
+    }
+
+
+
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
     }
 }

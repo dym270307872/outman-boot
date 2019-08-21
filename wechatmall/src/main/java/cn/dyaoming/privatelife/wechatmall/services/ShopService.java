@@ -134,7 +134,7 @@ public class ShopService extends BaseService {
     public DataResult sendOrder(String openId, String param) {
         DataResult dataResult = new DataResult();
         try {
-            if (checkSession(openId)) {
+            if (checkAccess(openId)) {
                 param = getDecryptParam(openId, param);
             } else {
                 return new DataResult(false, "9021");
@@ -204,7 +204,8 @@ public class ShopService extends BaseService {
             dd01.setDda008(o_param.getString("address"));
             dd01.setDda009(o_param.getString("remark"));
             dd01.setDda011(total);
-
+            dd01.setDda012("1");
+            dd01.setDda013("0");
             dd01.setDda014(TimeUtil.parse(o_param.getString("ydsj"), "yyyy-MM-dd"));
             dd01.setDda015(hyInfo.getHyId());
             dd01.setDda017("0");
@@ -543,13 +544,11 @@ public class ShopService extends BaseService {
         DataResult dataResult = new DataResult();
         try {
 
-            if (checkSession(openId)) {
+            if (checkAccess(openId)) {
             } else {
                 return new DataResult(false, "9021");
             }
-            String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
-
-            dataResult.setData(dd03Mapper.getMyCart(hya001));
+            dataResult.setData(dd03Mapper.getMyCart(openId));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -565,7 +564,7 @@ public class ShopService extends BaseService {
         ApiResult apiResult = new ApiResult();
         try {
 
-            if (checkSession(openId)) {
+            if (checkAccess(openId)) {
                 goodsId = getDecryptParam(openId, goodsId);
                 amount = getDecryptParam(openId, amount);
 
@@ -575,9 +574,8 @@ public class ShopService extends BaseService {
             } else {
                 return new DataResult(false, "9021");
             }
-            String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
 
-            Dd03 dd03 = dd03Mapper.find(hya001, goodsId);
+            Dd03 dd03 = dd03Mapper.find(openId, goodsId);
 
             if (dd03 != null) {
                 dd03.setDdc009(dd03.getDdc009().add(new BigDecimal(amount)));
@@ -587,7 +585,7 @@ public class ShopService extends BaseService {
                 Sp01 sp01 = sp01Mapper.selectById(goodsId);
                 dd03 = new Dd03();
                 dd03.setDdc001(dd03Mapper.autoKey());
-                dd03.setDdc002(hya001);
+                dd03.setDdc002(openId);
                 dd03.setDdc004(goodsId);
                 dd03.setDdc005(sp01.getSpa005());
                 dd03.setDdc006(sp01.getSpa006());
@@ -598,7 +596,7 @@ public class ShopService extends BaseService {
                 dd03.setDdc011(sp01.getSpa004());
                 dd03.setDdc016("1");
                 dd03.setDdc018(new Timestamp(new Date().getTime()));
-                dd03.setDdc019(hya001);
+                dd03.setDdc019("");
 
                 dd03Mapper.insert(dd03);
             }
@@ -616,18 +614,16 @@ public class ShopService extends BaseService {
         ApiResult apiResult = new ApiResult();
         try {
 
-            if (checkSession(openId)) {
+            if (checkAccess(openId)) {
                 goodsIds = getDecryptParam(openId, goodsIds);
             } else {
                 return new DataResult(false, "9021");
             }
-            String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
-
             JSONArray jsonArray = JSON.parseArray(goodsIds);
 
             List<String> l_goodsId = jsonArray.toJavaList(String.class);
 
-            dd03Mapper.batchDelete(hya001, l_goodsId);
+            dd03Mapper.batchDelete(openId, l_goodsId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -643,7 +639,7 @@ public class ShopService extends BaseService {
         ApiResult apiResult = new ApiResult();
         try {
 
-            if (checkSession(openId)) {
+            if (checkAccess(openId)) {
                 goodsId = getDecryptParam(openId, goodsId);
                 amount = getDecryptParam(openId, amount);
                 if (!checkNum(amount)) {
@@ -652,9 +648,7 @@ public class ShopService extends BaseService {
             } else {
                 return new DataResult(false, "9021");
             }
-            String hya001 = ((Acb02) acb02Service.checkBind(openId).getData()).getHya001();
-
-            Dd03 dd03 = dd03Mapper.find(hya001, goodsId);
+            Dd03 dd03 = dd03Mapper.find(openId, goodsId);
 
             if (dd03 != null) {
                 dd03.setDdc009(new BigDecimal(amount));
@@ -663,7 +657,7 @@ public class ShopService extends BaseService {
                 Sp01 sp01 = sp01Mapper.selectById(goodsId);
                 dd03 = new Dd03();
                 dd03.setDdc001(dd03Mapper.autoKey());
-                dd03.setDdc002(hya001);
+                dd03.setDdc002(openId);
                 dd03.setDdc004(goodsId);
                 dd03.setDdc005(sp01.getSpa005());
                 dd03.setDdc006(sp01.getSpa006());
@@ -674,7 +668,7 @@ public class ShopService extends BaseService {
                 dd03.setDdc011(sp01.getSpa004());
                 dd03.setDdc016("1");
                 dd03.setDdc018(new Timestamp(new Date().getTime()));
-                dd03.setDdc019(hya001);
+                dd03.setDdc019("");
 
                 dd03Mapper.insert(dd03);
             }
