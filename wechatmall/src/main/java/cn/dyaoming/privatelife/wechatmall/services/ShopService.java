@@ -284,12 +284,13 @@ public class ShopService extends BaseService {
                         hy06.setHyf005(hyInfo.getYe().subtract(hyInfo.getYe()));
                         hy06.setHyf012(hyInfo.getYe());
                         hy06.setHyf013(dd01.getDda011().subtract(hyInfo.getYe()));
+                        //TODO 为测试回调，现金支付金额固定0.01
+                        hy06.setHyf013(new BigDecimal(0.01));
                     }
                     //更新hy01表中会员余额
                     hy01Service.setPay(hya001, hy06.getHyf012());
 
-                    //TODO 为测试回调，现金支付金额固定0.01
-                    hy06.setHyf013(new BigDecimal(0.01));
+
                     //插入hy06
                     hy06Mapper.insert(hy06);
                 }else{
