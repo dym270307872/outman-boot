@@ -62,4 +62,19 @@ public class SystemController extends BaseController {
 
 	}
 
+
+
+	@RequestMapping(value = "/getPsDate", method = RequestMethod.GET)
+	public ApiResult getPsDate(String openId) {
+		try {
+			if (isNull(openId)) {
+				return new ApiResult(false, "9015");
+			}
+			return systemService.getPsDate(openId);
+		} catch(Exception e) {
+			return new ApiResult(false, e.getMessage());
+		}
+
+	}
+
 }
