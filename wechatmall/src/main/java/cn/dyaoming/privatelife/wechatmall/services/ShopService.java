@@ -148,7 +148,7 @@ public class ShopService extends BaseService {
                 return new DataResult(false, "9015", "收货人电话不能为空");
             } else if (isNull(o_param.get("address"))) {
                 return new DataResult(false, "9015", "收货地址不能为空");
-            } else if (!checkDate(o_param.getString("ydsj"))) {
+            } else if (!checkDate(o_param.getString("ydsj").substring(0,10))) {
                 return new DataResult(false, "9015", "预定时间格式不正确");
             } else if (isNull(o_param.getString("ssqy"))) {
                 return new DataResult(false, "9015", "所属区域不能为空");
