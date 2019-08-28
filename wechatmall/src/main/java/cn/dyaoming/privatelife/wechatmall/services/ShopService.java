@@ -683,6 +683,53 @@ public class ShopService extends BaseService {
         return apiResult;
     }
 
+
+    public DataResult getPsDate(String openId,String ssqy){
+        DataResult dataResult = new DataResult();
+        try{
+            if(checkAccess(openId)){
+
+                List<String> l_date = new ArrayList<String>();
+
+                Calendar cal = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                Date today = new Date();
+                int s = 0;
+                if(today.getHours()>=17){
+                    s += 1;
+                }
+                for(int i=s;i<7;i++){
+                    cal.setTime(today);
+                    cal.add(Calendar.DAY_OF_MONTH, i);
+                    int dayWeek = cal.get(Calendar.DAY_OF_WEEK);// 获得当前日期是一个星期的第几天
+                    if (dayWeek == 2 && ssqy.startsWith("410100")) {
+                        l_date.add(sdf.format(cal.getTime())+"(周二)");
+                    }
+                    if (dayWeek == 3) {
+                        l_date.add(sdf.format(cal.getTime())+"(周三)");
+                    }
+                    if (dayWeek == 5) {
+                        l_date.add(sdf.format(cal.getTime())+"(周五)");
+                    }
+                    /*if (dayWeek == 6) {
+                        l_date.add(sdf.format(cal.getTime())+"(周六)");
+                    }*/
+
+                }
+
+                dataResult.setData(l_date);
+
+            }else {
+                throw new AppServiceException("9011");
+            }
+
+        }catch (Exception e){
+
+        }
+        return dataResult;
+    }
+
     private boolean checkDate(String date) {
         String regEx = "([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8])))";
         Pattern p = Pattern.compile(regEx);
@@ -716,5 +763,7 @@ public class ShopService extends BaseService {
         }
         return false;
     }
+
+
 
 }

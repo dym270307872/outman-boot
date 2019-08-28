@@ -282,4 +282,18 @@ public class ShopController extends BaseController {
 			return "";
 		}
 	}
+
+
+	@RequestMapping(value = "/getPsDate", method = RequestMethod.GET)
+	public ApiResult getPsDate(String openId,String ssqy) {
+		try {
+			if (isNull(openId)) {
+				return new ApiResult(false, "9015");
+			}
+			return shopService.getPsDate(openId,ssqy);
+		} catch(Exception e) {
+			return new ApiResult(false, e.getMessage());
+		}
+
+	}
 }
