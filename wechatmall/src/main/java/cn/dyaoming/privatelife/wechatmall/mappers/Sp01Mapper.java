@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface Sp01Mapper extends Mapper<Sp01> {
 
-    @Select("select * from sp01 where instr(spa005,#{goodsName})>0 and (spa003 = #{goodsType} or #{goodsType} = '') and  spa016 = '1' order by spa003 asc,spa005 asc ")
+    @Select("select * from sp01 where instr(spa005,#{goodsName})>0 and (spa003 = #{goodsType} or #{goodsType} = '') and  spa011 = '1' and  spa016 = '1' order by spa003 asc,spa005 asc ")
     List<Sp01> selectByType(@Param("goodsName") String goodsName,@Param("goodsType") String goodsType);
 
 

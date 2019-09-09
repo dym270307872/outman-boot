@@ -689,6 +689,7 @@ public class ShopService extends BaseService {
         try{
             if(checkAccess(openId)){
 
+                ssqy = getDecryptParam(openId, ssqy);
                 List<String> l_date = new ArrayList<String>();
 
                 Calendar cal = Calendar.getInstance();
@@ -696,14 +697,14 @@ public class ShopService extends BaseService {
 
                 Date today = new Date();
                 int s = 0;
-                if(today.getHours()>=17){
+                if(today.getHours()>=17  || !ssqy.startsWith("410100")){
                     s += 1;
                 }
                 for(int i=s;i<7;i++){
                     cal.setTime(today);
                     cal.add(Calendar.DAY_OF_MONTH, i);
                     int dayWeek = cal.get(Calendar.DAY_OF_WEEK);// 获得当前日期是一个星期的第几天
-                    if (dayWeek == 2 && ssqy.startsWith("410100")) {
+                    if (dayWeek == 2) {
                         l_date.add(sdf.format(cal.getTime())+"(周二)");
                     }
                     if (dayWeek == 3) {

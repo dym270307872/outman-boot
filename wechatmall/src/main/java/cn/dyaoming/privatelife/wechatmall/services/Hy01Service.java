@@ -43,9 +43,7 @@ public class Hy01Service extends BaseService {
     public DataResult getUserInfo(String openId) throws AppServiceException {
         DataResult dataResult = new DataResult();
         try {
-            //TODO 调整绑定验证逻辑
             DataResult bdInfo = acb02Service.checkBind(openId);
-
             if (bdInfo.isFlag()) {
                 //存在绑定关系
                 Acb02 acb02 = (Acb02) bdInfo.getData();
