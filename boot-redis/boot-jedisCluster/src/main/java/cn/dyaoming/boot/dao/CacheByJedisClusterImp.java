@@ -13,17 +13,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 @Component("cacheDao")
-public class CacheByJedisImp  implements CacheInterface
+public class CacheByJedisClusterImp implements CacheInterface
 {
 
 
-    private static final Logger logger  = LogManager.getLogger(CacheByJedisImp.class);
+    private static final Logger logger  = LogManager.getLogger(CacheByJedisClusterImp.class);
 
 
     private  JedisCluster jedisCluster ;
 
 
-    public CacheByJedisImp()
+    public CacheByJedisClusterImp()
     {
 
     }

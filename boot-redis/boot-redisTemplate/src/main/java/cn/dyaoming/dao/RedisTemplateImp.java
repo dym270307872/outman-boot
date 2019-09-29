@@ -170,7 +170,7 @@ public class RedisTemplateImp implements CacheInterface {
 
 
 	@Override
-	public boolean setCacheObjectData(Object key, Object value, long validTime,
+	public boolean setCacheObjectData(Object key, Object value,final long validTime,
 			boolean secret) throws AppDaoException {
 		boolean rv = false;
 		try {
