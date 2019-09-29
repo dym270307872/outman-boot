@@ -8,13 +8,15 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>boot-redis</artifactId>
-
+	<version>0.0.2-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
 
 	<dependencies>
 		<dependency>
 			<groupId>cn.dyaoming.common</groupId>
 			<artifactId>common-cache</artifactId>
+			<version>0.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -34,4 +36,9 @@
 
 	</dependencies>
 
+	<modules>
+		<module>boot-jedis</module>
+		<module>boot-jedisCluster</module>
+		<module>boot-redisTemplate</module>
+	</modules>
 </project>

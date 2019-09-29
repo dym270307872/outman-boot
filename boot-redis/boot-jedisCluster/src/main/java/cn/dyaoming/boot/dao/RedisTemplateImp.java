@@ -3,10 +3,10 @@
  *
  * Copyright (c) 2017-2019 by Zhkj.
  *
- */
-package cn.dyaoming.dao;
+ *//*
 
-import java.util.*;
+package cn.dyaoming.boot.dao;
+
 
 import cn.dyaoming.cache.interfaces.CacheInterface;
 import cn.dyaoming.errors.AppDaoException;
@@ -22,7 +22,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
+import java.util.Collection;
 
+
+*/
 /**
  * 类名称：RedisTemplateImp
  * <p/>
@@ -39,8 +43,9 @@ import org.springframework.util.StringUtils;
  * 修改备注：无
  * <p/>
  * 版本：V1.0
- */
-@Component("cacheDao")
+ *//*
+
+
 public class RedisTemplateImp implements CacheInterface {
 
 	private static final Logger logger = LogManager.getLogger(RedisTemplateImp.class);
@@ -68,7 +73,8 @@ public class RedisTemplateImp implements CacheInterface {
 
 
 
-	/**
+	*/
+/**
 	 * 功能描述：判断是否存在键值。
 	 * <p/>
 	 * 创建时间：2017-02-12
@@ -83,7 +89,8 @@ public class RedisTemplateImp implements CacheInterface {
 	 *
 	 * @param key String类型 键
 	 * @return boolean类型 返回结果
-	 */
+	 *//*
+
 	@Override
 	public boolean exists(Object key) throws AppDaoException {
 		boolean rv = false;
@@ -111,7 +118,8 @@ public class RedisTemplateImp implements CacheInterface {
 
 
 
-	/**
+	*/
+/**
 	 * 功能描述：设置缓存对象类型内容。
 	 * <p/>
 	 * 创建时间：2017-02-12
@@ -127,7 +135,8 @@ public class RedisTemplateImp implements CacheInterface {
 	 * @param key   String类型 键
 	 * @param value Object类型 内容
 	 * @return boolean类型 返回结果
-	 */
+	 *//*
+
 	@Override
 	public boolean setCacheObjectData(Object key, Object value) throws AppDaoException {
 		return this.setCacheObjectData(key, value, DEFALUTTIME, DEFALUTSECRET);
@@ -135,7 +144,8 @@ public class RedisTemplateImp implements CacheInterface {
 
 
 
-	/**
+	*/
+/**
 	 * 功能描述：设置缓存对象类型内容。
 	 * <p/>
 	 * 创建时间：2017-02-12
@@ -152,7 +162,8 @@ public class RedisTemplateImp implements CacheInterface {
 	 * @param value     Object类型 内容
 	 * @param validTime long类型 有效时间（单位：秒）
 	 * @return boolean类型 返回结果
-	 */
+	 *//*
+
 	@Override
 	public boolean setCacheObjectData(Object key, Object value, final long validTime)
 			throws AppDaoException {
@@ -211,7 +222,8 @@ public class RedisTemplateImp implements CacheInterface {
 
 
 
-	/**
+	*/
+/**
 	 * 功能描述：删除缓存内容。
 	 * <p/>
 	 * 创建时间：2017-02-12
@@ -226,7 +238,8 @@ public class RedisTemplateImp implements CacheInterface {
 	 *
 	 * @param key String类型 键
 	 * @return boolean类型 返回结果
-	 */
+	 *//*
+
 	@Override
 	public boolean deleteCacheData(Object key) throws AppDaoException {
 		boolean rv = false;
@@ -254,7 +267,8 @@ public class RedisTemplateImp implements CacheInterface {
 
 
 
-	/**
+	*/
+/**
 	 * 功能描述：获取缓存内容。
 	 * <p/>
 	 * 创建时间：2017-02-12
@@ -269,7 +283,8 @@ public class RedisTemplateImp implements CacheInterface {
 	 *
 	 * @param key String类型 键
 	 * @return Object类型 返回结果
-	 */
+	 *//*
+
 	@Override
 	public Object getCacheData(Object key) throws AppDaoException {
 		Object rv = null;
@@ -310,7 +325,8 @@ public class RedisTemplateImp implements CacheInterface {
 
 
 
-	/**
+	*/
+/**
 	 * 功能描述：获取缓存内容。
 	 * <p/>
 	 * 创建时间：2017-02-12
@@ -326,7 +342,8 @@ public class RedisTemplateImp implements CacheInterface {
 	 * @param key  String类型 键
 	 * @param type Class<T>类型 内容类型
 	 * @return T类型 返回结果
-	 */
+	 *//*
+
 	@Override
 	public <T> T getCacheTData(String key, Class<T> type) throws AppDaoException {
 		if (StringUtils.isEmpty(key) || null == type) {
@@ -360,7 +377,8 @@ public class RedisTemplateImp implements CacheInterface {
 
 
 
-	/**
+	*/
+/**
 	 * 描述：清空缓存
 	 * <p/>
 	 * 创建时间：2017-03-23
@@ -374,10 +392,25 @@ public class RedisTemplateImp implements CacheInterface {
 	 * 修改备注：无
 	 * <p/>
 	 * 版本：V1.0
-	 */
+	 *//*
+
 	@Override
 	public void clear() throws AppDaoException {
 		redisTemplate.discard();
 	}
 
+
+
+	@Override
+	public Collection<String> getKeys(String pattern) throws AppDaoException {
+		return null;
+	}
+
+
+
+	@Override
+	public boolean deleteRegexCacheData(String pattern) throws AppDaoException {
+		return false;
+	}
 }
+*/

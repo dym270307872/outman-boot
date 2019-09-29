@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
+
 /**
  * @author JE哥
  * @email 1272434821@qq.com
@@ -16,10 +17,10 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @EnableRedisRepositories
 //@EnableCaching
 @ComponentScan(basePackages = {"cn.dyaoming"})
-public class Application {
+public class JedisClusterApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
+    SpringApplication.run(JedisClusterApplication.class, args);
   }
 
 }

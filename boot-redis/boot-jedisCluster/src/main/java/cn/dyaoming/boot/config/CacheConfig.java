@@ -1,4 +1,4 @@
-/*
+package cn.dyaoming.boot.config;/*
 package com.jege.spring.boot.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
