@@ -41,6 +41,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.61</version>
+        </dependency>
+
         <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -52,6 +58,7 @@
         <module>boot-jedis</module>
         <module>boot-jedisCluster</module>
         <module>boot-redisTemplate</module>
+        <module>boot-redis-testlog</module>
     </modules>
 
 
