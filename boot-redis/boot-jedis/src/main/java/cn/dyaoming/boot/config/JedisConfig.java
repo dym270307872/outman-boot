@@ -7,15 +7,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisSentinelPool;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Configuration
+//@Configuration
 public class JedisConfig extends CachingConfigurerSupport {
     private Logger logger = LoggerFactory.getLogger(JedisConfig.class);
 
@@ -31,8 +28,8 @@ public class JedisConfig extends CachingConfigurerSupport {
      * @return
      */
 
-    @Value("${spring.redis.host}")
-    private String host;
+//    @Value("${spring.redis.host}")
+//    private String host;
 
     @Value("${redis.sentinel.master}")
     private String masterName;
@@ -40,8 +37,8 @@ public class JedisConfig extends CachingConfigurerSupport {
     @Value("${redis.sentinel.nodes}")
     private String nodes;
 
-    @Value("${spring.redis.port}")
-    private int port;
+//    @Value("${spring.redis.port}")
+//    private int port;
 
     @Value("${spring.redis.timeout}")
     private int timeout;
@@ -75,7 +72,7 @@ public class JedisConfig extends CachingConfigurerSupport {
 
 
     @Bean
-    public JedisSentinelPool redisSentinePoolFactory() {
+    public JedisSentinelPool jedisSentinelPool() {
         GenericObjectPoolConfig PoolConfig = new GenericObjectPoolConfig();
         PoolConfig.setMaxIdle(maxIdle);
         PoolConfig.setMaxWaitMillis(maxWaitMillis);
@@ -93,8 +90,6 @@ public class JedisConfig extends CachingConfigurerSupport {
 
         JedisSentinelPool jedisSentinePool = new JedisSentinelPool(masterName, nodes, PoolConfig, timeout, null);
 
-        logger.info("JedisPool注入成功！");
-        logger.info("redis地址：" + host + ":" + port);
         return jedisSentinePool;
     }
 

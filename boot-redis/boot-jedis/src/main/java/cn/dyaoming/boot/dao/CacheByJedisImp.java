@@ -1,3 +1,4 @@
+/*
 package cn.dyaoming.boot.dao;
 
 import cn.dyaoming.cache.interfaces.CacheInterface;
@@ -10,17 +11,17 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPool;
 
 import java.util.Collection;
-@Component("cacheDao")
+//@Component("cacheDao")
 public class CacheByJedisImp  implements CacheInterface
 {
 
     private static final Logger logger  = LogManager.getLogger(CacheByJedisImp.class);
 
-    @Autowired
-    private JedisPool jedisPool;
+//    @Autowired
+//    private JedisPool jedisPool;
 
-    public boolean exists(Object o) throws AppDaoException {
-        jedisPool.getResource().exists(o.toString());
+//    public boolean exists(Object o) throws AppDaoException {
+//        jedisPool.getResource().exists(o.toString());
         return false;
     }
 
@@ -64,3 +65,4 @@ public class CacheByJedisImp  implements CacheInterface
         return false;
     }
 }
+*/
