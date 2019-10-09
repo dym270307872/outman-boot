@@ -1,19 +1,18 @@
 package cn.dyaoming.boot.test;
 
-import cn.dyaoming.log.services.TestLogService;
+import cn.dyaoming.boot.service.ThreadService;
+import cn.dyaoming.log.entitys.TestLog;
 import junit.BaseJunit;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+
+import java.util.Date;
 
 public class JedisTemplateRun extends BaseJunit {
 
     @Autowired
-    private RedisTemplate redisTemplate;
-
-    @Autowired
-    private TestLogService testLogService;
-
+    private ThreadService threadService;
 
     /*@Test
     public void testJedis(){
@@ -31,18 +30,13 @@ public class JedisTemplateRun extends BaseJunit {
     @Test
     public void main() {
 
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-
-                    testLogService.save();
-
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-
+        for (int i = 0; i < 1; i++) {
+            for (int j = 0; j < 1; j++) {
+                final String key = "key(" + i + "|" + j + ")";
+                threadService.init(key,key);
+                threadService.start();
             }
-        }.start();
+        }
+
     }
 }
