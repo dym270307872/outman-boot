@@ -11,9 +11,19 @@
 
   <dependencies>
     <dependency>
+      <groupId>cn.dyaoming.common</groupId>
+      <artifactId>common-cache</artifactId>
+      <version>0.0.2</version>
+    </dependency>
+    <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
       <version>2.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>cn.dyaoming.outman</groupId>
+      <artifactId>boot-redis-testlog</artifactId>
+      <version>0.0.2-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

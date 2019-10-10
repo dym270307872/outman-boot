@@ -14,7 +14,7 @@ public class TestLog {
     private Date beginTime;
     private Date endTime;
     private String dataFrom;
-
+private Long time;
     @Id
     @Column(name = "Id", nullable = false)
     public int getId() {
@@ -78,6 +78,13 @@ public class TestLog {
     public void setDataFrom(String dataFrom) {
         this.dataFrom = dataFrom;
     }
+    @Basic
+    @Column(name = "time", nullable = true)
+    public Long getTime() {
+        return time;
+    }
 
-
+    public void setTime(Long time) {
+        this.time = time;
+    }
 }

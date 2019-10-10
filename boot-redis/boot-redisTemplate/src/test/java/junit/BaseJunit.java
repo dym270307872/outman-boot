@@ -1,6 +1,6 @@
 package junit;
 
-import cn.dyaoming.boot.RedisTemplateApplication;
+import cn.dyaoming.outman.RedisTemplateApplication;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
