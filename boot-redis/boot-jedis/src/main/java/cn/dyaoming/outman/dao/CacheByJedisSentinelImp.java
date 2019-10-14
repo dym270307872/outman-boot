@@ -11,19 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisCluster;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisSentinelPool;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
 
 @Component("cacheDao")
-public class CacheByJedisClusterImp implements CacheInterface {
+public class CacheByJedisSentinelImp implements CacheInterface {
 
-
-    private static final Logger logger = LogManager.getLogger(CacheByJedisClusterImp.class);
+    private static final Logger logger = LogManager.getLogger(CacheByJedisSentinelImp.class);
 
     @Autowired
-    private JedisCluster jedisCluster;
+    private JedisSentinelPool jedisPool;
 
 
     /**
@@ -44,7 +43,7 @@ public class CacheByJedisClusterImp implements CacheInterface {
      */
     @Override
     public boolean exists(Object key) throws AppDaoException {
-        return jedisCluster.exists(key.toString());
+        return jedisPool.getResource().exists(key.toString());
     }
 
 
@@ -123,12 +122,13 @@ public class CacheByJedisClusterImp implements CacheInterface {
                     valueByte = all_byte;
                 }
                 final byte[] finalValue = valueByte;
+                Jedis jedis = jedisPool.getResource();
 
                 if (validTime > 0L) {
                     int expireTime = new Long(validTime).intValue();
-                    jedisCluster.setex(finalKey, expireTime, finalValue);
+                    jedis.setex(finalKey, expireTime, finalValue);
                 } else {
-                    jedisCluster.set(finalKey, finalValue);
+                    jedis.set(finalKey, finalValue);
 
                 }
                 return true;
@@ -165,7 +165,7 @@ public class CacheByJedisClusterImp implements CacheInterface {
         try {
             if (!StringUtils.isEmpty(key)) {
                 final byte[] finalKey = key.toString().getBytes("utf-8");
-                jedisCluster.del(finalKey);
+                jedisPool.getResource().del(finalKey);
                 rv = true;
             }
         } catch (Exception e) {
@@ -201,7 +201,7 @@ public class CacheByJedisClusterImp implements CacheInterface {
 
             if (!StringUtils.isEmpty(key)) {
                 final byte[] finalKey = key.toString().getBytes("utf-8");
-                byte[] value = jedisCluster.get(finalKey);
+                byte[] value = jedisPool.getResource().get(finalKey);
                 if (value == null) {
                     return null;
                 }
@@ -248,7 +248,7 @@ public class CacheByJedisClusterImp implements CacheInterface {
         try {
             if (!StringUtils.isEmpty(key)) {
                 final byte[] finalKey = key.getBytes("utf-8");
-                byte[] value = jedisCluster.get(finalKey);
+                byte[] value = jedisPool.getResource().get(finalKey);
                 if (value == null) {
                     return null;
                 }
@@ -295,46 +295,21 @@ public class CacheByJedisClusterImp implements CacheInterface {
      */
     @Override
     public void clear() throws AppDaoException {
-        Map<String, JedisPool> clusterNodes = jedisCluster.getClusterNodes();
-        for (String k : clusterNodes.keySet()) {
-
-            JedisPool jp = clusterNodes.get(k);
-            Jedis connection = jp.getResource();
-            try {
-                connection.flushDB();
-            } catch (Exception e) {
-            } finally {
-                connection.close();//用完一定要close这个链接！！！
-            }
-        }
+        jedisPool.getResource().flushDB();
     }
 
 
     @Override
-    public Collection<String> getKeys(String pattern) {
-        TreeSet<String> keys = new TreeSet<>();
-        Map<String, JedisPool> clusterNodes = jedisCluster.getClusterNodes();
-        for (String k : clusterNodes.keySet()) {
-
-            JedisPool jp = clusterNodes.get(k);
-            Jedis connection = jp.getResource();
-            try {
-                keys.addAll(connection.keys(pattern));
-            } catch (Exception e) {
-            } finally {
-                connection.close();//用完一定要close这个链接！！！
-            }
-        }
-
-        return keys;
+    public Collection<String> getKeys(String pattern) throws AppDaoException {
+        return jedisPool.getResource().keys(pattern);
     }
 
 
     @Override
     public boolean deleteRegexCacheData(String pattern) throws AppDaoException {
-
-        for (String key : getKeys(pattern)) {
-            jedisCluster.del(key);
+        Jedis jedis = jedisPool.getResource();
+        for (String key : jedis.keys(pattern)) {
+            jedis.del(key);
         }
         return true;
     }

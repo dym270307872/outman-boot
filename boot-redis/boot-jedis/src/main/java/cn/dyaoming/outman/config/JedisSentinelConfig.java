@@ -1,12 +1,9 @@
 package cn.dyaoming.outman.config;
 
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisSentinelConfiguration;
-import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisSentinelPool;
 
@@ -59,11 +56,12 @@ public class JedisSentinelConfig extends CachingConfigurerSupport {
 
     @Bean
     public JedisSentinelPool jedisSentinelPool() {
-        GenericObjectPoolConfig PoolConfig = new GenericObjectPoolConfig();
-        PoolConfig.setMaxIdle(maxIdle);
-        PoolConfig.setMaxWaitMillis(maxWaitMillis);
-        PoolConfig.setMaxTotal(maxActive);
-        PoolConfig.setMinIdle(minIdle);
+
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxIdle(maxIdle);
+        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
+        jedisPoolConfig.setMaxTotal(maxActive);
+        jedisPoolConfig.setMinIdle(minIdle);
 
         String[] serverArray = nodes.split(",");//获取服务器数组(这里要相信自己的输入，所以没有考虑空指针问题)
         Set<String> nodes = new HashSet<String>();
@@ -73,32 +71,7 @@ public class JedisSentinelConfig extends CachingConfigurerSupport {
                 nodes.add(ipPort);
         }
 
-
-        JedisSentinelPool jedisSentinePool = new JedisSentinelPool(masterName, nodes, PoolConfig, timeout, "master");
-
-        return jedisSentinePool;
-    }
-
-
-    @Bean
-    public JedisSentinelPool getJedisPool() {
-        GenericObjectPoolConfig PoolConfig = new GenericObjectPoolConfig();
-        PoolConfig.setMaxIdle(maxIdle);
-        PoolConfig.setMaxWaitMillis(maxWaitMillis);
-        PoolConfig.setMaxTotal(maxActive);
-        PoolConfig.setMinIdle(minIdle);
-
-        String[] serverArray = nodes.split(",");//获取服务器数组(这里要相信自己的输入，所以没有考虑空指针问题)
-        Set<String> nodes = new HashSet<String>();
-
-        for (String ipPort : serverArray) {
-            if (!ipPort.trim().isEmpty())
-                nodes.add(ipPort);
-        }
-
-        RedisSentinelConfiguration sentinelConfiguration = new RedisSentinelConfiguration(masterName, nodes);
-        JedisSentinelPool jedisSentinePool = new JedisSentinelPool(masterName, nodes, PoolConfig, timeout);
-//        JedisConnectionFactory jedisConnectionFactory = new jedisConnectionFactory(sentinelConfiguration,);
+        JedisSentinelPool jedisSentinePool = new JedisSentinelPool(masterName, nodes, jedisPoolConfig, timeout, "master");
 
         return jedisSentinePool;
     }
