@@ -1,3 +1,4 @@
+/*
 package cn.dyaoming.outman.service;
 
 import cn.dyaoming.log.entitys.TestLog;
@@ -34,3 +35,4 @@ public class ThreadService {
     }
 
 }
+*/

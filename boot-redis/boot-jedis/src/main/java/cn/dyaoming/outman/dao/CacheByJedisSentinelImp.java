@@ -43,7 +43,13 @@ public class CacheByJedisSentinelImp implements CacheInterface {
      */
     @Override
     public boolean exists(Object key) throws AppDaoException {
-        return jedisPool.getResource().exists(key.toString());
+        boolean rv = false;
+        try{
+            rv = jedisPool.getResource().exists(key.toString());
+        }finally {
+            jedisPool.destroy();
+        }
+        return rv;
     }
 
 
@@ -106,6 +112,7 @@ public class CacheByJedisSentinelImp implements CacheInterface {
     public boolean setCacheObjectData(Object key, Object value, final long validTime,
                                       boolean secret) throws AppDaoException {
         boolean rv = false;
+        Jedis jedis = null;
         try {
             if (!StringUtils.isEmpty(key)) {
                 final byte[] finalKey = key.toString().getBytes("utf-8");
@@ -122,7 +129,7 @@ public class CacheByJedisSentinelImp implements CacheInterface {
                     valueByte = all_byte;
                 }
                 final byte[] finalValue = valueByte;
-                Jedis jedis = jedisPool.getResource();
+                jedis = jedisPool.getResource();
 
                 if (validTime > 0L) {
                     int expireTime = new Long(validTime).intValue();
@@ -136,6 +143,10 @@ public class CacheByJedisSentinelImp implements CacheInterface {
         } catch (Exception e) {
             logger.error("异常：setCacheObjectData()方法出现异常，异常详细信息：" + e.getMessage() + "。");
             throw new AppDaoException("缓存对象类型内容出现异常！", e);
+        }finally {
+            if(jedis != null){
+                jedis.close();
+            }
         }
 
         return rv;
@@ -313,4 +324,11 @@ public class CacheByJedisSentinelImp implements CacheInterface {
         }
         return true;
     }
+
+
+	@Override
+	public void init(String dbIndex) {
+		// TODO Auto-generated method stub
+		
+	}
 }

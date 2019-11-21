@@ -67,8 +67,9 @@ public class JedisSentinelConfig extends CachingConfigurerSupport {
         Set<String> nodes = new HashSet<String>();
 
         for (String ipPort : serverArray) {
-            if (!ipPort.trim().isEmpty())
+            if (!ipPort.trim().isEmpty()) {
                 nodes.add(ipPort);
+            }
         }
 
         JedisSentinelPool jedisSentinePool = new JedisSentinelPool(masterName, nodes, jedisPoolConfig, timeout, "master");

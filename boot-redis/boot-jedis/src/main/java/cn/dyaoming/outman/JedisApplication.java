@@ -7,12 +7,15 @@ import org.springframework.context.annotation.Configuration;
 //import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
 
-
+/**
+ * 
+ * @author dyaoming
+ */
 @Configuration
 @SpringBootApplication
 //@EnableRedisRepositories
 //@EnableCaching
-@ComponentScan(basePackages = {"cn.dyaoming"})
+@ComponentScan(basePackages = "cn.dyaoming")
 public class JedisApplication {
 
   public static void main(String[] args) {

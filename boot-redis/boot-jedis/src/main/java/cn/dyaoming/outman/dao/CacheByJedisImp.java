@@ -4,21 +4,20 @@ import cn.dyaoming.cache.interfaces.CacheInterface;
 import cn.dyaoming.errors.AppDaoException;
 import cn.dyaoming.utils.AesUtil;
 import cn.dyaoming.utils.SerializeUtil;
+import java.util.Arrays;
+import java.util.Collection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-import java.util.Arrays;
-import java.util.Collection;
 
-@Component("cacheDao")
+//@Component("cacheDao")
 public class CacheByJedisImp implements CacheInterface {
 
-    private static final Logger logger = LogManager.getLogger(CacheByJedisImp.class);
+    private static final Logger LOGGER = LogManager.getLogger(CacheByJedisImp.class);
 
     @Autowired
     private JedisPool jedisPool;
@@ -133,7 +132,7 @@ public class CacheByJedisImp implements CacheInterface {
                 return true;
             }
         } catch (Exception e) {
-            logger.error("异常：setCacheObjectData()方法出现异常，异常详细信息：" + e.getMessage() + "。");
+        	LOGGER.error("异常：setCacheObjectData()方法出现异常，异常详细信息：" + e.getMessage() + "。");
             throw new AppDaoException("缓存对象类型内容出现异常！", e);
         }
 
@@ -168,7 +167,7 @@ public class CacheByJedisImp implements CacheInterface {
                 rv = true;
             }
         } catch (Exception e) {
-            logger.error("异常：deleteCacheData()方法出现异常，异常详细信息：" + e.getMessage() + "。");
+        	LOGGER.error("异常：deleteCacheData()方法出现异常，异常详细信息：" + e.getMessage() + "。");
             throw new AppDaoException("删除缓存内容出现异常！", e);
         }
 
@@ -216,7 +215,7 @@ public class CacheByJedisImp implements CacheInterface {
                 return SerializeUtil.unSerialize(value);
             }
         } catch (Exception e) {
-            logger.error("异常：getCacheData()方法出现异常，异常详细信息：" + e.getMessage() + "。");
+        	LOGGER.error("异常：getCacheData()方法出现异常，异常详细信息：" + e.getMessage() + "。");
             throw new AppDaoException("获取缓存内容出现异常！", e);
         }
 
@@ -312,4 +311,11 @@ public class CacheByJedisImp implements CacheInterface {
         }
         return true;
     }
+
+
+	@Override
+	public void init(String dbIndex) {
+		// TODO Auto-generated method stub
+		
+	}
 }

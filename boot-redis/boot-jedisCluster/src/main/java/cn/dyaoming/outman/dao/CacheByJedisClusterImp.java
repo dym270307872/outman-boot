@@ -198,7 +198,7 @@ public class CacheByJedisClusterImp implements CacheInterface {
         Object rv = null;
 
         try {
-
+            jedisCluster.close();
             if (!StringUtils.isEmpty(key)) {
                 final byte[] finalKey = key.toString().getBytes("utf-8");
                 byte[] value = jedisCluster.get(finalKey);

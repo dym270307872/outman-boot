@@ -1,3 +1,4 @@
+/*
 package cn.dyaoming.outman.constrollers;
 
 import cn.dyaoming.outman.service.ThreadService;
@@ -26,3 +27,4 @@ public class TestEffectiveness {
         return "success";
     }
 }
+*/
