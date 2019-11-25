@@ -402,4 +402,12 @@ public class RedisTemplateImp implements CacheInterface {
 	public boolean deleteRegexCacheData(String pattern) throws AppDaoException {
 		return false;
 	}
+
+
+
+	@Override
+	public void init(String dbIndex) {
+		// TODO Auto-generated method stub
+		
+	}
 }

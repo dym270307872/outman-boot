@@ -1,7 +1,5 @@
 package cn.dyaoming.outman.dao;
 
-import cn.dyaoming.cache.interfaces.CacheInterface;
-
 import cn.dyaoming.errors.AppDaoException;
 import cn.dyaoming.utils.AesUtil;
 import cn.dyaoming.utils.SerializeUtil;
@@ -16,7 +14,7 @@ import redis.clients.jedis.JedisSentinelPool;
 import java.util.Arrays;
 import java.util.Collection;
 
-@Component("cacheDao")
+//@Component("cacheDao")
 public class CacheByJedisSentinelImp implements CacheInterface {
 
     private static final Logger logger = LogManager.getLogger(CacheByJedisSentinelImp.class);
