@@ -15,7 +15,7 @@ public class RandomService {
         return "返回值：" + new Random().nextInt(max);
     }
     
-    @Cacheable(value = "publicInfo")
+    @Cacheable(value = "publ#30")
     public String getRandom2(int max){
         return "返回值：" + new Random().nextInt(max);
     }
