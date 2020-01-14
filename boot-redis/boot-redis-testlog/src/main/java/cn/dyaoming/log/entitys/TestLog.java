@@ -14,7 +14,7 @@ public class TestLog {
     private Date beginTime;
     private Date endTime;
     private String dataFrom;
-private Long time;
+    private Long time;
     @Id
     @Column(name = "Id", nullable = false)
     public int getId() {

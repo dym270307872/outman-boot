@@ -19,7 +19,7 @@ public class TestEffectiveness {
     @RequestMapping("/")
     public String main(){
 
-        String key = UUID.randomUUID().toString().replace("-","");
+              String key = UUID.randomUUID().toString().replace("-","");
         String value = RandomUtil.randomNumChar(Integer.valueOf(RandomUtil.randomNum(4)));
         threadService.run(key,value);
 

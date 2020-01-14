@@ -1,4 +1,3 @@
-/*
 package cn.dyaoming.outman.service;
 
 import cn.dyaoming.log.entitys.TestLog;
@@ -6,6 +5,7 @@ import cn.dyaoming.log.services.TestLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisSentinelPool;
 
 import java.util.Date;
@@ -24,9 +24,9 @@ public class ThreadService {
         TestLog testLog = new TestLog();
         testLog.setDataFrom("sentinel");
         testLog.setBeginTime(new Date());
-
-        jedisSentinelPool.getResource().set(key, value);
-
+        Jedis jedis = jedisSentinelPool.getResource();
+        jedis.set(key, value);
+        jedis.close();
         testLog.setEndTime(new Date());
         testLog.setSkey(key);
         testLog.setSlength(Long.valueOf("" + value.length()));
@@ -35,4 +35,3 @@ public class ThreadService {
     }
 
 }
-*/

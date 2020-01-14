@@ -17,7 +17,7 @@ import org.w3c.dom.NodeList;
 import javax.xml.soap.SOAPException;
 import java.util.List;
 
-@Component
+//@Component
 public class AuthInterceptor extends AbstractPhaseInterceptor<SoapMessage> {
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	private static final String USERNAME = "root";

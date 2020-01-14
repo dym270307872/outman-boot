@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.JedisCluster;
 
+import java.io.IOException;
 import java.util.Date;
 
 @Service
@@ -23,7 +24,11 @@ public class ThreadService {
         testLog.setBeginTime(new Date());
 
         jedisCluster.set(key, value);
-
+        try {
+            jedisCluster.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         testLog.setEndTime(new Date());
         testLog.setSkey(key);
         testLog.setSlength(Long.valueOf("" + value.length()));

@@ -21,8 +21,8 @@ public class WebServiceConfig {
 	@Autowired
 	private Bus bus;
 
-	@Autowired
-	private AuthInterceptor interceptor;
+//	@Autowired
+//	private AuthInterceptor interceptor;
 
 	/*jax-ws*/
 	@Bean
