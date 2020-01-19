@@ -1,4 +1,4 @@
-package cn.dyaoming.outman.activemq;
+package cn.dyaoming.outman.kafka;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @SpringBootApplication
 @EnableScheduling
-public class ConsumerApplication {
+public class ProducerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ConsumerApplication.class, args);
+        SpringApplication.run(ProducerApplication.class, args);
     }
 }

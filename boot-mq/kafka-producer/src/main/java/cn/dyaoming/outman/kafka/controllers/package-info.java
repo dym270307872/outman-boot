@@ -5,4 +5,4 @@
  * @since 2019-06-17
  * @version V1.0
  */
-package cn.dyaoming.outman.activemq.controllers;
+package cn.dyaoming.outman.kafka.controllers;

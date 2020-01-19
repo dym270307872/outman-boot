@@ -3,17 +3,15 @@ server:
   port: 7011
 
 spring:
+#  profiles:
+#    active: test
   messages:
     basename: i18n/Messages,i18n/Pages
-  jms:
-    pub-sub-domain: false   # 配置消息的类型，如果是true则表示为topic消息，如果为false表示Queue消息
-  #activemq:
-  #  user: admin    # 连接用户名
-  #  password: admin   # 连接密码
-  #  broker-url: tcp://192.168.1.11:61616 # 消息组件的连接主机信息
-
-# 开发配置
-  activemq:
-    user: admin    # 连接用户名
-    password: admin   # 连接密码
-    broker-url: tcp://127.0.0.1:61616 # 消息组件的连接主机信息
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    producer:
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
