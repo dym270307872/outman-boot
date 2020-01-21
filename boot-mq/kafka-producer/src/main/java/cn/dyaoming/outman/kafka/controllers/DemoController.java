@@ -7,18 +7,26 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.dyaoming.outman.kafka.servers.KafkaSender;
 
 @RestController
-@RequestMapping("/demo")
+@RequestMapping("/kafkaDemo")
 public class DemoController {
 
-	 @Autowired
-	 private KafkaSender kafkaSender;
-	
-	@RequestMapping("/test")
-	public String test(String value) {
+    @Autowired
+    private KafkaSender kafkaSender;
 
-		kafkaSender.send();
-		return "success";
-	}
 
+    @RequestMapping("/unicast")
+    public String unicast(String value) {
+
+        kafkaSender.unicast();
+        return "success";
+    }
+
+
+    @RequestMapping("/broadcast")
+    public String broadcast(String value) {
+
+        kafkaSender.broadcast();
+        return "success";
+    }
 
 }

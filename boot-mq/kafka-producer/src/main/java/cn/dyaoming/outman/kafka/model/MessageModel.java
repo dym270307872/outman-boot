@@ -2,7 +2,7 @@ package cn.dyaoming.outman.kafka.model;
 
 import java.util.Date;
 
-public class Message {
+public class MessageModel {
 	private Long	id;			// id
 
 	private String	msg;		// 消息

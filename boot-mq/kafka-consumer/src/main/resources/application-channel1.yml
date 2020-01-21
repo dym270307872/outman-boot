@@ -1,6 +1,6 @@
-#公共配置
+#channel1配置
 server:
-    port: 7012
+    port: 17011
 
 spring:
     messages:
@@ -14,4 +14,6 @@ spring:
             auto-commit-interval: 100
             key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
             value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-
+config:
+    kafka:
+        group-id: channel1
