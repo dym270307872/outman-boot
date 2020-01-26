@@ -1,0 +1,18 @@
+#公共配置
+server:
+  port: 17013
+
+spring:
+  #  profiles:
+  #    active: zhkj
+  messages:
+    basename: i18n/Messages,i18n/Pages
+
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    publisher-confirms: true
+    virtual-host: /
+

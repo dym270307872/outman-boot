@@ -1,17 +1,17 @@
 #公共配置
 server:
-  port: 7012
+    port: 7012
 
 spring:
-  messages:
-    basename: i18n/Messages,i18n/Pages
-  kafka:
-    bootstrap-servers: 127.0.0.1:9092
-    consumer:
-      group-id: test-consumer-group
-      auto-offset-reset: earliest
-      enable-auto-commit: true
-      auto-commit-interval: 100
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    messages:
+        basename: i18n/Messages,i18n/Pages
+    kafka:
+        bootstrap-servers: 127.0.0.1:9092
+        consumer:
+            group-id: channel
+            auto-offset-reset: earliest
+            enable-auto-commit: true
+            auto-commit-interval: 100
+            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 

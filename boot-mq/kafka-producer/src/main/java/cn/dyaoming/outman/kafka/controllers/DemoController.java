@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.dyaoming.outman.kafka.servers.KafkaSender;
+import cn.dyaoming.outman.kafka.servers.KafkaSenderService;
 
 @RestController
 @RequestMapping("/kafkaDemo")
 public class DemoController {
 
     @Autowired
-    private KafkaSender kafkaSender;
+    private KafkaSenderService kafkaSender;
 
 
     @RequestMapping("/unicast")

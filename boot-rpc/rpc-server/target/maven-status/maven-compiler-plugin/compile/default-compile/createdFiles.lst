@@ -1,5 +1,0 @@
-cn\dyaoming\outman\rpc\services\impl\MyCxfServiceImpl.class
-cn\dyaoming\outman\rpc\Bootstrap.class
-cn\dyaoming\outman\rpc\services\impl\MyWebServiceImpl.class
-cn\dyaoming\outman\rpc\config\WebServiceConfig.class
-cn\dyaoming\outman\rpc\filters\AuthInterceptor.class

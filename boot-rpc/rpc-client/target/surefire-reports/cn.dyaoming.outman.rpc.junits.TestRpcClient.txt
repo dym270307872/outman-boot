@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: cn.dyaoming.outman.rpc.junits.TestRpcClient
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.303 s - in cn.dyaoming.outman.rpc.junits.TestRpcClient
