@@ -1,18 +1,30 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <groupId>cn.dyaoming.outman</groupId>
-    <artifactId>outman-boot</artifactId>
+    <artifactId>boot-mq</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>boot-mq</artifactId>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>kafka-consumer</module>
-  	<module>kafka-producer</module>
-    <module>activemq-producer</module>
-    <module>activemq-consumer</module>
-    <module>rabbitmq-producer</module>
-    <module>rabbitmq-consumer</module>
-  </modules>
+    <packaging>pom</packaging>
+    <modules>
+        <module>kafka-consumer</module>
+        <module>kafka-producer</module>
+        <module>activemq-producer</module>
+        <module>activemq-consumer</module>
+        <module>rabbitmq-producer</module>
+        <module>rabbitmq-consumer</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cn.dyaoming.common</groupId>
+                <artifactId>spring-boot-common-bom</artifactId>
+                <version>0.3.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 </project>
