@@ -15,7 +15,7 @@ import redis.clients.jedis.JedisPool;
 import java.util.Arrays;
 import java.util.Collection;
 
-//@Component("cacheDao")
+@Component("cacheDao")
 public class CacheByJedisImp implements CacheInterface {
 
     private static final Logger logger = LogManager.getLogger(CacheByJedisImp.class);
@@ -311,5 +311,12 @@ public class CacheByJedisImp implements CacheInterface {
             jedis.del(key);
         }
         return true;
+    }
+
+
+    @Override
+    public void init(String dbIndex) {
+        // TODO Auto-generated method stub
+        logger.error("切换数据源下标到"+dbIndex);
     }
 }

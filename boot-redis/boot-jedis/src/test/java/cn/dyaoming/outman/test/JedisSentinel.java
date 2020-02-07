@@ -17,11 +17,11 @@ public class JedisSentinel {
 
         String masterName = "mymaster";
         Set<String> sentinelSet = new HashSet<>();
-        sentinelSet.add("192.168.235.1:26397");
+        sentinelSet.add("127.0.0.1:26397");
 //        sentinelSet.add("127.0.0.1:26380");
 //        sentinelSet.add("127.0.0.1:26381");
 //        JedisSentinelPool pool = new JedisSentinelPool(masterName, sentinelSet, config);
-        JedisSentinelPool pool = new JedisSentinelPool(masterName, sentinelSet,"master");
+        JedisSentinelPool pool = new JedisSentinelPool(masterName, sentinelSet,config,"master");
         Jedis jedis = null;
         try {
             jedis = pool.getResource();

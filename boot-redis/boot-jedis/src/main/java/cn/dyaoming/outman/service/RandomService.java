@@ -21,7 +21,10 @@ public class RandomService {
         return "返回值：" + new Random().nextInt(max);
     }
     
-    
+    @Cacheable(value = "lahdkg#60##5")
+    public String getRandom3(int max){
+        return "返回值：" + new Random().nextInt(max);
+    }
     
     @CachePut(value = "userInfo",key="#name +'to userinfo'")
     public String find(String name){

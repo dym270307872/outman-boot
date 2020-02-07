@@ -15,7 +15,7 @@ import redis.clients.jedis.JedisSentinelPool;
 import java.util.HashSet;
 import java.util.Set;
 
-@Configuration
+//@Configuration
 public class JedisConfig extends CachingConfigurerSupport {
     private Logger logger = LoggerFactory.getLogger(JedisConfig.class);
 

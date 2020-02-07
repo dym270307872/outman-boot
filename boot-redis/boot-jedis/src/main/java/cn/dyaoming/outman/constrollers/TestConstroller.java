@@ -23,7 +23,14 @@ public class TestConstroller {
 	public String random2(int max) {
 		return randomService.getRandom2(max);
 	}
-
+	
+	
+	@RequestMapping("/getRandom3")
+    public String getRandom3(int max) {
+        return randomService.getRandom3(max);
+    }
+	
+	
 	@RequestMapping("/get")
 	public String get(String name) {
 		return randomService.find(name);
