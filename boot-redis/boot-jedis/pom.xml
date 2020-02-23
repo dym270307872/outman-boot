@@ -12,7 +12,7 @@
     <dependency>
       <groupId>cn.dyaoming.common</groupId>
       <artifactId>common-cache</artifactId>
-      <version>0.0.3</version>
+      <version>0.0.2</version>
     </dependency>
     <dependency>
       <groupId>redis.clients</groupId>
