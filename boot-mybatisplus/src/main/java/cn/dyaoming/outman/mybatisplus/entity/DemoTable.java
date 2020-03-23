@@ -1,9 +1,10 @@
 package cn.dyaoming.outman.mybatisplus.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-import cn.dyaoming.outman.baseEntity;
+
+import cn.dyaoming.outman.common.BaseEntity;
+
 import java.io.Serializable;
 
 /**
@@ -14,7 +15,7 @@ import java.io.Serializable;
  * @author dyaoming
  * @since 2020-03-23
  */
-public class DemoTable extends baseEntity<DemoTable> {
+public class DemoTable extends BaseEntity<DemoTable> {
 
     private static final long serialVersionUID = 1L;
 

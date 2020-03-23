@@ -1,8 +1,8 @@
 package cn.dyaoming.outman.mybatisplus.entity;
 
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import cn.dyaoming.outman.baseEntity;
 import java.io.Serializable;
+
+import cn.dyaoming.outman.common.BaseEntity;
 
 /**
  * <p>
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author dyaoming
  * @since 2020-03-23
  */
-public class CmsProInfo extends baseEntity<CmsProInfo> {
+public class CmsProInfo extends BaseEntity<CmsProInfo> {
 
     private static final long serialVersionUID = 1L;
 
