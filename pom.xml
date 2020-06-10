@@ -18,6 +18,8 @@
 		<module>boot-mq</module>
 		<module>boot-dubbo</module>
 		<module>boot-junit</module>
+		<module>common-swagger-knife4j</module>
+		<module>boot-redisHttpSession</module>
 	</modules>
 
 	<parent>
