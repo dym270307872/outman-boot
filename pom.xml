@@ -20,7 +20,8 @@
 		<module>boot-junit</module>
 		<module>common-swagger-knife4j</module>
 		<module>boot-redisHttpSession</module>
-	</modules>
+        <module>boot-docker</module>
+    </modules>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
