@@ -1,0 +1,107 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<!-- <parent> -->
+	<groupId>cn.dyaoming.outman</groupId>
+	<!-- <artifactId>outman-boot</artifactId> -->
+	<version>0.0.1-SNAPSHOT</version>
+	<!-- </parent> -->
+	<artifactId>boot-web-cors</artifactId>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.4.RELEASE</version>
+		<relativePath />
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>cn.dyaoming.common</groupId>
+			<artifactId>common-util</artifactId>
+			<version>0.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- <plugin>
+				<groupId>com.github.wvengen</groupId>
+				<artifactId>proguard-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>proguard</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<proguardVersion>5.3.3</proguardVersion>
+					<injar>${project.build.finalName}.jar</injar>
+					<outjar>${project.build.finalName}.jar</outjar>
+					<obfuscate>true</obfuscate>
+					<proguardInclude>${project.basedir}/proguard.cfg</proguardInclude>
+					<libs>
+						Include main JAVA library required.
+						<lib>${java.home}/lib/rt.jar</lib>
+						Include crypto JAVA library if necessary.
+						<lib>${java.home}/lib/jce.jar</lib>
+					</libs>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>net.sf.proguard</groupId>
+						<artifactId>proguard-base</artifactId>
+						<version>5.3.3</version>
+					</dependency>
+				</dependencies>
+			</plugin> -->
+			<!--<plugin> <groupId>com.github.wvengen</groupId> <artifactId>proguard-maven-plugin</artifactId> 
+				<executions> <execution> <phase>package</phase> <goals><goal>proguard</goal></goals> 
+				</execution> </executions> <configuration> <proguardVersion>5.3.3</proguardVersion> 
+				<injar>${project.build.finalName}.jar</injar> <outjar>${project.build.finalName}.jar</outjar> 
+				<obfuscate>true</obfuscate> <options> <option>-dontshrink</option> <option>-dontoptimize</option> 
+				<option>-adaptclassstrings</option> <option>-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod</option> 
+				<option>-keepnames interface **</option> <option>-keepparameternames</option> 
+				<option>-keep class cn.dyaoming.outman.Bootstrap</option> <option>-keepclassmembers 
+				class cn.dyaoming.outman.Bootstrap{ *;}</option> <option>-keep class cn.dyaoming.outman.controllers.**</option> 
+				<option>-keep interface * extends * { *; }</option> <option>-keepclassmembers 
+				class * { @org.springframework.beans.factory.annotation.Autowired *; @org.springframework.beans.factory.annotation.Value 
+				*; } </option> </options> <libs> <lib>${java.home}\lib\rt.jar</lib> <lib>${java.home}\lib\jce.jar</lib> 
+				</libs> </configuration> <dependencies> <dependency> <groupId>net.sf.proguard</groupId> 
+				<artifactId>proguard-base</artifactId> <version>5.3.3</version> </dependency> 
+				</dependencies> </plugin> -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<mainClass>cn.dyaoming.outman.Bootstrap</mainClass>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

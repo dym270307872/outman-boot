@@ -11,10 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * 
  * @author dyaoming
  */
-@Configuration
 @SpringBootApplication
-//@EnableRedisRepositories
-//@EnableCaching
 @ComponentScan(basePackages = "cn.dyaoming")
 public class JedisApplication {
 

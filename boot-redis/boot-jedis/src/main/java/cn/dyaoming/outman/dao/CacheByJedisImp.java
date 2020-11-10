@@ -15,7 +15,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 
-//@Component("cacheDao")
+@Component("cacheDao")
 public class CacheByJedisImp implements CacheInterface {
 
     private static final Logger LOGGER = LogManager.getLogger(CacheByJedisImp.class);

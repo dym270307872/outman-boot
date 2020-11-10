@@ -21,7 +21,8 @@
 		<module>common-swagger-knife4j</module>
 		<module>boot-redisHttpSession</module>
         <module>boot-docker</module>
-    </modules>
+        <module>boot-web-cors</module>
+	</modules>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

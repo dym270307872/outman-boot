@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisSentinelPool;
 
-@Component("cacheDao")
+//@Component("cacheDao")
 public class CacheByJedisSentinelImp implements CacheInterface {
 
     private static final Logger logger = LogManager.getLogger(CacheByJedisSentinelImp.class);

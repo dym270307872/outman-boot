@@ -1,21 +1,28 @@
 package cn.dyaoming.outman.config;
 
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.CacheableOperation;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.Nullable;
 
+import cn.dyaoming.cache.CacheKeyGenerator;
+import cn.dyaoming.cache.CacheManager;
+import cn.dyaoming.cache.SystemCache;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.JedisSentinelPool;
 
-import java.util.HashSet;
-import java.util.Set;
-
-//@Configuration
+@Configuration
+@EnableCaching
 public class JedisConfig extends CachingConfigurerSupport {
     private Logger logger = LoggerFactory.getLogger(JedisConfig.class);
 
@@ -75,5 +82,20 @@ public class JedisConfig extends CachingConfigurerSupport {
 
 
 
+    @Bean
+    @Override
+	@Nullable
+	public CacheManager cacheManager() {
+    	CacheManager cacheManager = new CacheManager();
+    	cacheManager.setName("default");
+    	cacheManager.setTimeout(600);
+    	cacheManager.setCaches(Arrays.asList(new SystemCache("userInfo",60,true)));
+		return cacheManager;
+	}
 
+    @Override
+	@Nullable
+	public KeyGenerator keyGenerator() {
+    	return new CacheKeyGenerator();
+	}
 }
