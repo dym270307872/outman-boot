@@ -22,6 +22,7 @@
 		<module>boot-redisHttpSession</module>
         <module>boot-docker</module>
         <module>boot-web-cors</module>
+        <module>boot-security</module>
 	</modules>
 
 	<parent>
