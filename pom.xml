@@ -23,6 +23,7 @@
         <module>boot-docker</module>
         <module>boot-web-cors</module>
         <module>boot-security</module>
+        <module>boot-exception</module>
 	</modules>
 
 	<parent>
