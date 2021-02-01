@@ -17,11 +17,11 @@
             <set>
                 <bean class="cn.dyaoming.cache.SystemCache">
                     <property name="name" value="userInfo" />
-                    <property name="timeout" value="5" />
+                    <property name="timeout" value="500" />
                 </bean>
                 <bean class="cn.dyaoming.cache.SystemCache">
                     <property name="name" value="businessInfo" />
-                    <property name="timeout" value="5" />
+                    <property name="timeout" value="500" />
                 </bean>
             </set>
         </property>

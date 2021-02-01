@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Configuration
-public class JedisConfig extends CachingConfigurerSupport {
+public class JedisConfig /*extends CachingConfigurerSupport*/ {
     private Logger logger = LoggerFactory.getLogger(JedisConfig.class);
 
     /**
@@ -42,6 +42,9 @@ public class JedisConfig extends CachingConfigurerSupport {
 
     @Value("${spring.redis.port}")
     private int port;
+    
+    @Value("${spring.redis.password}")
+    private String password;
 
     @Value("${spring.redis.timeout}")
     private int timeout;
@@ -66,7 +69,7 @@ public class JedisConfig extends CachingConfigurerSupport {
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
         jedisPoolConfig.setMaxTotal(maxActive);
         jedisPoolConfig.setMinIdle(minIdle);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, null);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
 
         logger.info("JedisPool注入成功！");
         logger.info("redis地址：" + host + ":" + port);

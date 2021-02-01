@@ -18,6 +18,10 @@
 		<module>boot-mq</module>
 		<module>boot-dubbo</module>
 		<module>boot-junit</module>
+		<module>boot-async</module>
+		<module>boot-exception</module>
+		<module>boot-security-oauth2</module>
+		<module>boot-common</module>
 	</modules>
 
 	<parent>
