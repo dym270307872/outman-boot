@@ -55,6 +55,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(myAuthenticationProvider);
     }
     
+    
+    @Override
+    protected void configure(ClientDetailsServiceConfigurer client) throws Exception {
+//    	client.authenticationProvider(myAuthenticationProvider);
+    } 
+    
 //    @Bean
 //    @Override
 //    public UserDetailsService userDetailsService() {

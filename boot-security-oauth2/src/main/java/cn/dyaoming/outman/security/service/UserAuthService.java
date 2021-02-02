@@ -1,4 +1,4 @@
-package cn.dyaoming.outman.security.controller;
+package cn.dyaoming.outman.security.service;
 
 import org.springframework.stereotype.Component;
 
