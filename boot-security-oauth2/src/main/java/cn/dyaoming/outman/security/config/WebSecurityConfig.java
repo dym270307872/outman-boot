@@ -44,6 +44,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     
     
+    
+    /**
+     * @Description OAuth2 token持久化接口
+     * @Date 2019/7/9 17:45
+     * @Version  1.0
+     */
+	/*
+	 * @Bean public TokenStore tokenStore() { //token保存在内存中（也可以保存在数据库、Redis中）。
+	 * //如果保存在中间件（数据库、Redis），那么资源服务器与认证服务器可以不在同一个工程中。
+	 * //注意：如果不保存access_token，则没法通过access_token取得用户信息 return new
+	 * InMemoryTokenStore(); // return new RedisTokenStore(redisConnectionFactory);
+	 * }
+	 */
+    
+    
     @Autowired
     private AuthenticationProvider myAuthenticationProvider;
     
@@ -56,10 +71,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     
     
-    @Override
-    protected void configure(ClientDetailsServiceConfigurer client) throws Exception {
-//    	client.authenticationProvider(myAuthenticationProvider);
-    } 
+//    @Override
+//    protected void configure(ClientDetailsServiceConfigurer client) throws Exception {
+////    	client.authenticationProvider(myAuthenticationProvider);
+//    } 
     
 //    @Bean
 //    @Override

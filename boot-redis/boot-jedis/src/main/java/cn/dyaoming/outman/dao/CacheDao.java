@@ -3,9 +3,9 @@ package cn.dyaoming.outman.dao;
 import org.springframework.stereotype.Component;
 
 import cn.dyaoming.cache.interfaces.CacheInterface;
-import cn.dyaoming.cache.jedispool.RedisRegexImp;
+import cn.dyaoming.cache.jedispool.AbstractRedisRegexImp;
 
 @Component("cacheDao")
-public class CacheDao extends RedisRegexImp implements CacheInterface{
+public class CacheDao extends AbstractRedisRegexImp implements CacheInterface{
 
 }

@@ -23,5 +23,6 @@ public class JedisRun extends BaseJunit {
         System.out.println(jedis.exists("hello"));
         System.out.println(jedis.get("hello"));
 
+        jedis.lpush(key, strings);
     }
 }

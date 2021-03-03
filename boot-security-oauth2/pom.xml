@@ -10,37 +10,50 @@
 	<artifactId>boot-security-oauth2</artifactId>
 
 	<dependencies>
-		
+		<dependency>
+			<groupId>cn.dyaoming.common</groupId>
+			<artifactId>common-core</artifactId>
+			<version>0.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.dyaoming.common</groupId>
+			<artifactId>common-util</artifactId>
+			<version>0.0.6</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
-		<!--web 模块-->
+		<!--web 模块 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
-		
+
+
 		<!-- security依赖引入 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		<!-- oauth2依赖引入 -->
 		<dependency>
+			<groupId>org.springframework.security.oauth.boot</groupId>
+			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
+		</dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-		</dependency>
+		</dependency> -->
 		<!-- 不是starter,手动配置 -->
 		<!-- <dependency>
-			<groupId>org.springframework.security.oauth</groupId>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
 			<version>5.1.5.RELEASE</version>
 		</dependency> -->
 		<!-- 将token存储在redis中 -->
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-redis</artifactId> 
+			</dependency> -->
 	</dependencies>
 </project>
