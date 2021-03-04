@@ -1,3 +1,4 @@
+package cn.dyaoming.outman.security.demo;
 //package cn.dyaoming.outman.security.config;
 //
 //import org.springframework.context.annotation.Bean;

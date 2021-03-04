@@ -24,6 +24,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider{
         System.out.println(userName);
         System.out.println(password);
         // TODO Auto-generated method stub
+        
         if(userAuthService.checkLogin(userName,password)) {
             //权限部分，必须传递，不然系统会认为验证失败。
             return new UsernamePasswordAuthenticationToken(userName,password,null);
