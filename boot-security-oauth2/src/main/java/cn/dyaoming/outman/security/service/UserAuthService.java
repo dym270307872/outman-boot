@@ -18,7 +18,7 @@ import cn.dyaoming.outman.security.util.SecurityUtils;
 public class UserAuthService {
 
 	public boolean checkLogin(String userName, String password) {
-		UserInfo userInfo = getUserInfo("userName");
+		UserInfo userInfo = getUserInfo(userName);
 
 		return userInfo.getPassword().equals(SecurityUtils.encodePassword(password, userInfo.getSalt()));
 	}
